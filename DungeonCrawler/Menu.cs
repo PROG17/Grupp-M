@@ -12,6 +12,7 @@ namespace DungeonCrawler
         {
             // Show menu and ask for user input
             Console.Clear();
+            GFXText.PrintTxt(-1,1,-4,20,"Dungeon Crawler",false,false);
             Console.ReadKey();
         }
     }

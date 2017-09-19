@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
-    public class GFXText
+    class GFXText
     {
-        public GFXText()
-        {
-        }
-
         // En metod för att skriva ut en sträng bokstav för bokstav, tar in position i sida, höjd, antalet tecken som ska skrivas ut innan rätt tecken skrivs ut (anges med ett negativt tal), fördröjning mellan varje tecken, strängen som ska skrivas ut, om markören ska skrivas, om mellanslag också ska fördröjas
-        public void PrintTxt(int xpos, int ypos, int trail, int delay, string inputString, bool cursor, bool forceTyping)
+        public static void PrintTxt(int xpos, int ypos, int trail, int delay, string inputString, bool cursor, bool forceTyping)
         {
             if (!cursor) Console.CursorVisible = false;
             else Console.CursorVisible = true;
