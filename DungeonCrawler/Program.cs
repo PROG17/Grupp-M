@@ -8,21 +8,30 @@ namespace DungeonCrawler
 {
     public static class Globals
     {
-        public static List<Item> items = new List<Item>();
+        public const int windowWidth = 120;
+        public const int windowHeight = 30;
+
+        public static Dictionary<string, Item> items = new Dictionary<string, Item>();
+        public static Dictionary<string, Room> rooms = new Dictionary<string, Room>();
     }
 
     class DungeonCrawler
     {
         static void Main(string[] args)
         {
-            const int windowWidth = 120;
-            const int windowHeight = 30;
+            Console.SetWindowSize(Globals.windowWidth, Globals.windowHeight);
 
             LoadGame.Load();
 
-            Console.SetWindowSize(windowWidth, windowHeight);
 
-            Menu.Run();
+
+            GFXText.PrintTextWithHighlights(Globals.rooms["entrance"].Name,5,5,false);
+            GFXText.PrintTextWithHighlights(Globals.rooms["entrance"].Description, 10, 6,true);
+
+            GFXText.PrintTextWithHighlights(Globals.rooms["bathroom"].Name, 5, 10, false);
+            GFXText.PrintTextWithHighlights(Globals.rooms["bathroom"].Description, 10, 11, true);
+            GFXText.PrintTextWithHighlights(Globals.rooms["bathroom"].Description2, 10, 12, true);
+
         }
     }
 }

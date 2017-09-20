@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
-    class GFXText
+    static class GFXText
     {
         // En metod för att skriva ut en sträng bokstav för bokstav, tar in position i sida, höjd, antalet tecken som ska skrivas ut innan rätt tecken skrivs ut (anges med ett negativt tal), fördröjning mellan varje tecken, strängen som ska skrivas ut, om markören ska skrivas, om mellanslag också ska fördröjas
         public static void PrintTxt(int xpos, int ypos, int trail, int delay, string inputString, bool cursor, bool forceTyping)
@@ -26,6 +26,36 @@ namespace DungeonCrawler
                     }
                 }
             }
+        }
+
+        public static void PrintTextWithHighlights(string text, int xPos, int yPos, bool fancyTyping)
+        {
+            int currentXPos=xPos;
+            foreach (char tecken in text)
+            {
+                if (tecken == '[')
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    continue;
+                }
+                else if (tecken == ']')
+                {
+                    Console.ResetColor();
+                    continue;
+                }
+                if (currentXPos >= Globals.windowWidth-2)
+                {
+                    Console.Write("-");
+                    currentXPos = xPos;
+                    yPos++;
+                }
+                Console.SetCursorPosition(currentXPos, yPos);
+
+                if(!fancyTyping) PrintTxt(currentXPos, yPos, -3, 10, tecken.ToString(), false, false);
+                else Console.Write(tecken);
+
+                currentXPos++;
+            }            
         }
     }
 }
