@@ -17,6 +17,7 @@ namespace DungeonCrawler
             Globals.items.Add("clue1", new Item("A piece of paper", "Description of clue 1"));
             Globals.items.Add("clue2", new Item("A crumbled paper", "Description of clue 2"));
             Globals.items.Add("clue3", new Item("A torn off hand with carved writings", "Description of clue 3"));
+            // Egidio 
         }
 
         private static void LoadRooms()
