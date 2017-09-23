@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Door.cs" />
+    <Compile Include="Enum.cs" />
     <Compile Include="GameHandler.cs" />
     <Compile Include="GameObjects.cs" />
     <Compile Include="Item.cs" />

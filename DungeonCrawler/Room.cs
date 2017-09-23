@@ -8,51 +8,36 @@ namespace DungeonCrawler
 {
     public class Room : GameObjects
     {
-        // Room properties
+        // private bool visited;
+        // private string description2;
 
-        private bool visited;
-        private string description2;
-
-        public Door [] ExitDoors = new Door[4]; // Each row is the pos in the room (North,East,..). If no door ==> null object
-        
+        // Properties
+        public bool Visited { get; set; }
         public bool EndPoint { get; set; }              // Is the room the last ONE = endpoint?
-        public List<Item> roomItems = new List<Item>(); 
+        public string Description2 { get; set; }
 
+        public Door[] ExitDoors = new Door[4];          // Index is the pos in the room (North,East,..). Contains Door objects. 
+        public List<Item> RoomItems = new List<Item>();
+
+
+        // Room constructor(s)
 
         public Room(string name, string description) : base(name, description)
         {
-            // this.name = name;                     // Name & Description are from base class. Don´t need this.
+            // this.name = name;                        // Name & Description are from base class. Don´t need this part.
             // this.description = description;
-            this.description2 = "You find nothing new in here.";
-            visited = false;
+            Description2 = "You find nothing new in here.";
+            Visited = false;
         }
 
-        public Room(string name, string description, string description2)
+        public Room(string name, string description, string description2) : base(name, description)
         {
-            this.name = name;
-            this.description = description;
-            this.description2 = description2;
-            visited = false;
+            // this.name = name;
+            // this.description = description;
+            Description2 = description2;
+            Visited = false;
         }
 
-        public string Description2
-        {
-            get
-            {
-                return this.description2;
-            }
-        }
 
-        public bool Visited
-        {
-            get
-            {
-                return visited;
-            }
-            set
-            {
-                visited = value;
-            }
-        }
     }
 }

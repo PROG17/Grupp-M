@@ -8,34 +8,23 @@ namespace DungeonCrawler
 {
     public class GameObjects
     {
-        protected string name, description;
+        // Properties (public)
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+        // Constructor(s)
 
         public GameObjects()
         {
-            this.name = "Unnamed";
-            this.description = "No description";
+            Name = "Unnamed";
+            Description = "No description";
         }
 
         public GameObjects(string name, string description)
         {
-            this.name = name;
-            this.description = description;
+            Name = name;
+            Description = description;
         }
 
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-
-        }
-        public string Description
-        {
-            get
-            {
-                return this.description;
-            }
-        }
     }
 }
