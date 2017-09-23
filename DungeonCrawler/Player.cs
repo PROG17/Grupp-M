@@ -17,6 +17,7 @@ namespace DungeonCrawler
 
         public RNames curRoom = RNames.Entrance; // Default Room. --- Maybe unnecessary
 
+        private string msg;
 
         // Constructor
         public Player(string name)
@@ -32,11 +33,9 @@ namespace DungeonCrawler
 
         public string Go(Dir dir)
         {
-            string msg;
 
             // Note (int) because dir is enum.
             DStatus doorStatus = Globals.rooms[curRoom].ExitDoors[(int)dir].Status;
-
 
             // Check first if I can move East (if there is a door or a wall)
             // I need the following regardless the position N,E, W,E.
@@ -58,11 +57,42 @@ namespace DungeonCrawler
 
 
 
-        public void Get(INames item)
+        public string Get(INames item)
         {
+            var roomItems = Globals.rooms[curRoom].RoomItems;
+
+            for (int i = 0; i < roomItems.Count(); i++)
+            {
+                // I search for the item in the list within the current room
+                if (roomItems[i].Name == item.ToString())  // item is enum! need conversion to string
+                {
+                    // Do I have space in the bag?
+                    if (Inventory.Count() < bagSize)
+                    {
+                        // Update the item location in Room object. I do not touch the object in the room!
+
+                        roomItems[i].BelongsTo = ItemPos.Inventory;
+
+                        // I need to test which of the following works !
+
+                        var tmp = new Item(roomItems[i].Name, roomItems[i].Description, roomItems[i].CombWith);
+                        var tmp1 = new Item(roomItems[i]);   // Using the copy constructor
 
 
+                        Inventory.Add(tmp1);              // Can ADD the item from room to Player Inventory
+                        roomItems.Remove(roomItems[i]);   // Now I can finally remove the Object from Room List
 
+                        return $"You have just collected [{tmp1.Name}] and now you have {Inventory.Count()} objects of {bagSize} in your bag";
+                    }
+                    else
+                    {
+                        return $"Sorry! Your bag is Full and you have {bagSize} objects";
+                    }
+
+                }
+            }
+            // The User tries to GET an object which is NOT in the room
+            return $"The {item} is not in this room. Please try again";
 
         }
 

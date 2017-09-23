@@ -27,6 +27,8 @@ namespace DungeonCrawler
 
             LoadGame.Load();
 
+
+            // Formatting Text
             GFXText.PrintTextWithHighlights(Globals.rooms[RNames.Entrance].Name, 5, 5, false);
             GFXText.PrintTextWithHighlights(Globals.rooms[RNames.Entrance].Description, 10, 6, true);
 

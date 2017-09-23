@@ -12,8 +12,8 @@ namespace DungeonCrawler
         // private string description2;
 
         // Properties
-        public bool Visited { get; set; }
-        public bool EndPoint { get; set; }              // Is the room the last ONE = endpoint?
+        public bool Visited { get; set; } = false;
+        public bool EndPoint { get; set; } = false;             // Is the room the last ONE = endpoint?
         public string Description2 { get; set; }
 
         public Door[] ExitDoors = new Door[4];          // Index is the pos in the room (North,East,..). Contains Door objects. 

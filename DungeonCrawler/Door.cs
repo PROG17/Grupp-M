@@ -10,18 +10,18 @@ namespace DungeonCrawler
 
     public class Door
     {
-       // public int Position { get; set; } = 0;               // the position of the door only possible 4 values (0 to 3). Default = 0 = North
-        public DStatus Status { get; set; } = DStatus.WALL;    // Only possible 3 values 0 = open, 1 = closed, 2 = wall
-        public int CanBeOpenWith { get;  set; }                // Default = 0 = Key 
+       // public int Position { get; set; } = 0;                // the position of the door only possible 4 values (0 to 3). Default = 0 = North
+        public DStatus Status { get; set; } = DStatus.WALL;     // Only possible 3 values 0 = open, 1 = closed, 2 = wall
+        public INames CanBeOpenWith { get; set; } = INames.Key; // Default = 0 = Key 
 
         // Constructor
         // the values in the param list must be constrained to the enum above
 
-        public Door(int pos, int stat, int open)
+        public Door(DStatus stat, INames opener)
         {
-            Position = pos;
+            // Position = pos;
             Status = stat;
-            CanBeOpenWith = open;
+            CanBeOpenWith = opener;
         }
 
         
