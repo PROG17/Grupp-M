@@ -8,13 +8,21 @@ namespace DungeonCrawler
 {
     public class Room : GameObjects
     {
+        // Room properties
+
         private bool visited;
         private string description2;
 
-        public Room(string name, string description)
+        public Door [] ExitDoors = new Door[4]; // Each row is the pos in the room (North,East,..). If no door ==> null object
+        
+        public bool EndPoint { get; set; }              // Is the room the last ONE = endpoint?
+        public List<Item> roomItems = new List<Item>(); 
+
+
+        public Room(string name, string description) : base(name, description)
         {
-            this.name = name;
-            this.description = description;
+            // this.name = name;                     // Name & Description are from base class. Don´t need this.
+            // this.description = description;
             this.description2 = "You find nothing new in here.";
             visited = false;
         }
