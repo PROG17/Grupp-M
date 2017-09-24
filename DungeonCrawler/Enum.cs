@@ -8,13 +8,13 @@ namespace DungeonCrawler
 {
     public enum ItemPos { Room, Inventory, NONE }
 
-    public enum Dir { North, East, South, West }
+    public enum Dir { NORTH, EAST, SOUTH, WEST }
     
     // Maybe WALL to be removed
     public enum DStatus { Open, Closed, WALL }
 
     // These lists of names are flexible and can grow as we wish
-    public enum INames { clue1, clue2, clue3, Key, Ax, Mailbox, Bottle, Cork, Box, Torch, Note, Chandelier, Throne, Painting, EMPTY, DOOR }
+    public enum INames { CLUE1, CLUE2, CLUE3, KEY, AX, MAILBOX, BOTTLE, CORK, BOX, TORCH, NOTE, CHANDELIER, THRONE, PAINTING, EMPTY, DOOR }
     public enum RNames { Entrance, BathRoom, DiningRoom, BedRoom }
 
     // These is the list of all possible commands

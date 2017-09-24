@@ -34,8 +34,8 @@ namespace DungeonCrawler
             var cmdList = new List<string>() { "GO", "GET", "DROP", "USE", "ON", "LOOK", "INSPECT", "SHOW" };
 
             var itemList = new List<string>()
-            { "clue1", "clue2", "clue3", "key", "ax", "mailbox",
-                "bottle", "cork", "box", "torch", "note", "chandelier", "throne", "painting", "door"};
+            { "CLUE1", "CLUE2", "CLUE3", "KEY", "AX", "MAILBOX",
+                "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR"};
 
             // I can search in this dictionary when parsing the input
             Dictionary<Action, List<string>> myCmds = new Dictionary<Action, List<string>>()
@@ -77,24 +77,45 @@ namespace DungeonCrawler
             //GFXText.PrintTextWithHighlights(Globals.rooms["bathroom"].Description, 10, 11, true);
             //GFXText.PrintTextWithHighlights(Globals.rooms["bathroom"].Description2, 10, 12, true);
 
-            string input;
+
+            Console.WriteLine("\nPlease digit your name:");
+            string playName = Console.ReadLine();
+            handler.InitPlayer(playName);
+            
             while (true)
             {
-                Console.WriteLine("Digit a command or type [H] for list of commands");
-                input = Console.ReadLine();
+                Console.WriteLine("\nDigit a command or type [H] for list of commands");
+                string input = Console.ReadLine();
                 var argums = input.Split(' ');
-
-                int nrOfArgums = argums.Length;
+                
 
                 switch (argums.Length)
-                {
-                    case 0:
-                        // User does not give an input
-                        Console.WriteLine("I beg your pardon?");
-                        break;
+                {                    
                     case 1:
                         // The user has only typed a command with no enough arguments
-                        Console.WriteLine("Sorry! You need to specify a valid command with actions");
+                        // Or he has typed H-for Help
+                        if (argums[0].ToUpper() == "H")
+                        {
+                            // Show help text
+                            Console.WriteLine("  --- Command List ---");
+                            Console.WriteLine("GO <Dir> - to Move in the direction of Dir can be East, West, South and Nord" +
+                                            "\nGET object - to collect an object and move it in the rucksack" +
+                                            "\nDROP object - to leave an object from the rucksack in the current room" +
+                                            "\nUSE own_object ON rum_object - to apply an action with objects" +       // bad text, revise
+                                            "\nLOOK - List all objects and Exits in the room" +
+                                            "\nINSPECT object/Door - show a description of the object/door" +
+                                            "\nSHOW - List the objects in the rucksack" +
+                                            "\nQ or Quit - to Quit the game");
+                        }
+                        else if (argums[0].ToUpper() == "Q" || argums[0].ToUpper() == "QUIT")
+                        {
+                            Console.WriteLine($"Thanks for playing {playName}! Welcome back!");
+                            return;
+                        }
+                        else
+                        { 
+                            Console.WriteLine("I beg your pardon? ");                            
+                        }
                         break;
                     case 2:
                         // The user has typed a command and an argument
@@ -103,7 +124,7 @@ namespace DungeonCrawler
                         Action aKey = (Action)Enum.Parse(typeof(Action), argums[0].ToUpper());
                         // if (!cmdList.Contains(argums[0].ToUpper()))
 
-                        if (!myCmds.ContainsKey(aKey) || !myCmds[aKey].Contains(argums[1].ToLower()))
+                        if (!myCmds.ContainsKey(aKey) || !myCmds[aKey].Contains(argums[1].ToUpper()))
                         {
                             // Error user has typed an invalid command
                             // repeat the while loop
@@ -136,29 +157,23 @@ namespace DungeonCrawler
                             // Error user has typed an invalid command
                             // repeat the while loop
                             Console.WriteLine("Unrecognized command. What do you wanna do?");
-                           
                         }
                         else
                         {
                             // The user has typed exactly USE  item1 ON item2/door 
                             handler.InvokeAction(argums);
-
                         }
+                        break;
+                    default:
+                        Console.WriteLine("Unrecognized command. What do you wanna do?");
                         break;
                 }
 
 
-               
+
             }
-
-
-
-
-            // The Helper should be Completed and perhaps written with one only string
-            // Plus it should be activated when the command is "H"
-            Console.WriteLine("  --- Command List ---");
-            Console.WriteLine("GO <Dir> - to Move in the direction of Dir can be East, West, South and Nord);
-            }
+            
+        }
     }
 
 
@@ -166,5 +181,5 @@ namespace DungeonCrawler
 
 
 }
-    }
-}
+    
+

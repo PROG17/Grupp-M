@@ -12,7 +12,15 @@ namespace DungeonCrawler
     {
         // Create a player
 
-        Player player = new Player("Egidio", Dir.South, RNames.DiningRoom);
+        Player player;
+
+        // Set the name of the player
+        public void InitPlayer(string name)
+        {            
+            player = new Player(name, Dir.SOUTH, RNames.DiningRoom);
+        }
+
+
 
 
         // arg[0] = Command
@@ -26,7 +34,7 @@ namespace DungeonCrawler
                 case nameof(Action.GO):
 
                     // I need to retrieve the matching Enum value for arg[1]
-                    Dir newDir = (Dir)Enum.Parse(typeof(Dir), arg[1]);
+                    Dir newDir = (Dir)Enum.Parse(typeof(Dir), arg[1].ToUpper());
                     Console.WriteLine(player.Go(newDir));
 
                     break;
@@ -34,7 +42,7 @@ namespace DungeonCrawler
                 case nameof(Action.GET):
 
                     // I need to retrieve the matching Enum value for arg[1]
-                    INames getItem = (INames)Enum.Parse(typeof(INames), arg[1]);
+                    INames getItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
                     Console.WriteLine(player.Get(getItem));
                 
                     break;
@@ -42,17 +50,17 @@ namespace DungeonCrawler
                 case nameof(Action.DROP):
 
                     // I need to retrieve the matching Enum value for arg[1]
-                    INames dropItem = (INames)Enum.Parse(typeof(INames), arg[1]);
+                    INames dropItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
                     
-                    // The Drop methods will do all the checks and output messages
+                    // The Drop methods will do all the checks and return the output messages
                     player.Drop(dropItem);
                     
                     break;
 
                 case nameof(Action.USE):
                     // I need to retrieve the matching Enum value for arg[1]
-                    INames useItem1 = (INames)Enum.Parse(typeof(INames), arg[1]);
-                    INames onItem2 = (INames)Enum.Parse(typeof(INames), arg[3]);
+                    INames useItem1 = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
+                    INames onItem2 = (INames)Enum.Parse(typeof(INames), arg[3].ToUpper());
 
                     player.Use(useItem1, onItem2);
 
@@ -70,7 +78,7 @@ namespace DungeonCrawler
 
                 case nameof(Action.INSPECT):
 
-                    INames inspItem = (INames)Enum.Parse(typeof(INames), arg[1]);
+                    INames inspItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
                     player.Inspect(inspItem);
 
                     break;

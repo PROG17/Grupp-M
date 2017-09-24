@@ -12,7 +12,7 @@ namespace DungeonCrawler
     {
        // public int Position { get; set; } = 0;                // the position of the door only possible 4 values (0 to 3). Default = 0 = North
         public DStatus Status { get; set; } = DStatus.WALL;     // Only possible 3 values 0 = open, 1 = closed, 2 = wall
-        public INames CanBeOpenWith { get; set; } = INames.Key; // Default = 0 = Key 
+        public INames CanBeOpenWith { get; set; } = INames.KEY; // Default = 0 = Key 
 
         public string Description { get; set; }                 // A door show a description when INSPECTED
 

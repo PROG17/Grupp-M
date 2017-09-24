@@ -9,7 +9,7 @@ namespace DungeonCrawler
     class Player
     {
         public string Name { get; set; }
-        public Dir CurrentPos { get; set; } = Dir.North;           // Default Position. Refers to Enum Dir(ections) in the Enum file
+        public Dir CurrentPos { get; set; } = Dir.NORTH;           // Default Position. Refers to Enum Dir(ections) in the Enum file
         public RNames CurRoom { get; set; } = RNames.Entrance;    // Default Room. --- Maybe unnecessary
 
         private int bagSize = 4;         // Max 4 objects can be carried
@@ -35,7 +35,10 @@ namespace DungeonCrawler
 
         // Take in the Direction and returns a Message to GameHandler
         // to help the player making next move
-
+        // ***********************************************************************
+        // NOTE !!ALL THE OUTPUT MESSAGES SHOULD BE PUT in an Array or Dictionary
+        // so the Method GO and all the others need to return ONLY 
+        // **********************************************************************
         public string Go(Dir dir)
         {
 
@@ -45,6 +48,8 @@ namespace DungeonCrawler
             // Check first if I can move any direction (if there is a door or a wall)
             // I need the following regardless the position N,E, W,E.
 
+
+            //
             if (doorStatus == DStatus.WALL)
             {
                 msg = "I am sorry, but you hit a Wall!";
@@ -101,11 +106,13 @@ namespace DungeonCrawler
 
         }
 
-        public void Drop(INames item)
+        public string Drop(INames item)
         {
             // need to check if the item is in my bag first
             // then I can do all the actions and messages
 
+
+            return $" return a message to the Game Handler";
         }
 
         // Use() is overloaded
@@ -114,24 +121,26 @@ namespace DungeonCrawler
 
         //}
 
-        public void Use(INames item1, INames item2)
+        public string Use(INames item1, INames item2)
         {
             // Check if item1/2 is door also
 
-
+            return $" return a message to the Game Handler";
         }
 
         // Look in the current Room
-        public void Look()
+        public string Look()
         {
 
-
+            return $" return a message to the Game Handler";
         }
 
-        public void Inspect(INames item)
+        public string Inspect(INames item)
         {
             // Here I need to check first if it is a door
             // or a item to be inspected. 
+
+            return $" return a message to the Game Handler";
         }
 
         //public void Inspect(Door door)
@@ -139,10 +148,10 @@ namespace DungeonCrawler
         //}
 
         // Show Inventory
-        public void Show()
+        public string Show()
         {
 
-
+            return $" return a message to the Game Handler";
         }
 
 
