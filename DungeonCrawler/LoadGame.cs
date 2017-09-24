@@ -10,7 +10,7 @@ namespace DungeonCrawler
         {
             LoadItems();
             LoadRooms();
-            InitCommands();
+           // InitCommands();
         }
 
         private static void LoadItems()

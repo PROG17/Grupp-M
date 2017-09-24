@@ -101,19 +101,22 @@ namespace DungeonCrawler
 
         }
 
-        public void Drop(int item)
+        public void Drop(INames item)
         {
-
+            // need to check if the item is in my bag first
+            // then I can do all the actions and messages
 
         }
 
-        public void Use(int item, Door door)
-        {
+        // Use() is overloaded
+        //public void Use(INames item, Door door)
+        //{
 
-        }
+        //}
 
-        public void Use(int item1, int item2)
+        public void Use(INames item1, INames item2)
         {
+            // Check if item1/2 is door also
 
 
         }
@@ -125,16 +128,23 @@ namespace DungeonCrawler
 
         }
 
-        public void Inspect(int item)
+        public void Inspect(INames item)
         {
+            // Here I need to check first if it is a door
+            // or a item to be inspected. 
+        }
+
+        //public void Inspect(Door door)
+        //{
+        //}
+
+        // Show Inventory
+        public void Show()
+        {
+
 
         }
 
-        public void Inspect(Door door)
-        {
-
-
-        }
 
 
     }
