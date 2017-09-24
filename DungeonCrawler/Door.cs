@@ -14,6 +14,8 @@ namespace DungeonCrawler
         public DStatus Status { get; set; } = DStatus.WALL;     // Only possible 3 values 0 = open, 1 = closed, 2 = wall
         public INames CanBeOpenWith { get; set; } = INames.Key; // Default = 0 = Key 
 
+        public string Description { get; set; }                 // A door show a description when INSPECTED
+
         // Constructor
         // the values in the param list must be constrained to the enum above
 

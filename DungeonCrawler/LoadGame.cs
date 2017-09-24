@@ -10,6 +10,7 @@ namespace DungeonCrawler
         {
             LoadItems();
             LoadRooms();
+            InitCommands();
         }
 
         private static void LoadItems()
@@ -19,6 +20,8 @@ namespace DungeonCrawler
 
             // Problem HERE: if I assign an item from items to a Room, I cannot assign the same object to another
             // room, because the object reference is the SAME!
+            // can the Dictionary be used for other purposes??
+
             Globals.items.Add(INames.clue1, new Item("A piece of paper", "Description of clue 1"));
             Globals.items.Add(INames.clue2, new Item("A crumbled paper", "Description of clue 2"));
             Globals.items.Add(INames.clue3, new Item("A torn off hand with carved writings", "Description of clue 3"));
@@ -52,9 +55,10 @@ namespace DungeonCrawler
 
 
             // Initializing one or more rooms. this should be made by Game Handler
+            // Better inporting data from File!
 
             Room dining = new Room("Dining Room", "A [torch] is on the table in front of you, a [bottle] on the floor and " +
-                "a [key] hanging on the wall");
+                "a [key] hanging on the wall.");
 
             // Create the doors for Dining Room
             var norDoor = new Door(DStatus.Closed, INames.Key);
@@ -62,20 +66,37 @@ namespace DungeonCrawler
             var souDoor = new Door(DStatus.Open, INames.Key);
             var WesDoor = new Door(DStatus.Closed, INames.Key);
 
-            // Create the objects for the Dining Room. BETTER: I take one object from the dictionary 'items'
-
-            
-
             // Fill the Array of Doors in the Room=dining object
             dining.ExitDoors[(int)Dir.North] = norDoor;
             dining.ExitDoors[(int)Dir.East] = easDoor;
             dining.ExitDoors[(int)Dir.South] = souDoor; // I came from here
             dining.ExitDoors[(int)Dir.West] = WesDoor;
 
+            // Create the objects for the Dining Room. BETTER: I take one object from the dictionary 'items'
+            var torch = new Item("A Torch", "that you can use in dark places", INames.EMPTY, ItemPos.Room);
+            var bottle = new Item("A Bottle.", "A closed Bottle", INames.Cork, ItemPos.Room);
+            var key = new Item("A Door Key.", "Use it to open a door", INames.EMPTY, ItemPos.Room);
+
+            // Add the items to the Items List in the Room
+
+            dining.RoomItems.Add(torch);
+            dining.RoomItems.Add(bottle);
+            dining.RoomItems.Add(key);
+
+
+
             // Finally Add the Entry in the Collection of rooms
 
             Globals.rooms.Add(RNames.DiningRoom, dining);
 
         }
+
+        //private static void InitCommands()
+        //{
+        //    List<string> commands = new List<string>()
+        //    { "GO", "GET", "DROP", "USE", "ON", "LOOK", "INSPECT", "SHOW" };
+
+
+        //}
     }
 }

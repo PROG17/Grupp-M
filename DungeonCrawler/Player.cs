@@ -8,15 +8,12 @@ namespace DungeonCrawler
 {
     class Player
     {
-        private int bagSize = 4;         // Max 4 objects can be carried
-
         public string Name { get; set; }
+        public Dir CurrentPos { get; set; } = Dir.North;           // Default Position. Refers to Enum Dir(ections) in the Enum file
+        public RNames CurRoom { get; set; } = RNames.Entrance;    // Default Room. --- Maybe unnecessary
 
+        private int bagSize = 4;         // Max 4 objects can be carried
         private List<Item> Inventory;                // Only Player can access its Inventory
-        public Dir CurrentPos = Dir.North;           // Default Position. Refers to Enum Dir(ections) in the Enum file
-
-        public RNames curRoom = RNames.Entrance; // Default Room. --- Maybe unnecessary
-
         private string msg;
 
         // Constructor
@@ -24,6 +21,14 @@ namespace DungeonCrawler
         {
             var Inventory = new List<Item>(bagSize);  // Create the list, initially empty
             Name = name;
+        }
+
+        public Player(string name, Dir curPos, RNames curRoom)
+        {
+            var Inventory = new List<Item>(bagSize);  // Create the list, initially empty
+            Name = name;
+            CurrentPos = curPos;
+            CurRoom = curRoom;
         }
 
         // Methods
@@ -35,9 +40,9 @@ namespace DungeonCrawler
         {
 
             // Note (int) because dir is enum.
-            DStatus doorStatus = Globals.rooms[curRoom].ExitDoors[(int)dir].Status;
+            DStatus doorStatus = Globals.rooms[CurRoom].ExitDoors[(int)dir].Status;
 
-            // Check first if I can move East (if there is a door or a wall)
+            // Check first if I can move any direction (if there is a door or a wall)
             // I need the following regardless the position N,E, W,E.
 
             if (doorStatus == DStatus.WALL)
@@ -59,7 +64,7 @@ namespace DungeonCrawler
 
         public string Get(INames item)
         {
-            var roomItems = Globals.rooms[curRoom].RoomItems;
+            var roomItems = Globals.rooms[CurRoom].RoomItems;
 
             for (int i = 0; i < roomItems.Count(); i++)
             {

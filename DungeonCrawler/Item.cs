@@ -33,6 +33,12 @@ namespace DungeonCrawler
             BelongsTo = location;
         }
 
+        public Item(string name, string description, INames combWith, ItemPos location) : base(name, description)
+        {
+            CombWith = combWith;
+            BelongsTo = location;
+        }
+
 
         // Copy constructor
         public Item(Item source)

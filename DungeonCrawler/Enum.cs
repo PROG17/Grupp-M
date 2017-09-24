@@ -14,6 +14,11 @@ namespace DungeonCrawler
     public enum DStatus { Open, Closed, WALL }
 
     // These lists of names are flexible and can grow as we wish
-    public enum INames { clue1, clue2, clue3, Key, Ax, Mailbox, Bottle, Cork, Box, Torch, Note, Chandelier, Throne, Painting, EMPTY }
+    public enum INames { clue1, clue2, clue3, Key, Ax, Mailbox, Bottle, Cork, Box, Torch, Note, Chandelier, Throne, Painting, EMPTY, DOOR }
     public enum RNames { Entrance, BathRoom, DiningRoom, BedRoom }
+
+    // These is the list of all possible commands
+
+    public enum Action { GO, GET, DROP, USE, ON, LOOK, INSPECT, SHOW }
+    
 }
