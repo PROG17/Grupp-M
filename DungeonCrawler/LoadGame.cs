@@ -120,12 +120,20 @@ namespace DungeonCrawler
             var norDoor = new Door(DStatus.WALL, INames.EMPTY);
             var easDoor = new Door(DStatus.WALL, INames.EMPTY);
             var souDoor = new Door(DStatus.WALL, INames.EMPTY);
-            var WesDoor = new Door(DStatus.WALL, INames.EMPTY);
+            var WesDoor = new Door(DStatus.Closed, INames.KEY);
 
-            entrance.ExitDoors[(int)Dir.NORTH] = norDoor;
-            entrance.ExitDoors[(int)Dir.EAST] = easDoor;
-            entrance.ExitDoors[(int)Dir.SOUTH] = souDoor;
-            entrance.ExitDoors[(int)Dir.WEST] = WesDoor;
+            entrance.exitDoors[(int)Dir.NORTH] = norDoor;
+            entrance.exitDoors[(int)Dir.EAST] = easDoor;
+            entrance.exitDoors[(int)Dir.SOUTH] = souDoor;
+            entrance.exitDoors[(int)Dir.WEST] = WesDoor;
+
+            var chandelier = new Item("Chandelier", "The chandelier looks unpolished and the candles seems to have burned out a long time ago. There is a [chain] hanging down from it which seems to be in reach.", INames.EMPTY, ItemPos.Room, false);
+            var chain = new Item("Chain", "A [key] falls out.", INames.EMPTY, ItemPos.Room, false);
+            //var key = new Item("Key", "key description", INames.EMPTY, ItemPos.Room, true);
+
+            entrance.roomItems.Add(chandelier);
+            entrance.roomItems.Add(chain);
+            //entrance.roomItems.Add(key);  should only exist after USE chain
 
             rooms.Add(RNames.Entrance, entrance);
 
@@ -143,23 +151,23 @@ namespace DungeonCrawler
             WesDoor = new Door(DStatus.Closed, INames.KEY);
 
             // Fill the Array of Doors in the Room=dining object
-            dining.ExitDoors[(int)Dir.NORTH] = norDoor;
-            dining.ExitDoors[(int)Dir.EAST] = easDoor;
-            dining.ExitDoors[(int)Dir.SOUTH] = souDoor; // I came from here
-            dining.ExitDoors[(int)Dir.WEST] = WesDoor;
+            dining.exitDoors[(int)Dir.NORTH] = norDoor;
+            dining.exitDoors[(int)Dir.EAST] = easDoor;
+            dining.exitDoors[(int)Dir.SOUTH] = souDoor; // I came from here
+            dining.exitDoors[(int)Dir.WEST] = WesDoor;
 
             // Create the objects for the Dining Room. BETTER: I take one object from the dictionary 'items'
-            var torch = new Item("Torch", "that you can use in dark places", INames.EMPTY, ItemPos.Room);
-            var bottle = new Item("Bottle", "A closed Bottle", INames.CORK, ItemPos.Room);
-            var key = new Item("Key", "Use it to open a door", INames.EMPTY, ItemPos.Room);
-            var note = new Item("Note", "You can Inspect to read the content",INames.EMPTY,ItemPos.Room);
+            var torch = new Item("Torch", "that you can use in dark places", INames.EMPTY, ItemPos.Room, true);
+            var bottle = new Item("Bottle", "A closed Bottle", INames.CORK, ItemPos.Room, true);
+            var key = new Item("Key", "Use it to open a door", INames.EMPTY, ItemPos.Room, true);
+            var note = new Item("Note", "You can Inspect to read the content",INames.EMPTY,ItemPos.Room, true);
 
             // Add the items to the Items List in the Room
 
-            dining.RoomItems.Add(torch);
-            dining.RoomItems.Add(bottle);
-            dining.RoomItems.Add(key);
-            dining.RoomItems.Add(note);
+            dining.roomItems.Add(torch);
+            dining.roomItems.Add(bottle);
+            dining.roomItems.Add(key);
+            dining.roomItems.Add(note);
             
             // Finally Add the Entry in the Collection of rooms
 
