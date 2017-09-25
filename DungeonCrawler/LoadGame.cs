@@ -66,24 +66,25 @@ namespace DungeonCrawler
             // items.Add(INames.CLUE1, {"A piece of paper", "Description of clue 1"});
 
             // This block can be commented out
-            items.Add(INames.CLUE1, new Item("A piece of paper", "Description of clue 1"));
-            items.Add(INames.CLUE2, new Item("A crumbled paper", "Description of clue 2"));
-            items.Add(INames.CLUE3, new Item("A torn off hand with carved writings", "Description of clue 3"));
 
-            items.Add(INames.AX, new Item("An Ax", "A very sharp Ax that you can use to smash a door"));
-            items.Add(INames.BOTTLE, new Item("A Bottle.", "A closed Bottle"));
-            items.Add(INames.BOX, new Item("A Box.", "A closed Box"));
+            //items.Add(INames.CLUE1, new Item("A piece of paper", "Description of clue 1"));
+            //items.Add(INames.CLUE2, new Item("A crumbled paper", "Description of clue 2"));
+            //items.Add(INames.CLUE3, new Item("A torn off hand with carved writings", "Description of clue 3"));
 
-            items.Add(INames.CHANDELIER, new Item("A Chandelier", "Lightning the room"));
-            items.Add(INames.CORK, new Item("A Cork.", "Where is the open Bottle?"));
-            items.Add(INames.KEY, new Item("A Door Key.", "Use it to open a door"));
+            //items.Add(INames.AX, new Item("An Ax", "A very sharp Ax that you can use to smash a door"));
+            //items.Add(INames.BOTTLE, new Item("A Bottle.", "A closed Bottle"));
+            //items.Add(INames.BOX, new Item("A Box.", "A closed Box"));
 
-            items.Add(INames.MAILBOX, new Item("A MailBox", "Perhaps some messages for you?"));
-            items.Add(INames.NOTE, new Item("A Note", "You can Inspect to read the content"));
-            items.Add(INames.THRONE, new Item("A Throne", "raising on one side of the room"));
+            //items.Add(INames.CHANDELIER, new Item("A Chandelier", "Lightning the room"));
+            //items.Add(INames.CORK, new Item("A Cork.", "Where is the open Bottle?"));
+            //items.Add(INames.KEY, new Item("A Door Key.", "Use it to open a door"));
 
-            items.Add(INames.PAINTING, new Item("A Painting", "with some strange landscape"));
-            items.Add(INames.TORCH, new Item("A Torch", "that you can use in dark places"));
+            //items.Add(INames.MAILBOX, new Item("A MailBox", "Perhaps some messages for you?"));
+            //items.Add(INames.NOTE, new Item("A Note", "You can Inspect to read the content"));
+            //items.Add(INames.THRONE, new Item("A Throne", "raising on one side of the room"));
+
+            //items.Add(INames.PAINTING, new Item("A Painting", "with some strange landscape"));
+            //items.Add(INames.TORCH, new Item("A Torch", "that you can use in dark places"));
             // ---------------------------------------------------------------------------------
         }
 
@@ -92,7 +93,8 @@ namespace DungeonCrawler
             // Check BELOW how to define a ROOM
             // 
             
-
+            // When defining ROOMS, the name must be ONE word ONLY and must match the Enum RNames in Enum.cs file
+            // 
             rooms.Add(RNames.Entrance, new Room("Entrance", "You're standing in a large open hallway. In front of you there " +
                 "is an old stairway leading up to the second floor of the mansion. To the left there is a sturdy door behind a " +
                 "bookshelf. There is a large [chandelier] covored in cobweb hanging from the ceiling."));

@@ -14,7 +14,12 @@ namespace DungeonCrawler
     public enum DStatus { Open, Closed, WALL }
 
     // These lists of names are flexible and can grow as we wish
-    public enum INames { CLUE1, CLUE2, CLUE3, KEY, AX, MAILBOX, BOTTLE, CORK, BOX, TORCH, NOTE, CHANDELIER, THRONE, PAINTING, EMPTY, DOOR }
+    // NOTE that you then need to update the dictionary myCmds & lists dirList, itemList in Program, 
+    // the initialization of the rooms in LoadGame 
+
+    public enum INames { CLUE1, CLUE2, CLUE3, KEY, AX, MAILBOX, BOTTLE, CORK, BOX, TORCH,
+                         NOTE, CHANDELIER, THRONE, PAINTING, EMPTY, DOOR }
+
     public enum RNames { Entrance, BathRoom, DiningRoom, BedRoom }
 
     // These is the list of all possible commands
