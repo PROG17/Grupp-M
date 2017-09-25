@@ -65,10 +65,17 @@ namespace DungeonCrawler
 
                 case nameof(Action.USE):
                     // I need to retrieve the matching Enum value for arg[1]
-                    INames useItem1 = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
-                    INames onItem2 = (INames)Enum.Parse(typeof(INames), arg[3].ToUpper());
-
-                    player.Use(useItem1, onItem2);
+                    if (arg.Length == 2)
+                    {
+                        INames useItem1 = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
+                        player.Use(useItem1);
+                    }
+                    else
+                    {
+                        INames useItem1 = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
+                        INames onItem2 = (INames)Enum.Parse(typeof(INames), arg[3].ToUpper());
+                        player.Use(useItem1, onItem2);
+                    }
 
 
                     break;

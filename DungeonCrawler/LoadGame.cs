@@ -117,10 +117,10 @@ namespace DungeonCrawler
             "is an old stairway leading up to the second floor of the mansion. To the left there is a sturdy door behind a " +
             "bookshelf. There is a large [chandelier] covered in cobweb hanging from the ceiling.");
 
-            var norDoor = new Door(DStatus.WALL, INames.EMPTY);
-            var easDoor = new Door(DStatus.WALL, INames.EMPTY);
-            var souDoor = new Door(DStatus.WALL, INames.EMPTY);
-            var WesDoor = new Door(DStatus.Closed, INames.KEY);
+            var norDoor = new Door(DStatus.WALL, INames.EMPTY, RNames.Entrance);
+            var easDoor = new Door(DStatus.WALL, INames.EMPTY, RNames.Entrance);
+            var souDoor = new Door(DStatus.WALL, INames.EMPTY, RNames.Entrance);
+            var WesDoor = new Door(DStatus.Closed, INames.KEY, RNames.DiningRoom);
 
             entrance.exitDoors[(int)Dir.NORTH] = norDoor;
             entrance.exitDoors[(int)Dir.EAST] = easDoor;
@@ -128,8 +128,7 @@ namespace DungeonCrawler
             entrance.exitDoors[(int)Dir.WEST] = WesDoor;
 
             var chandelier = new Item("Chandelier", "The chandelier looks unpolished and the candles seems to have burned out a long time ago. There is a [chain] hanging down from it which seems to be in reach.", INames.EMPTY, ItemPos.Room, false);
-            var chain = new Item("Chain", "A [key] falls out.", INames.EMPTY, ItemPos.Room, false);
-            //var key = new Item("Key", "key description", INames.EMPTY, ItemPos.Room, true);
+            var chain = new Item("Chain", ".", INames.EMPTY, ItemPos.Room, false);
 
             entrance.roomItems.Add(chandelier);
             entrance.roomItems.Add(chain);
@@ -145,10 +144,10 @@ namespace DungeonCrawler
                 "a [key] hanging on the wall.");
 
             // Create the doors for Dining Room
-            norDoor = new Door(DStatus.Closed, INames.KEY);
-            easDoor = new Door(DStatus.WALL, INames.EMPTY);
-            souDoor = new Door(DStatus.Open, INames.KEY);
-            WesDoor = new Door(DStatus.Closed, INames.KEY);
+            norDoor = new Door(DStatus.Closed, INames.KEY, RNames.DiningRoom);
+            easDoor = new Door(DStatus.WALL, INames.EMPTY, RNames.DiningRoom);
+            souDoor = new Door(DStatus.Open, INames.KEY, RNames.DiningRoom);
+            WesDoor = new Door(DStatus.Closed, INames.KEY, RNames.DiningRoom);
 
             // Fill the Array of Doors in the Room=dining object
             dining.exitDoors[(int)Dir.NORTH] = norDoor;

@@ -8,9 +8,9 @@ namespace DungeonCrawler
 {
     class Player
     {
-        public string Name { get; set; }
-        public Dir CurrentPos { get; set; } = Dir.NORTH;          // Default Position. Refers to Enum Dir(ections) in the Enum file
-        public RNames CurRoom { get; set; } = RNames.Entrance;    // Default Room. --- Maybe unnecessary
+        public string name { get; set; }
+        public Dir currentPos { get; set; } = Dir.NORTH;          // Default Position. Refers to Enum Dir(ections) in the Enum file
+        public RNames curRoom { get; set; } = RNames.Entrance;    // Default Room. --- Maybe unnecessary
 
         private int bagSize = 4;               // Max objects that can be carried
 
@@ -27,7 +27,7 @@ namespace DungeonCrawler
         public Player(string name)
         {
             var inventory = new List<Item>(bagSize);
-            Name = name;
+            this.name = name;
         }
 
         public Player(string name, Dir curPos, RNames curRoom, List<Item> inventory)
@@ -40,9 +40,9 @@ namespace DungeonCrawler
             //    inventory.Add(new Item("EMPTY", "", INames.EMPTY, ItemPos.NONE));
             //}
 
-            Name = name;
-            CurrentPos = curPos;
-            CurRoom = curRoom;
+            this.name = name;
+            currentPos = curPos;
+            this.curRoom = curRoom;
         }
 
         // Methods
@@ -57,7 +57,7 @@ namespace DungeonCrawler
         {
 
             // Note (int) because dir is enum.
-            DStatus doorStatus = LoadGame.rooms[CurRoom].exitDoors[(int)dir].Status;
+            DStatus doorStatus = LoadGame.rooms[curRoom].exitDoors[(int)dir].status;
 
             // Check first if I can move any direction (if there is a door or a wall)
             // I need the following regardless the position N,E, W,E.
@@ -73,7 +73,13 @@ namespace DungeonCrawler
             }
             else
             {
-                msg = "You find a door which is Open towards next room. What would you like to do?";
+                curRoom = LoadGame.rooms[curRoom].exitDoors[(int)dir].leadsToRoom;
+                if(LoadGame.rooms[curRoom].visited)
+                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description,1,1,false);
+                else
+                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, 1, 1, true);
+                LoadGame.rooms[curRoom].visited = true;
+                return "";
             }
             return msg;
         }
@@ -82,7 +88,7 @@ namespace DungeonCrawler
 
         public string Get(INames item)
         {
-            var roomItems = LoadGame.rooms[CurRoom].roomItems;
+            var roomItems = LoadGame.rooms[curRoom].roomItems;
 
             for (int i = 0; i < roomItems.Count(); i++)
             {
@@ -94,7 +100,7 @@ namespace DungeonCrawler
                     {
                         // Update the item location in Room object. I do not touch the object in the room!
 
-                        roomItems[i].BelongsTo = ItemPos.Inventory;
+                        roomItems[i].belongsTo = ItemPos.Inventory;
 
                         // I need to test which of the following works !
                         // Both following ways are OK. tested.
@@ -124,7 +130,7 @@ namespace DungeonCrawler
         {
             // need to check if the item is in my bag first
             // then I can do all the actions and messages
-            var roomItems = LoadGame.rooms[CurRoom].roomItems;  // just to make the names shorter in the code..
+            var roomItems = LoadGame.rooms[curRoom].roomItems;  // just to make the names shorter in the code..
 
             Item itemInBag = new Item();
             bool found = false;
@@ -140,7 +146,7 @@ namespace DungeonCrawler
             if (found)
             {
                 // need to move the item from inventory in the room
-                itemInBag.BelongsTo = ItemPos.Room;
+                itemInBag.belongsTo = ItemPos.Room;
 
                 var tmp1 = new Item(itemInBag);   // Using the copy constructor 
                 roomItems.Add(tmp1);
@@ -155,10 +161,32 @@ namespace DungeonCrawler
         }
 
         // Use() is overloaded
-        //public void Use(INames item, Door door)
-        //{
-
-        //}
+        public void Use(INames item)
+        {
+            var roomItems = LoadGame.rooms[curRoom].roomItems;
+            for (int i = 0; i < roomItems.Count(); i++)
+            {
+                if (roomItems[i].name.ToUpper() == item.ToString() && !roomItems[i].isUsed)
+                {
+                    roomItems[i].isUsed = true;
+                    if (roomItems[i].name.ToUpper() == "CHAIN")
+                    {
+                        var key = new Item("Key", "key description", INames.EMPTY, ItemPos.Room, true);
+                        roomItems.Add(key);
+                        Console.Clear();
+                        GFXText.PrintTextWithHighlights("A [key] falls out.", 1, 1, true);
+                        Console.Write("\n\n");
+                        return;
+                    }
+                }
+                else if (roomItems[i].name.ToUpper() == item.ToString() && roomItems[i].isUsed)
+                {
+                    Console.WriteLine("\n{0} already used...", item);
+                    return;
+                }
+            }
+            Console.WriteLine("Cannot use {0}", item);
+        }
 
         public string Use(INames item1, INames item2)
         {
@@ -171,8 +199,8 @@ namespace DungeonCrawler
         public string Look()
         {
             Console.Clear();
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].description, 1, 1, false);
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].description2, 1, 5, false);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, 1, 1, false);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description2, 1, 5, false);
             Console.Write("\n\n");
 
             return null;
@@ -182,7 +210,7 @@ namespace DungeonCrawler
         public string Look(string arg1)
         {
             // Look through items in the current room, return its description
-            var roomItems = LoadGame.rooms[CurRoom].roomItems;
+            var roomItems = LoadGame.rooms[curRoom].roomItems;
             for (int i = 0; i < roomItems.Count(); i++)
             {
                 if (roomItems[i].name.ToUpper() == arg1.ToUpper())
