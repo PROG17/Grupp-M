@@ -12,14 +12,14 @@ namespace DungeonCrawler
     {
         static void Main(string[] args)
         {
-            string tmpstring="";
+            string tmpstring="";    //used to fix user input
             // the following are used in the input check
             
             // var cmdList = new List<string>() { "GO", "GET", "DROP", "USE", "ON", "LOOK", "INSPECT", "SHOW" };
 
             var dirList = new List<string>() { "NORTH", "EAST", "SOUTH", "WEST" };
             var itemList = new List<string>() { "CLUE1", "CLUE2", "CLUE3", "KEY", "AX", "MAILBOX",
-                "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR"};
+                "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR","CHAIN"};
 
             // I can search in this dictionary when parsing the input
             Dictionary<Action, List<string>> myCmds = new Dictionary<Action, List<string>>()
@@ -29,7 +29,7 @@ namespace DungeonCrawler
                                     { Action.USE, itemList },
                                     { Action.ON, itemList },
                                     { Action.LOOK, itemList },
-                                    { Action.INSPECT, itemList },
+                                    //{ Action.INSPECT, itemList },
                                     { Action.SHOW, itemList } };
             
             // Load the Game and create Rooms, items, etc.
@@ -45,7 +45,7 @@ namespace DungeonCrawler
             handler.InitPlayer(playName);
 
             Console.WriteLine("Welcome, {0}! A world of adventure awaits you!\n\n", playName);
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].Description,0,5,true);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].description,0,5,true);
             Console.Write("\n\n");
             // end of description
 
@@ -81,9 +81,9 @@ namespace DungeonCrawler
                             Console.WriteLine("GO <Dir> - to Move in the direction of Dir can be East, West, South and Nord" +
                                             "\nGET item - to collect an object and move it in the backpack" +
                                             "\nDROP item - to leave an object from the backpack in the current room" +
-                                            "\nUSE an item, either just the object itself or with another item" +       // bad text, revise. revised/t
+                                            "\nUSE an item, either just the object itself or ON another item" +       // bad text, revise. revised/t
                                             "\nLOOK - List all objects and Exits in the room" +
-                                            "\nINSPECT object/Door - show a description of the object/door" +
+                                            //"\nINSPECT object/Door - show a description of the object/door" +
                                             "\nSHOW - List the objects in the backpack" +
                                             "\nQ or Quit - to Quit the game");
                         }

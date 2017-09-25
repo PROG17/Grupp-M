@@ -78,15 +78,18 @@ namespace DungeonCrawler
                     break;
 
                 case nameof(Action.LOOK):
-                    player.Look();
+                    Console.Clear();
+                    if (arg.Length == 1) player.Look();
+                    else GFXText.PrintTextWithHighlights(player.Look(arg[1]),1,1,false);
+                    Console.Write("\n\n");
                     break;
 
-                case nameof(Action.INSPECT):
+                /*case nameof(Action.INSPECT):
 
                     INames inspItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
                     player.Inspect(inspItem);
 
-                    break;
+                    break;*/
 
                 case nameof(Action.SHOW): // Tested Ok
 

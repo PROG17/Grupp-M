@@ -12,12 +12,12 @@ namespace DungeonCrawler
         // private string description2;
 
         // Properties
-        public bool Visited { get; set; } = false;
-        public bool EndPoint { get; set; } = false;             // Is the room the last ONE = endpoint?
-        public string Description2 { get; set; }
+        public bool visited { get; set; } = false;
+        public bool endPoint { get; set; } = false;             // Is the room the last ONE = endpoint?
+        public string description2 { get; set; }
 
-        public Door[] ExitDoors = new Door[4];          // Index is the pos in the room (North,East,..). Contains Door objects. 
-        public List<Item> RoomItems = new List<Item>();
+        public Door[] exitDoors = new Door[4];          // Index is the pos in the room (North,East,..). Contains Door objects. 
+        public List<Item> roomItems = new List<Item>();
 
 
         // Room constructor(s)
@@ -26,16 +26,16 @@ namespace DungeonCrawler
         {
             // this.name = name;                        // Name & Description are from base class. Don´t need this part.
             // this.description = description;
-            Description2 = "You find nothing new in here.";
-            Visited = false;
+            description2 = "You find nothing new in here.";
+            visited = false;
         }
 
         public Room(string name, string description, string description2) : base(name, description)
         {
             // this.name = name;
             // this.description = description;
-            Description2 = description2;
-            Visited = false;
+            this.description2 = description2;
+            this.visited = false;
         }
 
 
