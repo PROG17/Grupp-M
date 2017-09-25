@@ -145,11 +145,11 @@ namespace DungeonCrawler
                 roomItems.Add(tmp1);
                 inventory.Remove(itemInBag);
                 
-                return $"You have just dropped [{tmp1.Name}] and now you have {inventory.Count()} objects in your rucksack";
+                return $"You have just dropped [{tmp1.Name}] and now you have {inventory.Count()} objects in your backpack";
             }
             else
             {
-                return $"I am sorry but you don't have {item.ToString()} in your rucksack";
+                return $"I am sorry but you don't have {item.ToString()} in your backpack";
             }
         }
 
@@ -169,8 +169,13 @@ namespace DungeonCrawler
         // Look in the current Room
         public string Look()
         {
+            Console.Clear();
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].Description, 1, 1, false);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].Description2, 1, 5, false);
+            Console.Write("\n\n");
 
-            return $" return a message to the Game Handler";
+            return null;
+            //return $" return a message to the Game Handler";
         }
 
         public string Inspect(INames item)
@@ -199,11 +204,11 @@ namespace DungeonCrawler
 
                 }
 
-                return "You are now carrying " + str + $"and you can carry {bagSize} objects at most with you";
+                return "You are now carrying " + str + $"and you can carry {bagSize} objects at most with you.";
             }
             else
             {
-                return $"Your rucksack is empty at the moment. You can carry {bagSize} objects at most with you"; 
+                return $"Your backpack is empty at the moment. You can carry {bagSize} objects at most with you."; 
 
             }
         }

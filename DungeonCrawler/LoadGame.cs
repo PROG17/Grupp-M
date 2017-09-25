@@ -26,7 +26,7 @@ namespace DungeonCrawler
             Console.SetWindowSize(windowWidth, windowHeight);           
 
             // Formatting Text
-            GFXText.PrintTextWithHighlights(rooms[RNames.Entrance].Name, 5, 5, false);
+            /*GFXText.PrintTextWithHighlights(rooms[RNames.Entrance].Name, 5, 5, false);
             GFXText.PrintTextWithHighlights(rooms[RNames.Entrance].Description, 10, 6, true);
 
             GFXText.PrintTextWithHighlights(rooms[RNames.BathRoom].Name, 5, 10, false);
@@ -35,7 +35,7 @@ namespace DungeonCrawler
 
 
             GFXText.PrintTextWithHighlights(rooms[RNames.DiningRoom].Name, 5, 14, false);
-            GFXText.PrintTextWithHighlights(rooms[RNames.DiningRoom].Description, 5, 16, true);
+            GFXText.PrintTextWithHighlights(rooms[RNames.DiningRoom].Description, 5, 16, true);*/
             
         }
 
@@ -95,9 +95,7 @@ namespace DungeonCrawler
             
             // When defining ROOMS, the name must be ONE word ONLY and must match the Enum RNames in Enum.cs file
             // 
-            rooms.Add(RNames.Entrance, new Room("Entrance", "You're standing in a large open hallway. In front of you there " +
-                "is an old stairway leading up to the second floor of the mansion. To the left there is a sturdy door behind a " +
-                "bookshelf. There is a large [chandelier] covored in cobweb hanging from the ceiling."));
+
 
             rooms.Add(RNames.BathRoom, new Room("Luxurious bathroom", "A white [throne] decorates this room.",
                                                   "When looking carefully, you find a [note] behind the toilet."));
@@ -112,14 +110,37 @@ namespace DungeonCrawler
             // Initializing one or more rooms. this should be made by Game Handler
             // Better inporting data from File!
 
+
+            // Entrance room
+
+            Room entrance = new Room("Entrance", "You're standing in a large open hallway. In front of you there " +
+            "is an old stairway leading up to the second floor of the mansion. To the left there is a sturdy door behind a " +
+            "bookshelf. There is a large [chandelier] covered in cobweb hanging from the ceiling.");
+
+            var norDoor = new Door(DStatus.WALL, INames.EMPTY);
+            var easDoor = new Door(DStatus.WALL, INames.EMPTY);
+            var souDoor = new Door(DStatus.WALL, INames.EMPTY);
+            var WesDoor = new Door(DStatus.WALL, INames.EMPTY);
+
+            entrance.ExitDoors[(int)Dir.NORTH] = norDoor;
+            entrance.ExitDoors[(int)Dir.EAST] = easDoor;
+            entrance.ExitDoors[(int)Dir.SOUTH] = souDoor;
+            entrance.ExitDoors[(int)Dir.WEST] = WesDoor;
+
+            rooms.Add(RNames.Entrance, entrance);
+
+
+
+            // Dining room
+
             Room dining = new Room("Dining Room", "A [torch] is on the table in front of you, a [bottle] on the floor and " +
                 "a [key] hanging on the wall.");
 
             // Create the doors for Dining Room
-            var norDoor = new Door(DStatus.Closed, INames.KEY);
-            var easDoor = new Door(DStatus.WALL, INames.EMPTY);
-            var souDoor = new Door(DStatus.Open, INames.KEY);
-            var WesDoor = new Door(DStatus.Closed, INames.KEY);
+            norDoor = new Door(DStatus.Closed, INames.KEY);
+            easDoor = new Door(DStatus.WALL, INames.EMPTY);
+            souDoor = new Door(DStatus.Open, INames.KEY);
+            WesDoor = new Door(DStatus.Closed, INames.KEY);
 
             // Fill the Array of Doors in the Room=dining object
             dining.ExitDoors[(int)Dir.NORTH] = norDoor;

@@ -23,7 +23,7 @@ namespace DungeonCrawler
 
             var inventory = new List<Item>();
 
-            player = new Player(name, Dir.SOUTH, RNames.DiningRoom, inventory);
+            player = new Player(name, Dir.SOUTH, RNames.Entrance, inventory);
         }
 
 
@@ -78,7 +78,6 @@ namespace DungeonCrawler
                     break;
 
                 case nameof(Action.LOOK):
-
                     player.Look();
                     break;
 

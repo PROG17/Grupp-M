@@ -11,7 +11,8 @@ namespace DungeonCrawler
     class DungeonCrawler
     {
         static void Main(string[] args)
-        {            
+        {
+            string tmpstring="";
             // the following are used in the input check
             
             // var cmdList = new List<string>() { "GO", "GET", "DROP", "USE", "ON", "LOOK", "INSPECT", "SHOW" };
@@ -37,14 +38,34 @@ namespace DungeonCrawler
             // The handler will create the player and operate all the actions
             var handler = new GameHandler();
 
-            Console.Write("\n\nPlease digit your name: ");
+
+            // Welcome message and first room description
+            Console.Write("\nWhat is your name, traveller? ");
             string playName = Console.ReadLine();
             handler.InitPlayer(playName);
 
+            Console.WriteLine("Welcome, {0}! A world of adventure awaits you!\n\n", playName);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].Description,0,5,true);
+            Console.Write("\n\n");
+            // end of description
+
             while (true)
             {
-                Console.WriteLine("\nDigit a command or type [H] for list of commands");
+                Console.WriteLine("\nEnter a command or type [H] for list of commands");
                 string input = Console.ReadLine();
+
+                // fix for program crash if command starts with a single space
+                while (input[0] == ' ')
+                {
+                    for (int i = 1; i < input.Length; i++)
+                    {
+                        tmpstring += input[i].ToString();
+                    }
+                    input = tmpstring;
+                    tmpstring = "";
+                }                
+                // end fix
+
                 var argums = input.Split(' ');
 
 
@@ -58,12 +79,12 @@ namespace DungeonCrawler
                             // Show help text
                             Console.WriteLine("  --- Command List ---");
                             Console.WriteLine("GO <Dir> - to Move in the direction of Dir can be East, West, South and Nord" +
-                                            "\nGET object - to collect an object and move it in the rucksack" +
-                                            "\nDROP object - to leave an object from the rucksack in the current room" +
-                                            "\nUSE own_object ON rum_object - to apply an action with objects" +       // bad text, revise
+                                            "\nGET item - to collect an object and move it in the backpack" +
+                                            "\nDROP item - to leave an object from the backpack in the current room" +
+                                            "\nUSE an item, either just the object itself or with another item" +       // bad text, revise. revised/t
                                             "\nLOOK - List all objects and Exits in the room" +
                                             "\nINSPECT object/Door - show a description of the object/door" +
-                                            "\nSHOW - List the objects in the rucksack" +
+                                            "\nSHOW - List the objects in the backpack" +
                                             "\nQ or Quit - to Quit the game");
                         }
                         else if (argums[0].ToUpper() == "Q" || argums[0].ToUpper() == "QUIT")
@@ -74,7 +95,11 @@ namespace DungeonCrawler
                         else if (argums[0].ToUpper() == "SHOW")
                         {
                             handler.InvokeAction(argums);
-                        }                        
+                        }
+                        else if (argums[0].ToUpper() == "LOOK")
+                        {
+                            handler.InvokeAction(argums);
+                        }
                         else
                         {
                             Console.WriteLine("I beg your pardon? ");
