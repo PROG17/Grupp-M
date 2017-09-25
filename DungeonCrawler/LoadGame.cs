@@ -129,12 +129,14 @@ namespace DungeonCrawler
             var torch = new Item("Torch", "that you can use in dark places", INames.EMPTY, ItemPos.Room);
             var bottle = new Item("Bottle", "A closed Bottle", INames.CORK, ItemPos.Room);
             var key = new Item("Key", "Use it to open a door", INames.EMPTY, ItemPos.Room);
+            var note = new Item("Note", "You can Inspect to read the content",INames.EMPTY,ItemPos.Room);
 
             // Add the items to the Items List in the Room
 
             dining.RoomItems.Add(torch);
             dining.RoomItems.Add(bottle);
             dining.RoomItems.Add(key);
+            dining.RoomItems.Add(note);
             
             // Finally Add the Entry in the Collection of rooms
 

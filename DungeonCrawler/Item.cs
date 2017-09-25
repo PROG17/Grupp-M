@@ -16,6 +16,11 @@ namespace DungeonCrawler
         // Note the Item NAME might be an Enum (int) as defined in the Door Class
         // and not string 
 
+        public Item()
+        {
+
+        }
+
         public Item(string name, string description) : base(name, description)
         {
             // the following are already in the base class. The Base class constructor will be called ;-)

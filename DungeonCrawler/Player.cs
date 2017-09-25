@@ -12,11 +12,11 @@ namespace DungeonCrawler
         public Dir CurrentPos { get; set; } = Dir.NORTH;          // Default Position. Refers to Enum Dir(ections) in the Enum file
         public RNames CurRoom { get; set; } = RNames.Entrance;    // Default Room. --- Maybe unnecessary
 
-        private int bagSize = 4;         // Max 4 objects can be carried
+        private int bagSize = 4;               // Max objects that can be carried
 
         //public List<Item> Inventory = new List<Item>(1)
         //        {new Item("EMPTY", "", INames.EMPTY, ItemPos.NONE) };   // Only Player can access its Inventory
-        
+
         public List<Item> inventory;
 
 
@@ -90,18 +90,18 @@ namespace DungeonCrawler
                 if (roomItems[i].Name.ToUpper() == item.ToString())  // item is enum! need conversion to string
                 {
                     // Do I have space in the bag?
-                    if (inventory.Count() < bagSize && inventory.Count() >= 0 )
+                    if (inventory.Count() < bagSize && inventory.Count() >= 0)
                     {
                         // Update the item location in Room object. I do not touch the object in the room!
 
                         roomItems[i].BelongsTo = ItemPos.Inventory;
 
                         // I need to test which of the following works !
+                        // Both following ways are OK. tested.
+                        // Commented out tmp
 
-                        var tmp = new Item(roomItems[i].Name, roomItems[i].Description, roomItems[i].CombWith, roomItems[i].BelongsTo);
-                        var tmp1 = new Item(roomItems[i]);   // Using the copy constructor
-
-
+                        // var tmp = new Item(roomItems[i].Name, roomItems[i].Description, roomItems[i].CombWith, roomItems[i].BelongsTo);
+                        var tmp1 = new Item(roomItems[i]);   // Using the copy constructor                        
                         inventory.Add(tmp1);              // Can ADD the item from room to Player Inventory
                         roomItems.Remove(roomItems[i]);   // Now I can finally remove the Object from Room List
 
@@ -123,9 +123,34 @@ namespace DungeonCrawler
         {
             // need to check if the item is in my bag first
             // then I can do all the actions and messages
+            var roomItems = LoadGame.rooms[CurRoom].RoomItems;  // just to make the names shorter in the code..
 
+            Item itemInBag = new Item();
+            bool found = false;
+            for (int i = 0; i < inventory.Count(); i++)
+            {
+                if (inventory[i].Name.ToUpper() == item.ToString())
+                {
+                    found = true;
+                    itemInBag = inventory[i];
+                    break;
+                }               
+            }
+            if (found)
+            {
+                // need to move the item from inventory in the room
+                itemInBag.BelongsTo = ItemPos.Room;
 
-            return $" return a message to the Game Handler";
+                var tmp1 = new Item(itemInBag);   // Using the copy constructor 
+                roomItems.Add(tmp1);
+                inventory.Remove(itemInBag);
+                
+                return $"You have just dropped [{tmp1.Name}] and now you have {inventory.Count()} objects in your rucksack";
+            }
+            else
+            {
+                return $"I am sorry but you don't have {item.ToString()} in your rucksack";
+            }
         }
 
         // Use() is overloaded
@@ -161,10 +186,26 @@ namespace DungeonCrawler
         //}
 
         // Show Inventory
+
+
         public string Show()
         {
+            if (inventory.Count() > 0)
+            {
+                string str = "";
+                foreach (Item m in inventory)
+                {
+                    str += m.Name + ',';
 
-            return $" return a message to the Game Handler";
+                }
+
+                return "You are now carrying " + str + $"and you can carry {bagSize} objects at most with you";
+            }
+            else
+            {
+                return $"Your rucksack is empty at the moment. You can carry {bagSize} objects at most with you"; 
+
+            }
         }
 
 

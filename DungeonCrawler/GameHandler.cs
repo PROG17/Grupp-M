@@ -37,7 +37,7 @@ namespace DungeonCrawler
         {
             switch (arg[0].ToUpper())
             {
-                case nameof(Action.GO):
+                case nameof(Action.GO): // Tested Ok
 
                     // I need to retrieve the matching Enum value for arg[1]
                     Dir newDir = (Dir)Enum.Parse(typeof(Dir), arg[1].ToUpper());
@@ -45,7 +45,7 @@ namespace DungeonCrawler
 
                     break;
 
-                case nameof(Action.GET):
+                case nameof(Action.GET): // TESTED Ok
 
                     // I need to retrieve the matching Enum value for arg[1]
                     INames getItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
@@ -53,13 +53,13 @@ namespace DungeonCrawler
                 
                     break;
 
-                case nameof(Action.DROP):
+                case nameof(Action.DROP): // Tested Ok
 
                     // I need to retrieve the matching Enum value for arg[1]
                     INames dropItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
-                    
+
                     // The Drop methods will do all the checks and return the output messages
-                    player.Drop(dropItem);
+                    Console.WriteLine(player.Drop(dropItem));
                     
                     break;
 
@@ -89,9 +89,9 @@ namespace DungeonCrawler
 
                     break;
 
-                case nameof(Action.SHOW):
+                case nameof(Action.SHOW): // Tested Ok
 
-                    player.Show();
+                    Console.WriteLine(player.Show());
                     break;
                 default:
 
