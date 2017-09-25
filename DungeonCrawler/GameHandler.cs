@@ -37,10 +37,13 @@ namespace DungeonCrawler
         {
             switch (arg[0].ToUpper())
             {
-                case nameof(Action.GO): // Tested Ok
-
-                    // I need to retrieve the matching Enum value for arg[1]
-                    Dir newDir = (Dir)Enum.Parse(typeof(Dir), arg[1].ToUpper());
+                case nameof(Action.GO): // Tested Ok                    // I need to retrieve the matching Enum value for arg[1]
+                    Dir newDir;
+                    if (arg[1].ToUpper() == "LEFT") newDir = (Dir)Enum.Parse(typeof(Dir), "WEST");
+                    else if (arg[1].ToUpper() == "RIGHT") newDir = (Dir)Enum.Parse(typeof(Dir), "EAST");
+                    else if (arg[1].ToUpper() == "FORWARD") newDir = (Dir)Enum.Parse(typeof(Dir), "NORTH");
+                    else if (arg[1].ToUpper() == "BACK") newDir = (Dir)Enum.Parse(typeof(Dir), "SOUTH");
+                    else newDir = (Dir)Enum.Parse(typeof(Dir), arg[1].ToUpper());
                     Console.WriteLine(player.Go(newDir));
 
                     break;
@@ -49,7 +52,10 @@ namespace DungeonCrawler
 
                     // I need to retrieve the matching Enum value for arg[1]
                     INames getItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
-                    Console.WriteLine(player.Get(getItem));
+                    Console.Clear();
+                    GFXText.PrintTextWithHighlights(player.Get(getItem), 1, 1, false);
+                    Console.Write("\n\n");
+                    //Console.WriteLine(player.Get(getItem));
                 
                     break;
 
@@ -74,7 +80,7 @@ namespace DungeonCrawler
                     {
                         INames useItem1 = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
                         INames onItem2 = (INames)Enum.Parse(typeof(INames), arg[3].ToUpper());
-                        player.Use(useItem1, onItem2);
+                        Console.WriteLine(player.Use(useItem1, onItem2));
                     }
 
 
@@ -87,7 +93,7 @@ namespace DungeonCrawler
                 case nameof(Action.LOOK):
                     Console.Clear();
                     if (arg.Length == 1) player.Look();
-                    else GFXText.PrintTextWithHighlights(player.Look(arg[1]),1,1,false);
+                    else GFXText.PrintTextWithHighlights(player.Look(arg[1]),1,2,false);
                     Console.Write("\n\n");
                     break;
 

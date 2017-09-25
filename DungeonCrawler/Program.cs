@@ -15,11 +15,11 @@ namespace DungeonCrawler
             string tmpstring="";    //used to fix user input
             // the following are used in the input check
             
-            // var cmdList = new List<string>() { "GO", "GET", "DROP", "USE", "ON", "LOOK", "INSPECT", "SHOW" };
+            var cmdList = new List<string>() { "GO", "GET", "DROP", "USE", "ON", "LOOK", "SHOW" };
 
-            var dirList = new List<string>() { "NORTH", "EAST", "SOUTH", "WEST" };
+            var dirList = new List<string>() { "FORWARD", "BACK", "LEFT", "RIGHT", "NORTH", "EAST", "SOUTH", "WEST" };
             var itemList = new List<string>() { "CLUE1", "CLUE2", "CLUE3", "KEY", "AX", "MAILBOX",
-                "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR","CHAIN"};
+                "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR","CHAIN","KEY"};
 
             // I can search in this dictionary when parsing the input
             Dictionary<Action, List<string>> myCmds = new Dictionary<Action, List<string>>()
@@ -45,8 +45,12 @@ namespace DungeonCrawler
             handler.InitPlayer(playName);
 
             Console.WriteLine("Welcome, {0}! A world of adventure awaits you!\n\n", playName);
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].description,0,5,true);
+            System.Threading.Thread.Sleep(2000);
+            Console.Clear();
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].name, 0, 2, true);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].description,1,5,true);
             Console.Write("\n\n");
+            LoadGame.rooms[RNames.Entrance].visited = true;
             // end of description
 
             while (true)
@@ -78,7 +82,7 @@ namespace DungeonCrawler
                         {
                             // Show help text
                             Console.WriteLine("  --- Command List ---");
-                            Console.WriteLine("GO <Dir> - to Move in the direction of Dir can be East, West, South and Nord" +
+                            Console.WriteLine("GO <Dir> - to Move in the direction of Dir can be FORWARD, BACK, LEFT, RIGHT" +
                                             "\nGET item - to collect an object and move it in the backpack" +
                                             "\nDROP item - to leave an object from the backpack in the current room" +
                                             "\nUSE an item, either just the object itself or ON another item" +       // bad text, revise. revised/t
@@ -109,6 +113,13 @@ namespace DungeonCrawler
                         // The user has typed a command and an argument
                         // Note: convert the String in the mapping Enum of type Action
 
+
+                        if (!cmdList.Contains(argums[0].ToUpper()))
+                        {
+                            Console.WriteLine("Invalid command.");
+                            break;
+                        }
+
                         Action aKey = (Action)Enum.Parse(typeof(Action), argums[0].ToUpper());
                         // if (!cmdList.Contains(argums[0].ToUpper()))
 
@@ -116,7 +127,7 @@ namespace DungeonCrawler
                         {
                             // Error user has typed an invalid command
                             // repeat the while loop
-                            Console.WriteLine("Unrecognized command. What do you wanna do?");
+                            Console.WriteLine("case 2 Unrecognized command. What do you wanna do?");
                         }
                         else
                         {
@@ -130,21 +141,26 @@ namespace DungeonCrawler
 
                     case 3:
                         // The user has typed a command with 3 words. Invalid!
-                        Console.WriteLine("Unrecognized command. What do you wanna do?");
+                        Console.WriteLine("case 3 Unrecognized command. What do you wanna do?");
                         break;
 
                     case 4:
                         // the user has typed a command with 4 words. The only command which is valid
                         // is: USE item1 ON item2/door
+                        if (!cmdList.Contains(argums[0].ToUpper()))
+                        {
+                            Console.WriteLine("Invalid command.");
+                            break;
+                        }
 
                         Action aKey1 = (Action)Enum.Parse(typeof(Action), argums[0].ToUpper());
 
                         if (aKey1 != Action.USE || argums[2].ToUpper() != "ON" ||
-                            !myCmds[aKey1].Contains(argums[1].ToLower()) || !myCmds[aKey1].Contains(argums[3].ToLower()))
+                            !myCmds[aKey1].Contains(argums[1].ToUpper()) || !myCmds[aKey1].Contains(argums[3].ToUpper()))       // was ToLower(), always returned error message
                         {
                             // Error user has typed an invalid command
                             // repeat the while loop
-                            Console.WriteLine("Unrecognized command. What do you wanna do?");
+                            Console.WriteLine("case 4 Unrecognized command. What do you wanna do?");
                         }
                         else
                         {

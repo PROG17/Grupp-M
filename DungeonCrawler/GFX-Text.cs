@@ -51,7 +51,7 @@ namespace DungeonCrawler
                 }
                 Console.SetCursorPosition(currentXPos, yPos);
 
-                if(fancyTyping) PrintTxt(currentXPos, yPos, -3, 5, tecken.ToString(), false, false);
+                if(fancyTyping) PrintTxt(currentXPos, yPos, -3, 5, tecken.ToString(), true, false);
                 else Console.Write(tecken);
 
                 currentXPos++;

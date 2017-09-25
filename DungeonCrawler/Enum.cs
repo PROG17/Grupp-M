@@ -18,9 +18,9 @@ namespace DungeonCrawler
     // the initialization of the rooms in LoadGame 
 
     public enum INames { CLUE1, CLUE2, CLUE3, KEY, AX, MAILBOX, BOTTLE, CORK, BOX, TORCH,
-                         NOTE, CHANDELIER, THRONE, PAINTING, EMPTY, DOOR,CHAIN }
+                         NOTE, CHANDELIER, THRONE, PAINTING, EMPTY, DOOR, CHAIN }
 
-    public enum RNames { Entrance, BathRoom, DiningRoom, BedRoom }
+    public enum RNames { Entrance, BathRoom, DiningRoom, BedRoom, LivingRoom }
 
     // These is the list of all possible commands
 

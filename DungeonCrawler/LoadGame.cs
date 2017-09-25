@@ -143,11 +143,11 @@ namespace DungeonCrawler
             Room dining = new Room("Dining Room", "A [torch] is on the table in front of you, a [bottle] on the floor and " +
                 "a [key] hanging on the wall.");
 
-            // Create the doors for Dining Room
-            norDoor = new Door(DStatus.Closed, INames.KEY, RNames.DiningRoom);
-            easDoor = new Door(DStatus.WALL, INames.EMPTY, RNames.DiningRoom);
-            souDoor = new Door(DStatus.Open, INames.KEY, RNames.DiningRoom);
-            WesDoor = new Door(DStatus.Closed, INames.KEY, RNames.DiningRoom);
+            // Create the doors for Dining Room -- and where they lead to
+            norDoor = new Door(DStatus.WALL, INames.KEY, RNames.DiningRoom);
+            easDoor = new Door(DStatus.Open, INames.EMPTY, RNames.LivingRoom);
+            souDoor = new Door(DStatus.Open, INames.KEY, RNames.Entrance);
+            WesDoor = new Door(DStatus.WALL, INames.KEY, RNames.DiningRoom);
 
             // Fill the Array of Doors in the Room=dining object
             dining.exitDoors[(int)Dir.NORTH] = norDoor;

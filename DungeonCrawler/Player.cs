@@ -73,13 +73,20 @@ namespace DungeonCrawler
             }
             else
             {
+                Console.Clear();
                 curRoom = LoadGame.rooms[curRoom].exitDoors[(int)dir].leadsToRoom;
-                if(LoadGame.rooms[curRoom].visited)
-                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description,1,1,false);
+                if (LoadGame.rooms[curRoom].visited)
+                {
+                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, 0, 2, false);
+                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, 1, 5, false);
+                }
                 else
-                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, 1, 1, true);
-                LoadGame.rooms[curRoom].visited = true;
-                return "";
+                {
+                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, 0, 2, true);
+                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, 1, 5, true);
+                    LoadGame.rooms[curRoom].visited = true;
+                }
+                return null;
             }
             return msg;
         }
@@ -192,6 +199,26 @@ namespace DungeonCrawler
         {
             // Check if item1/2 is door also
 
+            if(item1 == INames.KEY && item2 == INames.DOOR)
+            {
+                for (int i = 0; i < LoadGame.rooms[curRoom].exitDoors.Count(); i++)
+                {
+                    if(LoadGame.rooms[curRoom].exitDoors[i].canBeOpenWith == INames.KEY && LoadGame.rooms[curRoom].exitDoors[i].status != DStatus.Open)
+                    {
+                        for (int inv = 0; inv < inventory.Count(); inv++)
+                        {
+                            if(inventory[inv].name.ToUpper()==INames.KEY.ToString())
+                            {
+                                LoadGame.rooms[curRoom].exitDoors[i].status = DStatus.Open;
+                                inventory.Remove(inventory[inv]);
+                                return "You opened the door.";
+                            }
+                        }
+                        return "You do not have the key.";
+                    }
+                }
+                return "There is no closed door.";
+            }
             return $" return a message to the Game Handler";
         }
 
@@ -199,10 +226,19 @@ namespace DungeonCrawler
         public string Look()
         {
             Console.Clear();
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, 1, 1, false);
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description2, 1, 5, false);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, 0, 2, false);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, 1, 5, false);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description2, 1, 10, false);
             Console.Write("\n\n");
-
+            int lineCheck=0;
+            for (int i = 0; i < LoadGame.rooms[curRoom].roomItems.Count; i++)
+            {
+                if (LoadGame.rooms[curRoom].roomItems[i].pickUp)
+                {
+                    GFXText.PrintTextWithHighlights($"In this room there's also a [{LoadGame.rooms[curRoom].roomItems[i].name}].", 2, 12+lineCheck, false);
+                    lineCheck++;
+                }
+            }
             return null;
             //return $" return a message to the Game Handler";
         }
@@ -225,7 +261,7 @@ namespace DungeonCrawler
                 if (inventory[i].name.ToUpper() == arg1.ToUpper())
                     return inventory[i].description;
             }
-            return null;
+            return "What's this?";
         }
 
         /*
