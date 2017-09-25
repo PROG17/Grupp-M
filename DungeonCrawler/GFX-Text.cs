@@ -43,7 +43,7 @@ namespace DungeonCrawler
                     Console.ResetColor();
                     continue;
                 }
-                if (currentXPos >= Globals.windowWidth-2)
+                if (currentXPos >= LoadGame.windowWidth-2)
                 {
                     Console.Write("-");
                     currentXPos = xPos;

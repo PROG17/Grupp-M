@@ -16,8 +16,14 @@ namespace DungeonCrawler
 
         // Set the name of the player
         public void InitPlayer(string name)
-        {            
-            player = new Player(name, Dir.SOUTH, RNames.DiningRoom);
+        {
+            // I need to initialize the inventory HERE otherwise it won´t be
+            // visible here and VS will complain in Player Class
+            // of undefined Inventory !
+
+            var inventory = new List<Item>();
+
+            player = new Player(name, Dir.SOUTH, RNames.DiningRoom, inventory);
         }
 
 

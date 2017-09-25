@@ -9,23 +9,37 @@ namespace DungeonCrawler
     class Player
     {
         public string Name { get; set; }
-        public Dir CurrentPos { get; set; } = Dir.NORTH;           // Default Position. Refers to Enum Dir(ections) in the Enum file
+        public Dir CurrentPos { get; set; } = Dir.NORTH;          // Default Position. Refers to Enum Dir(ections) in the Enum file
         public RNames CurRoom { get; set; } = RNames.Entrance;    // Default Room. --- Maybe unnecessary
 
         private int bagSize = 4;         // Max 4 objects can be carried
-        private List<Item> Inventory;                // Only Player can access its Inventory
+
+        //public List<Item> Inventory = new List<Item>(1)
+        //        {new Item("EMPTY", "", INames.EMPTY, ItemPos.NONE) };   // Only Player can access its Inventory
+        
+        public List<Item> inventory;
+
+
+
         private string msg;
 
         // Constructor
         public Player(string name)
         {
-            var Inventory = new List<Item>(bagSize);  // Create the list, initially empty
+            var inventory = new List<Item>(bagSize);
             Name = name;
         }
 
-        public Player(string name, Dir curPos, RNames curRoom)
+        public Player(string name, Dir curPos, RNames curRoom, List<Item> inventory)
         {
-            var Inventory = new List<Item>(bagSize);  // Create the list, initially empty
+            this.inventory = inventory;
+
+            // reset the Inventory with some EMPTY items
+            //for (int i=0; i < bagSize; i++)
+            //{
+            //    inventory.Add(new Item("EMPTY", "", INames.EMPTY, ItemPos.NONE));
+            //}
+
             Name = name;
             CurrentPos = curPos;
             CurRoom = curRoom;
@@ -43,11 +57,10 @@ namespace DungeonCrawler
         {
 
             // Note (int) because dir is enum.
-            DStatus doorStatus = Globals.rooms[CurRoom].ExitDoors[(int)dir].Status;
+            DStatus doorStatus = LoadGame.rooms[CurRoom].ExitDoors[(int)dir].Status;
 
             // Check first if I can move any direction (if there is a door or a wall)
             // I need the following regardless the position N,E, W,E.
-
 
             //
             if (doorStatus == DStatus.WALL)
@@ -69,15 +82,15 @@ namespace DungeonCrawler
 
         public string Get(INames item)
         {
-            var roomItems = Globals.rooms[CurRoom].RoomItems;
+            var roomItems = LoadGame.rooms[CurRoom].RoomItems;
 
             for (int i = 0; i < roomItems.Count(); i++)
             {
                 // I search for the item in the list within the current room
-                if (roomItems[i].Name == item.ToString())  // item is enum! need conversion to string
+                if (roomItems[i].Name.ToUpper() == item.ToString())  // item is enum! need conversion to string
                 {
                     // Do I have space in the bag?
-                    if (Inventory.Count() < bagSize)
+                    if (inventory.Count() < bagSize && inventory.Count() >= 0 )
                     {
                         // Update the item location in Room object. I do not touch the object in the room!
 
@@ -85,14 +98,14 @@ namespace DungeonCrawler
 
                         // I need to test which of the following works !
 
-                        var tmp = new Item(roomItems[i].Name, roomItems[i].Description, roomItems[i].CombWith);
+                        var tmp = new Item(roomItems[i].Name, roomItems[i].Description, roomItems[i].CombWith, roomItems[i].BelongsTo);
                         var tmp1 = new Item(roomItems[i]);   // Using the copy constructor
 
 
-                        Inventory.Add(tmp1);              // Can ADD the item from room to Player Inventory
+                        inventory.Add(tmp1);              // Can ADD the item from room to Player Inventory
                         roomItems.Remove(roomItems[i]);   // Now I can finally remove the Object from Room List
 
-                        return $"You have just collected [{tmp1.Name}] and now you have {Inventory.Count()} objects of {bagSize} in your bag";
+                        return $"You have just collected [{tmp1.Name}] and now you have {inventory.Count()} objects of {bagSize} in your bag";
                     }
                     else
                     {

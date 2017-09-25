@@ -6,91 +6,49 @@ using System.Threading.Tasks;
 
 
 namespace DungeonCrawler
-{
-    public static class Globals
-    {
-        public const int windowWidth = 120;
-        public const int windowHeight = 30;
-
-        //public static Dictionary<string, Item> items = new Dictionary<string, Item>();
-        //public static Dictionary<string, Room> rooms = new Dictionary<string, Room>();
-
-        public static Dictionary<INames, Item> items = new Dictionary<INames, Item>();
-        public static Dictionary<RNames, Room> rooms = new Dictionary<RNames, Room>();
-    }
-
+{    
     class DungeonCrawler
     {
         static void Main(string[] args)
-        {
-            // var handler = new GameHandler(); // here most of the actions from Program will be moved
-
-
-            // the following should be used in the input check
-            // If we use Enum then we can remove the List below!
+        {            
+            // the following are used in the input check
+            
+            // var cmdList = new List<string>() { "GO", "GET", "DROP", "USE", "ON", "LOOK", "INSPECT", "SHOW" };
 
             var dirList = new List<string>() { "NORTH", "EAST", "SOUTH", "WEST" };
-
-            var cmdList = new List<string>() { "GO", "GET", "DROP", "USE", "ON", "LOOK", "INSPECT", "SHOW" };
-
-            var itemList = new List<string>()
-            { "CLUE1", "CLUE2", "CLUE3", "KEY", "AX", "MAILBOX",
+            var itemList = new List<string>() { "CLUE1", "CLUE2", "CLUE3", "KEY", "AX", "MAILBOX",
                 "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR"};
 
             // I can search in this dictionary when parsing the input
             Dictionary<Action, List<string>> myCmds = new Dictionary<Action, List<string>>()
                                   { { Action.GO, dirList },
-                                    { Action.GET, cmdList },
+                                    { Action.GET, itemList },
                                     { Action.DROP, itemList },
                                     { Action.USE, itemList },
                                     { Action.ON, itemList },
                                     { Action.LOOK, itemList },
                                     { Action.INSPECT, itemList },
                                     { Action.SHOW, itemList } };
-            // initialize the player
-
-            // var player = new Player("Egidio", Dir.South, RNames.DiningRoom);
-
+            
+            // Load the Game and create Rooms, items, etc.
+            LoadGame.Init();
+            
             // The handler will create the player and operate all the actions
             var handler = new GameHandler();
-
-            Console.SetWindowSize(Globals.windowWidth, Globals.windowHeight);
-
-            LoadGame.Load();
-
-            // Formatting Text
-            GFXText.PrintTextWithHighlights(Globals.rooms[RNames.Entrance].Name, 5, 5, false);
-            GFXText.PrintTextWithHighlights(Globals.rooms[RNames.Entrance].Description, 10, 6, true);
-
-            GFXText.PrintTextWithHighlights(Globals.rooms[RNames.BathRoom].Name, 5, 10, false);
-            GFXText.PrintTextWithHighlights(Globals.rooms[RNames.BathRoom].Description, 10, 11, true);
-            GFXText.PrintTextWithHighlights(Globals.rooms[RNames.BathRoom].Description2, 10, 12, true);
-
-
-            GFXText.PrintTextWithHighlights(Globals.rooms[RNames.DiningRoom].Name, 5, 14, false);
-            GFXText.PrintTextWithHighlights(Globals.rooms[RNames.DiningRoom].Description, 5, 16, true);
-
-            //GFXText.PrintTextWithHighlights(Globals.rooms["entrance"].Name, 5, 5, false);
-            //GFXText.PrintTextWithHighlights(Globals.rooms["entrance"].Description, 10, 6, true);
-
-            //GFXText.PrintTextWithHighlights(Globals.rooms["bathroom"].Name, 5, 10, false);
-            //GFXText.PrintTextWithHighlights(Globals.rooms["bathroom"].Description, 10, 11, true);
-            //GFXText.PrintTextWithHighlights(Globals.rooms["bathroom"].Description2, 10, 12, true);
-
 
             Console.WriteLine("\nPlease digit your name:");
             string playName = Console.ReadLine();
             handler.InitPlayer(playName);
-            
+
             while (true)
             {
                 Console.WriteLine("\nDigit a command or type [H] for list of commands");
                 string input = Console.ReadLine();
                 var argums = input.Split(' ');
-                
+
 
                 switch (argums.Length)
-                {                    
+                {
                     case 1:
                         // The user has only typed a command with no enough arguments
                         // Or he has typed H-for Help
@@ -113,8 +71,8 @@ namespace DungeonCrawler
                             return;
                         }
                         else
-                        { 
-                            Console.WriteLine("I beg your pardon? ");                            
+                        {
+                            Console.WriteLine("I beg your pardon? ");
                         }
                         break;
                     case 2:
@@ -172,7 +130,7 @@ namespace DungeonCrawler
 
 
             }
-            
+
         }
     }
 
@@ -181,5 +139,5 @@ namespace DungeonCrawler
 
 
 }
-    
+
 

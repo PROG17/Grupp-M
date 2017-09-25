@@ -6,52 +6,98 @@ namespace DungeonCrawler
 
     class LoadGame
     {
-        public static void Load()
+        public const int windowWidth = 120;
+        public const int windowHeight = 30;     
+
+        public static Dictionary<INames, Item> items = new Dictionary<INames, Item>();
+        public static Dictionary<RNames, Room> rooms = new Dictionary<RNames, Room>();
+
+        public static void Init()
         {
             LoadItems();
             LoadRooms();
-           // InitCommands();
+            GameDescription();            
         }
+
+
+
+        public static void GameDescription()
+        {
+            Console.SetWindowSize(windowWidth, windowHeight);           
+
+            // Formatting Text
+            GFXText.PrintTextWithHighlights(rooms[RNames.Entrance].Name, 5, 5, false);
+            GFXText.PrintTextWithHighlights(rooms[RNames.Entrance].Description, 10, 6, true);
+
+            GFXText.PrintTextWithHighlights(rooms[RNames.BathRoom].Name, 5, 10, false);
+            GFXText.PrintTextWithHighlights(rooms[RNames.BathRoom].Description, 10, 11, true);
+            GFXText.PrintTextWithHighlights(rooms[RNames.BathRoom].Description2, 10, 12, true);
+
+
+            GFXText.PrintTextWithHighlights(rooms[RNames.DiningRoom].Name, 5, 14, false);
+            GFXText.PrintTextWithHighlights(rooms[RNames.DiningRoom].Description, 5, 16, true);
+            
+        }
+
+        //public static void Load()
+        //{
+        //    LoadItems();
+        //    LoadRooms();
+        //    // InitCommands();
+        //}
 
         private static void LoadItems()
         {
             // Load all items
 
-            
+
             // Problem HERE: if I assign an object (from items dictionary) to a Room, I cannot assign the same object to another
             // room, because the object reference is the SAME!
             // can the following Dictionary be used for other purposes??
             // Probably obsolete Dictionary.
 
-            Globals.items.Add(INames.CLUE1, new Item("A piece of paper", "Description of clue 1"));
-            Globals.items.Add(INames.CLUE2, new Item("A crumbled paper", "Description of clue 2"));
-            Globals.items.Add(INames.CLUE3, new Item("A torn off hand with carved writings", "Description of clue 3"));
+            // Perhaps THIS dictionary should be Refactored to <KEY = item name><VALUE = string[]>
+            // The String array contains 0, 1 or more Descriptions for the item
+            // Then during the instantiation of the objects (during room creation) I can just
+            // use the item name (enum) to retrieve the description.
+            // This offers flexibility in extending the dictionary/items. We change the description
+            // only in one place.
+            // Ex.
+            // items.Add(INames.CLUE1, {"A piece of paper", "Description of clue 1"});
 
-            Globals.items.Add(INames.AX, new Item("An Ax", "A very sharp Ax that you can use to smash a door"));
-            Globals.items.Add(INames.BOTTLE, new Item("A Bottle.", "A closed Bottle"));
-            Globals.items.Add(INames.BOX, new Item("A Box.", "A closed Box"));
+            // This block can be commented out
+            items.Add(INames.CLUE1, new Item("A piece of paper", "Description of clue 1"));
+            items.Add(INames.CLUE2, new Item("A crumbled paper", "Description of clue 2"));
+            items.Add(INames.CLUE3, new Item("A torn off hand with carved writings", "Description of clue 3"));
 
-            Globals.items.Add(INames.CHANDELIER, new Item("A Chandelier", "Lightning the room"));
-            Globals.items.Add(INames.CORK, new Item("A Cork.", "Where is the open Bottle?"));
-            Globals.items.Add(INames.KEY, new Item("A Door Key.", "Use it to open a door"));
+            items.Add(INames.AX, new Item("An Ax", "A very sharp Ax that you can use to smash a door"));
+            items.Add(INames.BOTTLE, new Item("A Bottle.", "A closed Bottle"));
+            items.Add(INames.BOX, new Item("A Box.", "A closed Box"));
 
-            Globals.items.Add(INames.MAILBOX, new Item("A MailBox", "Perhaps some messages for you?"));
-            Globals.items.Add(INames.NOTE, new Item("A Note", "You can Inspect to read the content"));
-            Globals.items.Add(INames.THRONE, new Item("A Throne", "raising on one side of the room"));
+            items.Add(INames.CHANDELIER, new Item("A Chandelier", "Lightning the room"));
+            items.Add(INames.CORK, new Item("A Cork.", "Where is the open Bottle?"));
+            items.Add(INames.KEY, new Item("A Door Key.", "Use it to open a door"));
 
-            Globals.items.Add(INames.PAINTING, new Item("A Painting", "with some strange landscape"));
-            Globals.items.Add(INames.TORCH, new Item("A Torch", "that you can use in dark places"));
+            items.Add(INames.MAILBOX, new Item("A MailBox", "Perhaps some messages for you?"));
+            items.Add(INames.NOTE, new Item("A Note", "You can Inspect to read the content"));
+            items.Add(INames.THRONE, new Item("A Throne", "raising on one side of the room"));
 
+            items.Add(INames.PAINTING, new Item("A Painting", "with some strange landscape"));
+            items.Add(INames.TORCH, new Item("A Torch", "that you can use in dark places"));
+            // ---------------------------------------------------------------------------------
         }
 
         private static void LoadRooms()
         {
+            // Check BELOW how to define a ROOM
+            // 
             
-            Globals.rooms.Add(RNames.Entrance, new Room("Entrance", "You're standing in a large open hallway. In front of you there " +
+
+            rooms.Add(RNames.Entrance, new Room("Entrance", "You're standing in a large open hallway. In front of you there " +
                 "is an old stairway leading up to the second floor of the mansion. To the left there is a sturdy door behind a " +
                 "bookshelf. There is a large [chandelier] covored in cobweb hanging from the ceiling."));
 
-            Globals.rooms.Add(RNames.BathRoom, new Room("Luxurious bathroom", "A white [throne] decorates this room.",
+            rooms.Add(RNames.BathRoom, new Room("Luxurious bathroom", "A white [throne] decorates this room.",
                                                   "When looking carefully, you find a [note] behind the toilet."));
 
 
@@ -80,30 +126,21 @@ namespace DungeonCrawler
             dining.ExitDoors[(int)Dir.WEST] = WesDoor;
 
             // Create the objects for the Dining Room. BETTER: I take one object from the dictionary 'items'
-            var torch = new Item("A Torch", "that you can use in dark places", INames.EMPTY, ItemPos.Room);
-            var bottle = new Item("A Bottle.", "A closed Bottle", INames.CORK, ItemPos.Room);
-            var key = new Item("A Door Key.", "Use it to open a door", INames.EMPTY, ItemPos.Room);
+            var torch = new Item("Torch", "that you can use in dark places", INames.EMPTY, ItemPos.Room);
+            var bottle = new Item("Bottle", "A closed Bottle", INames.CORK, ItemPos.Room);
+            var key = new Item("Key", "Use it to open a door", INames.EMPTY, ItemPos.Room);
 
             // Add the items to the Items List in the Room
 
             dining.RoomItems.Add(torch);
             dining.RoomItems.Add(bottle);
             dining.RoomItems.Add(key);
-
-
-
+            
             // Finally Add the Entry in the Collection of rooms
 
-            Globals.rooms.Add(RNames.DiningRoom, dining);
+            rooms.Add(RNames.DiningRoom, dining);
 
         }
-
-        //private static void InitCommands()
-        //{
-        //    List<string> commands = new List<string>()
-        //    { "GO", "GET", "DROP", "USE", "ON", "LOOK", "INSPECT", "SHOW" };
-
-
-        //}
+        
     }
 }
