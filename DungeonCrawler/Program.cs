@@ -14,6 +14,8 @@ namespace DungeonCrawler
         public const int RoomNameXPos = -1, RoomNameYPos = 2;
         public const int RoomDescriptionXPos = 1, RoomDescriptionYPos = 5;
         public const int RoomDescription2XPos = 2, RoomDescription2YPos = 10;
+        public const int TextDelay = 0, TextTrail = 0;  // Set to 0 for testing purposes, otherwise Delay 20, Trail -5?
+        public const int SleepTime = 0;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
     }
 
     // "Real" class starts here
@@ -56,9 +58,9 @@ namespace DungeonCrawler
             handler.InitPlayer(playName);
 
             Console.WriteLine("Welcome, {0}! A world of adventure awaits you!\n\n", playName);
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(Globals.SleepTime);
             Console.Clear();
-            GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, -5, 20, LoadGame.rooms[RNames.Entrance].name, false, false);
+            GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, Globals.TextTrail, Globals.TextDelay, LoadGame.rooms[RNames.Entrance].name, false, false);
             //GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].name, Globals.RoomNameXPos, Globals.RoomNameYPos, true);
             GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].description,Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
             Console.Write("\n\n");
