@@ -14,7 +14,7 @@ namespace DungeonCrawler
         public Dir currentPos { get; set; } = Dir.NORTH;          // Default Position. Refers to Enum Dir(ections) in the Enum file
         public RNames curRoom { get; set; } = RNames.Entrance;    // Default Room. --- Maybe unnecessary
 
-        private int bagSize = 4;               // Max objects that can be carried
+        private int bagSize = 5;               // Max objects that can be carried
 
         //public List<Item> Inventory = new List<Item>(1)
         //        {new Item("EMPTY", "", INames.EMPTY, ItemPos.NONE) };   // Only Player can access its Inventory
