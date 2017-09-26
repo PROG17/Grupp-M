@@ -118,12 +118,26 @@ namespace DungeonCrawler
                         // Both following ways are OK. tested.
                         // Commented out tmp
 
+                        if (roomItems[i].name.ToUpper() == "TORCH")
+                        {
+                            for (int j = 0; j < roomItems.Count; j++)
+                            {
+                                if (roomItems[j].name.ToUpper() == "IVY")
+                                {
+                                    roomItems[j].description = "You stick your head out the window and find nothing more hidden in the ivy.";
+
+                                }
+                            }
+                            
+                        }
+
                         // var tmp = new Item(roomItems[i].Name, roomItems[i].Description, roomItems[i].CombWith, roomItems[i].BelongsTo);
                         var tmp1 = new Item(roomItems[i]);   // Using the copy constructor                        
                         inventory.Add(tmp1);              // Can ADD the item from room to Player Inventory
                         roomItems.Remove(roomItems[i]);   // Now I can finally remove the Object from Room List
 
                         return $"You have just collected [{tmp1.name}] and now you have {inventory.Count()} objects of {bagSize} in your bag";
+               
                     }
                     else
                     {
@@ -268,6 +282,7 @@ namespace DungeonCrawler
         public string Use(INames item1, INames item2)
         {
             // Check if item1/2 is door also
+            bool gotMatches=false, gotTorch=false;
 
             // DOOR OPENER
             // This code should be able to use any key named 'key' to unlock any door
@@ -291,6 +306,33 @@ namespace DungeonCrawler
                     }
                 }
                 return "There is no closed door.";
+            }
+
+            else if (item1 == INames.MATCHES && item2 == INames.TORCH)
+            {
+                for (int inv = 0; inv < inventory.Count(); inv++)
+                {
+                    if (inventory[inv].name.ToUpper() == INames.MATCHES.ToString())
+                    {
+                        inventory.Remove(inventory[inv]);
+                        gotMatches = true;
+                    }
+                    if (inventory[inv].name.ToUpper() == INames.TORCH.ToString())
+                    {
+                        inventory.Remove(inventory[inv]);
+                        gotTorch = true;
+                    }
+                }
+                if (gotMatches && gotTorch)
+                {
+                    var litTorch = new Item("LitTorch", "A lit torch. This should light up even the darkest of places.", INames.EMPTY, ItemPos.Room, true);
+                    inventory.Add(litTorch); 
+                    Console.Clear();
+                    GFXText.PrintTextWithHighlights("", 2, 2, true);
+                    Console.Write("\n\n");
+                    return "You use the matches on the torch and now have a [LitTorch]";
+
+                }
             }
             // END OF DOOR OPENER
 

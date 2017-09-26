@@ -147,7 +147,7 @@ namespace DungeonCrawler
 
             // Dining room
 
-            Room dining = new Room("Dining Room", "You have entered the dining room. Immediately to the right there is a door.","In the center of the room is a large dining table with some plates and empty glasses. There are signs of a large feast that ended abruptly. There must have been a large family living here... Next to the end of the dining table is a burnt out [fireplace].");
+            Room dining = new Room("Dining Room", "You have entered the dining room. Immediately to the right there is a door. In the center of the room is a large dining table with some plates and empty glasses. There are signs of a large feast that ended abruptly. There must have been a large family living here... Next to the end of the dining table is a burnt out [fireplace].");
 
             // Create the doors for Dining Room -- and where they lead to
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
