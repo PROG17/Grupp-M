@@ -51,6 +51,8 @@ namespace DungeonCrawler
             // Welcome message and first room description
             Console.Write("\nWhat is your name, traveller? ");
             string playName = Console.ReadLine();
+            string input = "";
+
             handler.InitPlayer(playName);
 
             Console.WriteLine("Welcome, {0}! A world of adventure awaits you!\n\n", playName);
@@ -65,8 +67,10 @@ namespace DungeonCrawler
 
             while (true)
             {
+                input = "";
                 Console.WriteLine("\nEnter a command or type [H] for list of commands");
-                string input = Console.ReadLine();
+                while(input == "") 
+                input = Console.ReadLine();
 
                 // fix for program crash if command starts with a single space
                 while (input[0] == ' ')

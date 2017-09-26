@@ -275,6 +275,7 @@ namespace DungeonCrawler
                 {
                     return roomItems[i].description;
                 }
+
             }
 
             // Is the item the player is looking for in the player inventory? Return its description

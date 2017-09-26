@@ -212,7 +212,7 @@ namespace DungeonCrawler
 
 
             // CELLAR
-            Room cellar = new Room("Cellar", "description1", "description2 (optional)");
+            Room cellar = new Room("Cellar", "The cellar is completely dark. There is a distinct smell of mold, charcoal and burnt wood. While fumbling in the dark you feel something that resemble a [brazier]", "The cellar is now lit and you find that its covered with large kegs that are covered in moss. In the corner of the cellar there seems to be a [painting]");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.WALL, INames.EMPTY);
@@ -224,8 +224,15 @@ namespace DungeonCrawler
             cellar.exitDoors[(int)Dir.SOUTH] = souDoor;
             cellar.exitDoors[(int)Dir.WEST] = WesDoor;
 
-            rooms.Add(RNames.Cellar, cellar);
+            var brazier = new Item("Brazier", "Smells of charcoal. Can be lit.", INames.EMPTY, ItemPos.Room, false);
+            var painting = new Item("Painting", "A painting of August De Morgan", INames.EMPTY, ItemPos.Room, false);
 
+            // Add the items to the Items List in the Room
+
+            cellar.roomItems.Add(brazier);
+            cellar.roomItems.Add(painting);
+
+            rooms.Add(RNames.Cellar, cellar);
 
 
             // BEDROOM

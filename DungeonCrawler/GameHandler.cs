@@ -94,7 +94,7 @@ namespace DungeonCrawler
                     Console.Clear();
                     if (arg.Length == 1) player.Look();
                     else
-                    {
+                    {   
                         GFXText.PrintTextWithHighlights(player.Look(arg[1]), 1, 2, false);
                         Console.Write("\n\n");
                     }
