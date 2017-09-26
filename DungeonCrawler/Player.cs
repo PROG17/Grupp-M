@@ -12,7 +12,7 @@ namespace DungeonCrawler
 
         // What is 'currentPos' used for?
         public Dir currentPos { get; set; } = Dir.NORTH;          // Default Position. Refers to Enum Dir(ections) in the Enum file
-        public RNames curRoom { get; set; } = RNames.Entrance;    // Default Room. --- Maybe unnecessary
+        public RNames curRoom { get; set; } = RNames.Kitchen;    // Default Room. --- Maybe unnecessary
 
         private int bagSize = 4;               // Max objects that can be carried
 
@@ -183,10 +183,10 @@ namespace DungeonCrawler
             {
                 if (roomItems[i].name.ToUpper() == item.ToString() && !roomItems[i].isUsed)
                 {
-                    roomItems[i].isUsed = true;
                     // BLOCK 1 - CHAIN
                     if (roomItems[i].name.ToUpper() == "CHAIN")
                     {
+                        roomItems[i].isUsed = true;
                         var key = new Item("Key", "A rusty bronze key.", INames.EMPTY, ItemPos.Room, true);
                         roomItems.Add(key);
                         Console.Clear();
@@ -195,17 +195,32 @@ namespace DungeonCrawler
                         return;
                     }
                     // END OF BLOCK 1
+
                     // BLOCK REMAINS
                     if (roomItems[i].name.ToUpper() == "REMAINS")
                     {
-                        var hand = new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Room, true);
-                        roomItems.Add(hand);
+                        roomItems[i].isUsed = true;
+                        var hand = new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Inventory, true);
+                        inventory.Add(hand);
                         Console.Clear();
-                        GFXText.PrintTextWithHighlights("Among the remains you find a [hand].", 2, 2, true);
+                        GFXText.PrintTextWithHighlights("Among the remains you find and pick up an [hand].", 2, 2, true);
                         Console.Write("\n\n");
                         return;
                     }
                     // END OF BLOCK REMAINS
+
+                    // BLOCK PANTRY
+                    if (roomItems[i].name.ToUpper() == "PANTRY")
+                    {
+                        roomItems[i].isUsed = true;
+                        var bread = new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Inventory, true);
+                        inventory.Add(bread);
+                        Console.Clear();
+                        GFXText.PrintTextWithHighlights("You open the pantry and find a loaf of [bread] which you pick up.", 2, 2, true);
+                        Console.Write("\n\n");
+                        return;
+                    }
+                    // END OF BLOCK PANTRY
                     // Add more blocks of code here for more item uses
                 }
                 else if (roomItems[i].name.ToUpper() == item.ToString() && roomItems[i].isUsed)
@@ -216,6 +231,37 @@ namespace DungeonCrawler
             }
 
             // Logic for using items in inventory
+            for (int i = 0; i < inventory.Count; i++)
+            {
+                if (inventory[i].name.ToUpper() == item.ToString().ToUpper())
+                {
+                    // BLOCK HAND
+                    if (item.ToString().ToUpper() == "HAND")
+                    {
+                        Console.Clear();
+                        GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "For some reason you decide to consume the half-rotten hand...",true,false);
+                        System.Threading.Thread.Sleep(Globals.SleepTime);
+                        GFXText.PrintTxt(-1, 10, Globals.TextTrail, Globals.TextDelay, "You die...", false, false);
+                        Console.ReadKey();
+                        Environment.Exit(0);
+                    }
+                    // END OF BLOCK HAND
+
+                    // BLOCK BREAD
+                    if (item.ToString().ToUpper() == "BREAD")
+                    {
+                        Console.Clear();
+                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Inside you find a [piece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
+                        var piece2 = new Item("Piece2", "A golden piece of something bigger. What can it be?", INames.EMPTY, ItemPos.Inventory, true);
+                            // REMOVE BREAD
+                        inventory.Add(piece2);
+                        return;
+                    }
+                    // END OF BLOCK BREAD
+                }
+            }
+            // End of logic for using items in inventory
+
             Console.WriteLine("Cannot use {0}", item);
         }
 
