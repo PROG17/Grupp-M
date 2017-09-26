@@ -213,8 +213,8 @@ namespace DungeonCrawler
             kitchen.exitDoors[(int)Dir.SOUTH] = souDoor;
             kitchen.exitDoors[(int)Dir.WEST] = WesDoor;
 
-            var remains = new Item("Human remains", "In a pile of blood lies some remains of what you think once was a human being.", INames.EMPTY, ItemPos.Room, false);
-            var window = new Item("Dirty window", "The window is really dirty, and it's hard for you to see through it. It's definitely been a long time since anyone cleaned it.", INames.EMPTY, ItemPos.Room, false);
+            var remains = new Item("Remains", "In a pile of blood lies some remains of what you think once was a human being.", INames.EMPTY, ItemPos.Room, false);
+            var window = new Item("Window", "The window is really dirty, and it's hard for you to see through it. It's definitely been a long time since anyone cleaned it.", INames.EMPTY, ItemPos.Room, false);
             var pantry = new Item("Pantry", "The door to the pantry is slightly open...", INames.EMPTY, ItemPos.Room, false);
 
             kitchen.roomItems.Add(remains);
