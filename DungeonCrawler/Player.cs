@@ -86,7 +86,7 @@ namespace DungeonCrawler
                 }
                 else
                 {
-                    GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, -5, 20, LoadGame.rooms[curRoom].name, false, false);
+                    GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, Globals.TextTrail, Globals.TextDelay, LoadGame.rooms[curRoom].name, false, false);
                     //GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, true);          // If the new room is not visited, text will be printed slowly
                     GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, true);
                     LoadGame.rooms[curRoom].visited = true;

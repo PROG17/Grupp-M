@@ -17,17 +17,17 @@ namespace DungeonCrawler
             Console.SetWindowSize(windowWidth, windowHeight);
             LoadItems();
             LoadRooms();
-            //GameDescription();            
+            GameDescription();            
         }
 
 
 
         public static void GameDescription()
         {
-            GFXText.PrintTxt(-1, 3, 0, 20, "\"I once was lost but now I’m found, was blind but now I see. Five there are and together they form the key\"",true,true);
-            System.Threading.Thread.Sleep(3000);
-            GFXText.PrintTxt(-1, 6, 0, 20, "Welcome to De Morgans Mansion", true, true);
-            System.Threading.Thread.Sleep(3000);
+            GFXText.PrintTxt(-1, 3, 0, Globals.TextDelay, "\"I once was lost but now I’m found, was blind but now I see. Five there are and together they form the key\"",true,true);
+            System.Threading.Thread.Sleep(Globals.SleepTime);
+            GFXText.PrintTxt(-1, 6, 0, Globals.TextDelay, "Welcome to De Morgans Mansion", true, true);
+            System.Threading.Thread.Sleep(Globals.SleepTime);
         }
 
         //public static void Load()
