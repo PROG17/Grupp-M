@@ -253,8 +253,8 @@ namespace DungeonCrawler
                         Console.Clear();
                         GFXText.PrintTextWithHighlights("The bread tastes delicious. Inside you find a [piece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
                         var piece2 = new Item("Piece2", "A golden piece of something bigger. What can it be?", INames.EMPTY, ItemPos.Inventory, true);
-                            // REMOVE BREAD
-                        inventory.Add(piece2);
+                        inventory.Remove(inventory[i]);     // REMOVE OLD ITEM
+                        inventory.Add(piece2);              // ADD NEW ITEM
                         return;
                     }
                     // END OF BLOCK BREAD
