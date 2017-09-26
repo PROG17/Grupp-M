@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
+
 namespace DungeonCrawler
 {
     // Global class to use certain, very limited, variables across the program
@@ -14,7 +15,7 @@ namespace DungeonCrawler
         public const int RoomNameXPos = -1, RoomNameYPos = 2;
         public const int RoomDescriptionXPos = 1, RoomDescriptionYPos = 5;
         public const int RoomDescription2XPos = 2, RoomDescription2YPos = 10;
-        public const int TextDelay = -5, TextTrail = 20;  // Set to 0 for testing purposes, otherwise Delay 20, Trail -5?
+        public const int TextDelay = 0, TextTrail = -5;  // Set to 0 for testing purposes, otherwise Delay 20, Trail -5?
         public const int SleepTime = 3000;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
     }
 
@@ -61,11 +62,11 @@ namespace DungeonCrawler
             Console.WriteLine("\nWelcome, {0}! A world of adventure awaits you!\n\n", playName);
             System.Threading.Thread.Sleep(Globals.SleepTime);
             Console.Clear();
-            GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, Globals.TextTrail, Globals.TextDelay, LoadGame.rooms[RNames.Entrance].name, false, false);
+            GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, Globals.TextTrail, Globals.TextDelay, LoadGame.rooms[RNames.Entrance].Name, false, false);
             //GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].name, Globals.RoomNameXPos, Globals.RoomNameYPos, true);
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].description,Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].Description,Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
             Console.Write("\n\n");
-            LoadGame.rooms[RNames.Entrance].visited = true;
+            LoadGame.rooms[RNames.Entrance].Visited = true;
             // end of description
 
             while (true)

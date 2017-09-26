@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace DungeonCrawler
 {
 
-    class LoadGame
+    static class LoadGame
     {
         public const int windowWidth = 120;
         public const int windowHeight = 30;     

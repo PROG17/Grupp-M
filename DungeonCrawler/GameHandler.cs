@@ -23,7 +23,8 @@ namespace DungeonCrawler
 
             var inventory = new List<Item>();
 
-            player = new Player(name, Dir.SOUTH, RNames.Entrance, inventory);
+           // player = new Player(name, Dir.SOUTH, RNames.Entrance, inventory);
+            player = new Player(name, RNames.Entrance, inventory);
         }
 
 
