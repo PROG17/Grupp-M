@@ -177,6 +177,7 @@ namespace DungeonCrawler
         // For example the first block lets the user "use" the chain and a key drops (spawns) in the room
         public void Use(INames item)
         {
+            // Logic for using items in rooms
             var roomItems = LoadGame.rooms[curRoom].roomItems;
             for (int i = 0; i < roomItems.Count(); i++)
             {
@@ -194,6 +195,17 @@ namespace DungeonCrawler
                         return;
                     }
                     // END OF BLOCK 1
+                    // BLOCK REMAINS
+                    if (roomItems[i].name.ToUpper() == "REMAINS")
+                    {
+                        var hand = new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Room, true);
+                        roomItems.Add(hand);
+                        Console.Clear();
+                        GFXText.PrintTextWithHighlights("Among the remains you find a [hand].", 2, 2, true);
+                        Console.Write("\n\n");
+                        return;
+                    }
+                    // END OF BLOCK REMAINS
                     // Add more blocks of code here for more item uses
                 }
                 else if (roomItems[i].name.ToUpper() == item.ToString() && roomItems[i].isUsed)
@@ -202,6 +214,8 @@ namespace DungeonCrawler
                     return;
                 }
             }
+
+            // Logic for using items in inventory
             Console.WriteLine("Cannot use {0}", item);
         }
 
