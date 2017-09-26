@@ -28,7 +28,7 @@ namespace DungeonCrawler
 
             var dirList = new List<string>() { "FORWARD", "BACK", "LEFT", "RIGHT", "NORTH", "EAST", "SOUTH", "WEST" };
             var itemList = new List<string>() { "CLUE1", "CLUE2", "CLUE3", "KEY", "AX", "MAILBOX",
-                "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR","CHAIN"};
+                "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR","CHAIN","IVY"};
 
             // I can search in this dictionary when parsing the input
             Dictionary<Action, List<string>> myCmds = new Dictionary<Action, List<string>>()

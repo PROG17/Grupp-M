@@ -108,7 +108,7 @@ namespace DungeonCrawler
                 if (roomItems[i].name.ToUpper() == item.ToString() && roomItems[i].pickUp)  // item is enum! need conversion to string
                 {
                     // Do I have space in the bag?
-                    if (inventory.Count() < bagSize && inventory.Count() >= 0)
+                    if (inventory.Count() <= bagSize && inventory.Count() >= 0)
                     {
                         // Update the item location in Room object. I do not touch the object in the room!
 

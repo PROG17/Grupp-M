@@ -178,7 +178,7 @@ namespace DungeonCrawler
 
 
             // LIVING ROOM
-            Room living = new Room("Living room", "description1", "description2 (optional)");
+            Room living = new Room("Living room", "You have entered the living room. The floor of the room is covered in glass and the windows of the rooms seems to have been smashed in. This must have happened a long time ago since [ivy] have started to grow inside the room.", "description2 (optional)");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.Open, INames.EMPTY,RNames.Bedroom);
@@ -189,6 +189,12 @@ namespace DungeonCrawler
             living.exitDoors[(int)Dir.EAST] = easDoor;
             living.exitDoors[(int)Dir.SOUTH] = souDoor;
             living.exitDoors[(int)Dir.WEST] = WesDoor;
+
+            var ivy = new Item("Ivy", "You stick your head out the window to examine where the ivy is coming from. Entangled in the dark green ivy there is an old wooden [torch].", INames.EMPTY, ItemPos.Room, false);
+            var torch = new Item("Torch", "An old wooden torch.", true);
+
+            living.roomItems.Add(ivy);
+            living.roomItems.Add(torch);
 
             rooms.Add(RNames.LivingRoom, living);
 
