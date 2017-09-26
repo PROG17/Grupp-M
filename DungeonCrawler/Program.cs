@@ -7,7 +7,16 @@ using System.Threading.Tasks;
 
 
 namespace DungeonCrawler
-{    
+{
+    // Global class to use certain, very limited, variables across the program
+    public class Globals
+    {
+        public const int RoomNameXPos = -1, RoomNameYPos = 2;
+        public const int RoomDescriptionXPos = 1, RoomDescriptionYPos = 5;
+        public const int RoomDescription2XPos = 2, RoomDescription2YPos = 10;
+    }
+
+    // "Real" class starts here
     class DungeonCrawler
     {
         static void Main(string[] args)
@@ -19,7 +28,7 @@ namespace DungeonCrawler
 
             var dirList = new List<string>() { "FORWARD", "BACK", "LEFT", "RIGHT", "NORTH", "EAST", "SOUTH", "WEST" };
             var itemList = new List<string>() { "CLUE1", "CLUE2", "CLUE3", "KEY", "AX", "MAILBOX",
-                "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR","CHAIN","KEY"};
+                "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR","CHAIN"};
 
             // I can search in this dictionary when parsing the input
             Dictionary<Action, List<string>> myCmds = new Dictionary<Action, List<string>>()
@@ -47,8 +56,9 @@ namespace DungeonCrawler
             Console.WriteLine("Welcome, {0}! A world of adventure awaits you!\n\n", playName);
             System.Threading.Thread.Sleep(2000);
             Console.Clear();
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].name, 0, 2, true);
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].description,1,5,true);
+            GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, -5, 20, LoadGame.rooms[RNames.Entrance].name, false, false);
+            //GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].name, Globals.RoomNameXPos, Globals.RoomNameYPos, true);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].description,Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
             Console.Write("\n\n");
             LoadGame.rooms[RNames.Entrance].visited = true;
             // end of description
@@ -113,7 +123,7 @@ namespace DungeonCrawler
                         // The user has typed a command and an argument
                         // Note: convert the String in the mapping Enum of type Action
 
-
+                        // Currently needed to make sure program does not crash while trying to parse Enum that does not exist
                         if (!cmdList.Contains(argums[0].ToUpper()))
                         {
                             Console.WriteLine("Invalid command.");
@@ -172,9 +182,6 @@ namespace DungeonCrawler
                         Console.WriteLine("Unrecognized command. What do you wanna do?");
                         break;
                 }
-
-
-
             }
 
         }

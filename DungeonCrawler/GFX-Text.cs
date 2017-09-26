@@ -20,7 +20,7 @@ namespace DungeonCrawler
                     for (int i2 = trail; i2 < 1; i2++)          // Körs bara om 'trail' är mindre än 1, dvs är 'trail' 0 körs loopen en gång och rätt tecken skrivs direkt, annars kommer fel tecken att skrivas tills dess att rätt tecken skrivs ut
                     {
                         if (xpos == -1) Console.SetCursorPosition((Console.WindowWidth - inputString.Length) / 2 + i + 1, ypos);    // Är xpos satt till -1 centreras texten på skärmen i sidled och börjar halva strängens längd till vänster från mitten av skärmen
-                        else Console.SetCursorPosition(xpos + i + 1, ypos);                                                         // Annars hamnar börjar den där xpos anger
+                        else Console.SetCursorPosition(xpos + i, ypos);                                                         // Annars hamnar börjar den där xpos anger
                         Console.Write((char)(inputString[i] + i2));                                                                 // Skriv ut tecken, förskjutet uppåt i ASCII om 'i2' inte är 0
                         System.Threading.Thread.Sleep(delay);                                                                       // Pausa i angiven tid
                     }
@@ -28,6 +28,9 @@ namespace DungeonCrawler
             }
         }
 
+
+        // Print a string, char by char, highlighting anything between brackets [] in yellow
+        // If fancy typing is set to true, PrintTxt will be used instead of Console.Write
         public static void PrintTextWithHighlights(string text, int xPos, int yPos, bool fancyTyping)
         {
             int currentXPos=xPos;
@@ -43,7 +46,7 @@ namespace DungeonCrawler
                     Console.ResetColor();
                     continue;
                 }
-                if (currentXPos >= LoadGame.windowWidth-2)
+                if (currentXPos >= LoadGame.windowWidth-2)      // Prevents printing off-screen by reseting X position to whatever it was initially and go down 1 line
                 {
                     Console.Write("-");
                     currentXPos = xPos;

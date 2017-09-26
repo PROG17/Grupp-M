@@ -9,6 +9,8 @@ namespace DungeonCrawler
     class Player
     {
         public string name { get; set; }
+
+        // What is 'currentPos' used for?
         public Dir currentPos { get; set; } = Dir.NORTH;          // Default Position. Refers to Enum Dir(ections) in the Enum file
         public RNames curRoom { get; set; } = RNames.Entrance;    // Default Room. --- Maybe unnecessary
 
@@ -71,19 +73,20 @@ namespace DungeonCrawler
             {
                 msg = "You find a door which is Closed. What would you like to do?";
             }
+            // If the players tries to move through an open door, the following will take place
             else
             {
                 Console.Clear();
-                curRoom = LoadGame.rooms[curRoom].exitDoors[(int)dir].leadsToRoom;
-                if (LoadGame.rooms[curRoom].visited)
+                curRoom = LoadGame.rooms[curRoom].exitDoors[(int)dir].leadsToRoom;                      // Reads from list of rooms to find out where to go
+                if (LoadGame.rooms[curRoom].visited)                                                    // If the new room already visited (player backtracking), text will be printed instantly
                 {
-                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, 0, 2, false);
-                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, 1, 5, false);
+                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, false);
+                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, false);
                 }
                 else
                 {
-                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, 0, 2, true);
-                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, 1, 5, true);
+                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, true);          // If the new room is not visited, text will be printed slowly
+                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, true);
                     LoadGame.rooms[curRoom].visited = true;
                 }
                 return null;
@@ -168,6 +171,8 @@ namespace DungeonCrawler
         }
 
         // Use() is overloaded
+        // Use(arg) is currently used to let the user interact with objects (items) in the game
+        // For example the first block lets the user "use" the chain and a key drops (spawns) in the room
         public void Use(INames item)
         {
             var roomItems = LoadGame.rooms[curRoom].roomItems;
@@ -176,15 +181,18 @@ namespace DungeonCrawler
                 if (roomItems[i].name.ToUpper() == item.ToString() && !roomItems[i].isUsed)
                 {
                     roomItems[i].isUsed = true;
+                    // BLOCK 1 - CHAIN
                     if (roomItems[i].name.ToUpper() == "CHAIN")
                     {
                         var key = new Item("Key", "key description", INames.EMPTY, ItemPos.Room, true);
                         roomItems.Add(key);
                         Console.Clear();
-                        GFXText.PrintTextWithHighlights("A [key] falls out.", 1, 1, true);
+                        GFXText.PrintTextWithHighlights("A [key] falls out.", 2, 2, true);
                         Console.Write("\n\n");
                         return;
                     }
+                    // END OF BLOCK 1
+                    // Add more blocks of code here for more item uses
                 }
                 else if (roomItems[i].name.ToUpper() == item.ToString() && roomItems[i].isUsed)
                 {
@@ -199,7 +207,10 @@ namespace DungeonCrawler
         {
             // Check if item1/2 is door also
 
-            if(item1 == INames.KEY && item2 == INames.DOOR)
+            // DOOR OPENER
+            // This code should be able to use any key named 'key' to unlock any door
+            // Either make sure the player only can carry 1 key at a time, or change this/add more code to allow multiple simultaneously key usage
+            if (item1 == INames.KEY && item2 == INames.DOOR)
             {
                 for (int i = 0; i < LoadGame.rooms[curRoom].exitDoors.Count(); i++)
                 {
@@ -219,22 +230,28 @@ namespace DungeonCrawler
                 }
                 return "There is no closed door.";
             }
+            // END OF DOOR OPENER
+
             return $" return a message to the Game Handler";
         }
 
         // Look in the current Room
+        // Look with no arguments returns both descriptions of the room instantly, and a list of current 'room inventory'
+        // Does not list usable items in the room, only items the player is able to pickup
         public string Look()
         {
             Console.Clear();
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, 0, 2, false);
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, 1, 5, false);
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description2, 1, 10, false);
+            GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, 0, 0, LoadGame.rooms[RNames.Entrance].name, false, false);
+            //GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, false);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, false);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description2, Globals.RoomDescription2XPos, Globals.RoomDescription2YPos, false);
             Console.Write("\n\n");
-            int lineCheck=0;
+            int lineCheck=0;    // Linecheck is needed to break lines between found items, since PrintTextWithHighlights() is used
             for (int i = 0; i < LoadGame.rooms[curRoom].roomItems.Count; i++)
             {
                 if (LoadGame.rooms[curRoom].roomItems[i].pickUp)
                 {
+                    // Message to print when an item is found ===== REVISE TEXT?
                     GFXText.PrintTextWithHighlights($"In this room there's also a [{LoadGame.rooms[curRoom].roomItems[i].name}].", 2, 12+lineCheck, false);
                     lineCheck++;
                 }
@@ -243,9 +260,12 @@ namespace DungeonCrawler
             //return $" return a message to the Game Handler";
         }
 
+
+        // Look() with arguments returns description of specific items
         public string Look(string arg1)
         {
-            // Look through items in the current room, return its description
+            // Is the item the player is looking for in the room inventory? Return its description
+            // This includes items that player is not able to pickup
             var roomItems = LoadGame.rooms[curRoom].roomItems;
             for (int i = 0; i < roomItems.Count(); i++)
             {
@@ -255,15 +275,17 @@ namespace DungeonCrawler
                 }
             }
 
-            // Look through items in inventory, return its description
+            // Is the item the player is looking for in the player inventory? Return its description
             for (int i = 0; i < inventory.Count; i++)
             {
                 if (inventory[i].name.ToUpper() == arg1.ToUpper())
                     return inventory[i].description;
             }
-            return "What's this?";
+            return "What's this?"; // Error check
         }
 
+
+        // Removed Inspect()
         /*
         public string Inspect(INames item)
         {
@@ -299,8 +321,5 @@ namespace DungeonCrawler
 
             }
         }
-
-
-
     }
 }

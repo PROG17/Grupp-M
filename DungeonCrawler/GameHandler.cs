@@ -71,19 +71,19 @@ namespace DungeonCrawler
 
                 case nameof(Action.USE):
                     // I need to retrieve the matching Enum value for arg[1]
+                    // USE with 1 more arg equals the player is trying to use an item by itself
                     if (arg.Length == 2)
                     {
                         INames useItem1 = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
                         player.Use(useItem1);
                     }
+                    // USE with more args equals the player is trying to use an item with another item
                     else
                     {
                         INames useItem1 = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
                         INames onItem2 = (INames)Enum.Parse(typeof(INames), arg[3].ToUpper());
                         Console.WriteLine(player.Use(useItem1, onItem2));
                     }
-
-
                     break;
 
                 case nameof(Action.ON):
@@ -93,10 +93,15 @@ namespace DungeonCrawler
                 case nameof(Action.LOOK):
                     Console.Clear();
                     if (arg.Length == 1) player.Look();
-                    else GFXText.PrintTextWithHighlights(player.Look(arg[1]),1,2,false);
-                    Console.Write("\n\n");
+                    else
+                    {
+                        GFXText.PrintTextWithHighlights(player.Look(arg[1]), 1, 2, false);
+                        Console.Write("\n\n");
+                    }
                     break;
 
+
+                // Removed Inspect()
                 /*case nameof(Action.INSPECT):
 
                     INames inspItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());

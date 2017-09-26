@@ -14,6 +14,7 @@ namespace DungeonCrawler
 
         public static void Init()
         {
+            Console.SetWindowSize(windowWidth, windowHeight);
             LoadItems();
             LoadRooms();
             GameDescription();            
@@ -23,7 +24,6 @@ namespace DungeonCrawler
 
         public static void GameDescription()
         {
-            Console.SetWindowSize(windowWidth, windowHeight);           
 
             // Formatting Text
             /*GFXText.PrintTextWithHighlights(rooms[RNames.Entrance].Name, 5, 5, false);
@@ -117,9 +117,9 @@ namespace DungeonCrawler
             "is an old stairway leading up to the second floor of the mansion. To the left there is a sturdy door behind a " +
             "bookshelf. There is a large [chandelier] covered in cobweb hanging from the ceiling.");
 
-            var norDoor = new Door(DStatus.WALL, INames.EMPTY, RNames.Entrance);
-            var easDoor = new Door(DStatus.WALL, INames.EMPTY, RNames.Entrance);
-            var souDoor = new Door(DStatus.WALL, INames.EMPTY, RNames.Entrance);
+            var norDoor = new Door(DStatus.WALL, INames.EMPTY);
+            var easDoor = new Door(DStatus.WALL, INames.EMPTY);
+            var souDoor = new Door(DStatus.WALL, INames.EMPTY);
             var WesDoor = new Door(DStatus.Closed, INames.KEY, RNames.DiningRoom);
 
             entrance.exitDoors[(int)Dir.NORTH] = norDoor;
@@ -144,10 +144,10 @@ namespace DungeonCrawler
                 "a [key] hanging on the wall.");
 
             // Create the doors for Dining Room -- and where they lead to
-            norDoor = new Door(DStatus.WALL, INames.KEY, RNames.DiningRoom);
+            norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.Open, INames.EMPTY, RNames.LivingRoom);
             souDoor = new Door(DStatus.Open, INames.KEY, RNames.Entrance);
-            WesDoor = new Door(DStatus.WALL, INames.KEY, RNames.DiningRoom);
+            WesDoor = new Door(DStatus.WALL, INames.KEY);
 
             // Fill the Array of Doors in the Room=dining object
             dining.exitDoors[(int)Dir.NORTH] = norDoor;

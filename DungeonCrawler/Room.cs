@@ -12,9 +12,9 @@ namespace DungeonCrawler
         // private string description2;
 
         // Properties
-        public bool visited { get; set; } = false;
+        public bool visited { get; set; } = false;              // Keeps track if user have been in the room before
         public bool endPoint { get; set; } = false;             // Is the room the last ONE = endpoint?
-        public string description2 { get; set; }
+        public string description2 { get; set; }                // Second "hidden" description, only visible if player use LOOK
 
         public Door[] exitDoors = new Door[4];          // Index is the pos in the room (North,East,..). Contains Door objects. 
         public List<Item> roomItems = new List<Item>();
@@ -35,7 +35,7 @@ namespace DungeonCrawler
             // this.name = name;
             // this.description = description;
             this.description2 = description2;
-            this.visited = false;
+            visited = false;
         }
 
 
