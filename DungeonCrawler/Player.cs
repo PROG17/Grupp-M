@@ -80,12 +80,14 @@ namespace DungeonCrawler
                 curRoom = LoadGame.rooms[curRoom].exitDoors[(int)dir].leadsToRoom;                      // Reads from list of rooms to find out where to go
                 if (LoadGame.rooms[curRoom].visited)                                                    // If the new room already visited (player backtracking), text will be printed instantly
                 {
-                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, false);
+                    GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, 0, 0, LoadGame.rooms[curRoom].name, false, false);
+                    //GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, false);
                     GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, false);
                 }
                 else
                 {
-                    GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, true);          // If the new room is not visited, text will be printed slowly
+                    GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, -5, 20, LoadGame.rooms[curRoom].name, false, false);
+                    //GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, true);          // If the new room is not visited, text will be printed slowly
                     GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, true);
                     LoadGame.rooms[curRoom].visited = true;
                 }
@@ -184,7 +186,7 @@ namespace DungeonCrawler
                     // BLOCK 1 - CHAIN
                     if (roomItems[i].name.ToUpper() == "CHAIN")
                     {
-                        var key = new Item("Key", "key description", INames.EMPTY, ItemPos.Room, true);
+                        var key = new Item("Key", "A rusty bronze key.", INames.EMPTY, ItemPos.Room, true);
                         roomItems.Add(key);
                         Console.Clear();
                         GFXText.PrintTextWithHighlights("A [key] falls out.", 2, 2, true);
@@ -241,7 +243,7 @@ namespace DungeonCrawler
         public string Look()
         {
             Console.Clear();
-            GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, 0, 0, LoadGame.rooms[RNames.Entrance].name, false, false);
+            GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, 0, 0, LoadGame.rooms[curRoom].name, false, false);
             //GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, false);
             GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, false);
             GFXText.PrintTextWithHighlights(LoadGame.rooms[curRoom].description2, Globals.RoomDescription2XPos, Globals.RoomDescription2YPos, false);

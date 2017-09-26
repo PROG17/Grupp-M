@@ -17,26 +17,17 @@ namespace DungeonCrawler
             Console.SetWindowSize(windowWidth, windowHeight);
             LoadItems();
             LoadRooms();
-            GameDescription();            
+            //GameDescription();            
         }
 
 
 
         public static void GameDescription()
         {
-
-            // Formatting Text
-            /*GFXText.PrintTextWithHighlights(rooms[RNames.Entrance].Name, 5, 5, false);
-            GFXText.PrintTextWithHighlights(rooms[RNames.Entrance].Description, 10, 6, true);
-
-            GFXText.PrintTextWithHighlights(rooms[RNames.BathRoom].Name, 5, 10, false);
-            GFXText.PrintTextWithHighlights(rooms[RNames.BathRoom].Description, 10, 11, true);
-            GFXText.PrintTextWithHighlights(rooms[RNames.BathRoom].Description2, 10, 12, true);
-
-
-            GFXText.PrintTextWithHighlights(rooms[RNames.DiningRoom].Name, 5, 14, false);
-            GFXText.PrintTextWithHighlights(rooms[RNames.DiningRoom].Description, 5, 16, true);*/
-            
+            GFXText.PrintTxt(-1, 3, 0, 20, "\"I once was lost but now I’m found, was blind but now I see. Five there are and together they form the key\"",true,true);
+            System.Threading.Thread.Sleep(3000);
+            GFXText.PrintTxt(-1, 6, 0, 20, "Welcome to De Morgans Mansion", true, true);
+            System.Threading.Thread.Sleep(3000);
         }
 
         //public static void Load()
@@ -92,13 +83,30 @@ namespace DungeonCrawler
         {
             // Check BELOW how to define a ROOM
             // 
-            
+
             // When defining ROOMS, the name must be ONE word ONLY and must match the Enum RNames in Enum.cs file
             // 
 
+            // COPY PASTE TO MAKE A NEW ROOM
+            /*
+            Room entrance = new Room("room name", "description1","description2 (optional)");
 
-            rooms.Add(RNames.BathRoom, new Room("Luxurious bathroom", "A white [throne] decorates this room.",
-                                                  "When looking carefully, you find a [note] behind the toilet."));
+            norDoor = new Door(DStatus.WALL, INames.EMPTY);
+            easDoor = new Door(DStatus.WALL, INames.EMPTY);
+            souDoor = new Door(DStatus.WALL, INames.EMPTY);
+            WesDoor = new Door(DStatus.WALL, INames.EMPTY, RNames.DiningRoom);
+
+            entrance.exitDoors[(int)Dir.NORTH] = norDoor;
+            entrance.exitDoors[(int)Dir.EAST] = easDoor;
+            entrance.exitDoors[(int)Dir.SOUTH] = souDoor;
+            entrance.exitDoors[(int)Dir.WEST] = WesDoor;
+
+            var item1 = new Item("item name", "item description", INames.EMPTY, ItemPos.Room, false);
+
+            entrance.roomItems.Add(item1);
+
+            rooms.Add(RNames.Entrance, entrance);
+            */
 
 
 
@@ -128,11 +136,10 @@ namespace DungeonCrawler
             entrance.exitDoors[(int)Dir.WEST] = WesDoor;
 
             var chandelier = new Item("Chandelier", "The chandelier looks unpolished and the candles seems to have burned out a long time ago. There is a [chain] hanging down from it which seems to be in reach.", INames.EMPTY, ItemPos.Room, false);
-            var chain = new Item("Chain", ".", INames.EMPTY, ItemPos.Room, false);
+            var chain = new Item("Chain", "It seems the [chain] is within reach...", INames.EMPTY, ItemPos.Room, false);
 
             entrance.roomItems.Add(chandelier);
             entrance.roomItems.Add(chain);
-            //entrance.roomItems.Add(key);  should only exist after USE chain
 
             rooms.Add(RNames.Entrance, entrance);
 
@@ -140,14 +147,13 @@ namespace DungeonCrawler
 
             // Dining room
 
-            Room dining = new Room("Dining Room", "A [torch] is on the table in front of you, a [bottle] on the floor and " +
-                "a [key] hanging on the wall.");
+            Room dining = new Room("Dining Room", "You have entered the dining room. Immediately to the right there is a door.","In the center of the room is a large dining table with some plates and empty glasses. There are signs of a large feast that ended abruptly. There must have been a large family living here... Next to the end of the dining table is a burnt out [fireplace].");
 
             // Create the doors for Dining Room -- and where they lead to
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.Open, INames.EMPTY, RNames.LivingRoom);
-            souDoor = new Door(DStatus.Open, INames.KEY, RNames.Entrance);
-            WesDoor = new Door(DStatus.WALL, INames.KEY);
+            souDoor = new Door(DStatus.Open, INames.EMPTY, RNames.Entrance);
+            WesDoor = new Door(DStatus.WALL, INames.EMPTY);
 
             // Fill the Array of Doors in the Room=dining object
             dining.exitDoors[(int)Dir.NORTH] = norDoor;
@@ -156,23 +162,103 @@ namespace DungeonCrawler
             dining.exitDoors[(int)Dir.WEST] = WesDoor;
 
             // Create the objects for the Dining Room. BETTER: I take one object from the dictionary 'items'
-            var torch = new Item("Torch", "that you can use in dark places", INames.EMPTY, ItemPos.Room, true);
-            var bottle = new Item("Bottle", "A closed Bottle", INames.CORK, ItemPos.Room, true);
-            var key = new Item("Key", "Use it to open a door", INames.EMPTY, ItemPos.Room, true);
-            var note = new Item("Note", "You can Inspect to read the content",INames.EMPTY,ItemPos.Room, true);
+            var fireplace = new Item("Fireplace", "Above the fireplace there is a dusty stone panel and some unused [matches]. While looking closer inside the fireplace you find that there is a pile of ashes with a bronze [piece] in it.", INames.EMPTY, ItemPos.Room, false);
+            var piece1 = new Item("Piece", "A bronze piece.", INames.EMPTY, ItemPos.Room, true);
+            var matches = new Item("Matches", "Used to lit things on fire.", INames.EMPTY, ItemPos.Room, true);
 
             // Add the items to the Items List in the Room
 
-            dining.roomItems.Add(torch);
-            dining.roomItems.Add(bottle);
-            dining.roomItems.Add(key);
-            dining.roomItems.Add(note);
-            
+            dining.roomItems.Add(fireplace);
+            dining.roomItems.Add(piece1);
+            dining.roomItems.Add(matches);
+
             // Finally Add the Entry in the Collection of rooms
 
             rooms.Add(RNames.DiningRoom, dining);
 
-        }
-        
+
+            // LIVING ROOM
+            Room living = new Room("Living room", "description1", "description2 (optional)");
+
+            norDoor = new Door(DStatus.WALL, INames.EMPTY);
+            easDoor = new Door(DStatus.Open, INames.EMPTY,RNames.Bedroom);
+            souDoor = new Door(DStatus.Open, INames.EMPTY, RNames.DiningRoom);
+            WesDoor = new Door(DStatus.Open, INames.EMPTY, RNames.Kitchen);
+
+            living.exitDoors[(int)Dir.NORTH] = norDoor;
+            living.exitDoors[(int)Dir.EAST] = easDoor;
+            living.exitDoors[(int)Dir.SOUTH] = souDoor;
+            living.exitDoors[(int)Dir.WEST] = WesDoor;
+
+            rooms.Add(RNames.LivingRoom, living);
+
+
+
+            // KITCHEN
+            Room kitchen = new Room("Kitchen", "description1", "description2 (optional)");
+
+            norDoor = new Door(DStatus.WALL, INames.EMPTY);
+            easDoor = new Door(DStatus.Open, INames.EMPTY, RNames.Cellar);
+            souDoor = new Door(DStatus.Open, INames.EMPTY, RNames.LivingRoom);
+            WesDoor = new Door(DStatus.WALL, INames.EMPTY);
+
+            kitchen.exitDoors[(int)Dir.NORTH] = norDoor;
+            kitchen.exitDoors[(int)Dir.EAST] = easDoor;
+            kitchen.exitDoors[(int)Dir.SOUTH] = souDoor;
+            kitchen.exitDoors[(int)Dir.WEST] = WesDoor;
+
+            rooms.Add(RNames.Kitchen, kitchen);
+
+
+
+            // CELLAR
+            Room cellar = new Room("Cellar", "description1", "description2 (optional)");
+
+            norDoor = new Door(DStatus.WALL, INames.EMPTY);
+            easDoor = new Door(DStatus.WALL, INames.EMPTY);
+            souDoor = new Door(DStatus.Open, INames.EMPTY, RNames.Kitchen);
+            WesDoor = new Door(DStatus.WALL, INames.EMPTY);
+
+            cellar.exitDoors[(int)Dir.NORTH] = norDoor;
+            cellar.exitDoors[(int)Dir.EAST] = easDoor;
+            cellar.exitDoors[(int)Dir.SOUTH] = souDoor;
+            cellar.exitDoors[(int)Dir.WEST] = WesDoor;
+
+            rooms.Add(RNames.Cellar, cellar);
+
+
+
+            // BEDROOM
+            Room bedroom = new Room("Bedroom", "description1", "description2 (optional)");
+
+            norDoor = new Door(DStatus.WALL, INames.EMPTY);
+            easDoor = new Door(DStatus.WALL, INames.EMPTY);
+            souDoor = new Door(DStatus.Open, INames.EMPTY, RNames.LivingRoom);
+            WesDoor = new Door(DStatus.Open, INames.EMPTY, RNames.Bathroom);
+
+            bedroom.exitDoors[(int)Dir.NORTH] = norDoor;
+            bedroom.exitDoors[(int)Dir.EAST] = easDoor;
+            bedroom.exitDoors[(int)Dir.SOUTH] = souDoor;
+            bedroom.exitDoors[(int)Dir.WEST] = WesDoor;
+
+            rooms.Add(RNames.Bedroom, bedroom);
+
+
+
+            // BATHROOM
+            Room bathroom = new Room("Bathroom", "description1", "description2 (optional)");
+
+            norDoor = new Door(DStatus.WALL, INames.EMPTY);
+            easDoor = new Door(DStatus.WALL, INames.EMPTY);
+            souDoor = new Door(DStatus.Open, INames.EMPTY,RNames.Bedroom);
+            WesDoor = new Door(DStatus.WALL, INames.EMPTY);
+
+            bathroom.exitDoors[(int)Dir.NORTH] = norDoor;
+            bathroom.exitDoors[(int)Dir.EAST] = easDoor;
+            bathroom.exitDoors[(int)Dir.SOUTH] = souDoor;
+            bathroom.exitDoors[(int)Dir.WEST] = WesDoor;
+
+            rooms.Add(RNames.Bathroom, bathroom);
+        }        
     }
 }
