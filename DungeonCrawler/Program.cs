@@ -111,13 +111,15 @@ namespace DungeonCrawler
                         {
                             // Show help text
                             Console.WriteLine("  --- Command List ---");
-                            Console.WriteLine("GO <Dir> - to Move in the direction of Dir can be FORWARD, BACK, LEFT, RIGHT" +
-                                            "\nGET item - to collect an object and move it in the backpack" +
-                                            "\nDROP item - to leave an object from the backpack in the current room" +
-                                            "\nUSE an item, either just the object itself or ON another item" +       // bad text, revise. revised/t
-                                            "\nLOOK - List all objects and Exits in the room" +
+                            Console.WriteLine("GO <dir> - to move to the specified direction: FORWARD, BACK, LEFT, RIGHT" +
+                                            "\nGET <item> - to collect an item and move it in the backpack" +
+                                            "\nDROP <item> - to leave an item from the backpack in the current room" +
+                                            "\nUSE <object> - to use an item or object" +
+                                            "\nUSE <object> ON <object> - to use an item with another item" +
+                                            "\nLOOK - to look around for additional hints and find loose items in the room" +
+                                            "\nLOOK <object> - to get additional information about an item or object" +
                                             //"\nINSPECT object/Door - show a description of the object/door" +
-                                            "\nSHOW - List the objects in the backpack" +
+                                            "\nSHOW - Lists all items in your backpack" +
                                             "\nQ or Quit - to Quit the game");
                         }
                         else if (argums[0].ToUpper() == "Q" || argums[0].ToUpper() == "QUIT")

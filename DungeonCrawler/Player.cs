@@ -146,7 +146,8 @@ namespace DungeonCrawler
                     return $"Cannot pickup {item}.";
             }
             // The User tries to GET an object which is NOT in the room
-            return $"The {item} is not in this room. Please try again";
+            if (item.ToString() == "DOOR") return "The door is too heavy to pickup!";
+            return $"The {item} is not in this room.";
 
         }
 
@@ -278,10 +279,10 @@ namespace DungeonCrawler
                     if (item.ToString().ToUpper() == "BREAD")
                     {
                         Console.Clear();
-                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Inside you find a [piece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
-                        var piece2 = new Item("Piece2", "A golden piece of something bigger. What can it be?", INames.EMPTY, ItemPos.Inventory, true);
+                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Inside you find a [goldpiece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
+                        var goldpiece = new Item("Goldpiece", "A golden piece of something bigger. What can it be?", INames.EMPTY, ItemPos.Inventory, true);
                         inventory.Remove(inventory[i]);     // REMOVE OLD ITEM
-                        inventory.Add(piece2);              // ADD NEW ITEM
+                        inventory.Add(goldpiece);              // ADD NEW ITEM
                         return;
                     }
                     // END OF BLOCK BREAD
