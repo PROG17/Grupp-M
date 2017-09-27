@@ -310,7 +310,7 @@ namespace sudoku
             const int optimalAmountOfDigits = 42;       //amount of digits sudoku table should have before trying to solve
 
             bool recentEdit = false;
-            int cursorXPos = 0, cursorYPos = 0, iteration = 0, timer = 0, countUsedCells = 0;
+            int cursorXPos = 0, cursorYPos = 0, iteration = 0, countUsedCells = 0;
             int[,] originalInput = new int[9, 9];
             int[,] tmpArray = new int[9,9];
             string sudokuInString = "";
@@ -422,7 +422,6 @@ namespace sudoku
                         originalInput = numbers.Clone() as int[,];
 
                         iteration=1;
-                        timer = 0;
                         Solver(numbers);
                         if (!IsSolved(numbers)) {
                             countUsedCells = 0;
@@ -439,12 +438,10 @@ namespace sudoku
                             {
                                 tmpArray = Solver(RndGuesser(optimalAmountOfDigits-countUsedCells)).Clone() as int[,];
                                 iteration++;
-                                if (stopwatch.ElapsedMilliseconds > 1000)
+                                if (stopwatch.ElapsedMilliseconds % 1000==0)
                                 {
-                                    stopwatch.Restart();
-                                    timer++;
                                     Console.SetCursorPosition(60, 1);
-                                    Console.Write("Elapsed time: {0}",timer);
+                                    Console.Write("Elapsed time: {0}s",stopwatch.ElapsedMilliseconds/1000);
                                     Console.SetCursorPosition(80, 1);
                                     Console.Write("Amount of tries: {0}", iteration);
                                 }
