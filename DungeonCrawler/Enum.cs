@@ -28,8 +28,8 @@ namespace DungeonCrawler
     // Remaking INames to clean up unused(?) vars
     public enum INames
     {
-        KEY, TORCH, CHANDELIER, THRONE, PAINTING, EMPTY, DOOR, CHAIN, IVY, REMAINS,
-        HAND, WINDOW, PANTRY, BREAD, MATCHES, BLOOD
+        KEY,FIREPLACE, BRONZEPIECE , MATCHES, TORCH, CHANDELIER, THRONE, PAINTING, EMPTY, DOOR, CHAIN, IVY, REMAINS,
+        HAND, WINDOW, PANTRY, BREAD, BLOOD, FLAMINGTORCH, BRAZIER
     }
 
     public enum RNames { Entrance, DiningRoom, LivingRoom, Kitchen, Cellar, Bedroom, Bathroom }

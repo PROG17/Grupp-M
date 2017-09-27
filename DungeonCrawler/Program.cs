@@ -42,7 +42,7 @@ namespace DungeonCrawler
                 "PANTRY", "BREAD" };*/
 
             // Remaking itemList to clean up unused(?) vars
-            var itemList = new List<string>() { "KEY", "TORCH", "CHANDELIER", "THRONE", "PAINTING", "DOOR", "CHAIN","IVY","REMAINS", "HAND",
+            var itemList = new List<string>() { "KEY", "FIREPLACE","BRONZEPIECE","MATCHES", "TORCH","FLAMINGTORCH","BRAZIER", "CHANDELIER", "THRONE", "PAINTING", "DOOR", "CHAIN","IVY","REMAINS", "HAND",
                 "WINDOW", "PANTRY", "BREAD", "BLOOD" };
 
             // I can search in this dictionary when parsing the input

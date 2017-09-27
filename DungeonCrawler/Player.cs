@@ -318,33 +318,61 @@ namespace DungeonCrawler
                 return "There is no closed door.";
             }
 
-            else if (item1 == INames.MATCHES && item2 == INames.TORCH)
-            {
-                for (int inv = 0; inv < inventory.Count(); inv++)
-                {
-                    if (inventory[inv].Name.ToUpper() == INames.MATCHES.ToString())
-                    {
-                        inventory.Remove(inventory[inv]);
-                        gotMatches = true;
-                    }
-                    if (inventory[inv].Name.ToUpper() == INames.TORCH.ToString())
-                    {
-                        inventory.Remove(inventory[inv]);
-                        gotTorch = true;
-                    }
-                }
-                if (gotMatches && gotTorch)
-                {
-                    var litTorch = new Item("LitTorch", "A lit torch. This should light up even the darkest of places.", INames.EMPTY, ItemPos.Room, true);
-                    inventory.Add(litTorch); 
-                    Console.Clear();
-                    GFXText.PrintTextWithHighlights("", 2, 2, true);
-                    Console.Write("\n\n");
-                    return "You use the matches on the torch and now have a [LitTorch]";
-
-                }
-            }
             // END OF DOOR OPENER
+
+
+            // USE matches on torch and gain a flaming torch
+
+            if (item1 == INames.MATCHES && item2 == INames.TORCH)
+            {
+
+                foreach (var i in inventory)
+                {
+                    if (i.Name.ToUpper() == INames.MATCHES.ToString())
+                    {
+                        foreach (var j in inventory)
+                        {
+                            if (j.Name.ToUpper() == INames.TORCH.ToString())
+                            {
+                                inventory.Remove(i);
+                                inventory.Remove(j);
+
+                                var flamingtorch = new Item("Flamingtorch", "A flaming torch. This should light up even the darkest of places.", INames.EMPTY, ItemPos.Room, true);
+                                inventory.Add(flamingtorch);
+                                Console.Clear();
+                                GFXText.PrintTextWithHighlights("You use the matches on the torch and now have a [flamingtorch]", 2, 2, true);
+                                Console.Write("\n\n");
+                                return "";
+                            }
+                        }
+                    }
+                }
+
+                return "You don't have the required items.";
+            } 
+            // END of Use matches on torch
+
+            // Use flamingtorch on brazier to make cellar visible.
+            if (item1 == INames.FLAMINGTORCH && item2 == INames.BRAZIER && CurRoom == RNames.Cellar)
+            {
+                // Check if Player have a flaming torch
+
+                foreach (var k in inventory)
+                {
+                    if (k.Name.ToUpper() == INames.FLAMINGTORCH.ToString())
+                    {
+                        //inventory.Remove(k);
+                        //Change cellar room description unveil painting
+                        string cellardescription = "The cellar is now lit and you find that its covered with large kegs that are covered in moss. On top of some kegs a large [painting] appears.";
+                        LoadGame.rooms[CurRoom].Description = cellardescription;
+                        return "You use the flaming torch and flames start to park across the room.";
+
+                    }
+                }
+
+                return "You don't have the required item.";
+
+            }
 
             return $" return a message to the Game Handler";
         }
