@@ -1,4 +1,5 @@
-﻿using System;
+﻿// using Common;
+using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
@@ -24,9 +25,9 @@ namespace DungeonCrawler
     {
         static void Main(string[] args)
         {
-            string tmpstring="";    //used to fix user input
-            // the following are used in the input check
-            
+            string tmpstring = "";    //used to fix user input
+                                      // the following are used in the input check
+
             var cmdList = new List<string>() { "GO", "GET", "DROP", "USE", "ON", "LOOK", "SHOW" };
 
             var dirList = new List<string>() { "FORWARD", "BACK", "LEFT", "RIGHT", "NORTH", "EAST", "SOUTH", "WEST" };
@@ -44,10 +45,10 @@ namespace DungeonCrawler
                                     { Action.LOOK, itemList },
                                     //{ Action.INSPECT, itemList },
                                     { Action.SHOW, itemList } };
-            
+
             // Load the Game and create Rooms, items, etc.
             LoadGame.Init();
-            
+
             // The handler will create the player and operate all the actions
             var handler = new GameHandler();
 
@@ -64,7 +65,7 @@ namespace DungeonCrawler
             Console.Clear();
             GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, Globals.TextTrail, Globals.TextDelay, LoadGame.rooms[RNames.Entrance].Name, false, false);
             //GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].name, Globals.RoomNameXPos, Globals.RoomNameYPos, true);
-            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].Description,Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
+            GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].Description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, true);
             Console.Write("\n\n");
             LoadGame.rooms[RNames.Entrance].Visited = true;
             // end of description
@@ -73,8 +74,8 @@ namespace DungeonCrawler
             {
                 input = "";
                 Console.WriteLine("\nEnter a command or type [H] for list of commands");
-                while(input == "") 
-                input = Console.ReadLine();
+                while (input == "")
+                    input = Console.ReadLine();
 
                 // fix for program crash if command starts with a single space
                 while (input[0] == ' ')
@@ -85,7 +86,7 @@ namespace DungeonCrawler
                     }
                     input = tmpstring;
                     tmpstring = "";
-                }                
+                }
                 // end fix
 
                 var argums = input.Split(' ');

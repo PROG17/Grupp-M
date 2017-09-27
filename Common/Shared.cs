@@ -4,8 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DungeonCrawler
+
+// ONLY TESTING (Egidio).. Do not use it for now. (ie. do not do using Common ;-)
+// Some bugs to fix
+
+namespace Common
 {
+
+    // Global class to use certain, very limited, variables across the program
+    public class Globals
+    {
+        public const int RoomNameXPos = -1, RoomNameYPos = 2;
+        public const int RoomDescriptionXPos = 1, RoomDescriptionYPos = 5;
+        public const int RoomDescription2XPos = 2, RoomDescription2YPos = 10;
+        public const int TextDelay = 0, TextTrail = -5;  // Set to 0 for testing purposes, otherwise Delay 20, Trail -5?
+        public const int SleepTime = 3000;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
+    }
+
+    // Common constant structure HERE for easy upgrades
+    //
     public enum ItemPos { Room, Inventory, NONE }
 
     public enum Dir { NORTH, EAST, SOUTH, WEST }
@@ -28,6 +45,6 @@ namespace DungeonCrawler
 
     // These is the list of all possible commands
 
-    public enum Action { GO, GET, DROP, USE, ON, LOOK, SHOW }
+    public enum Move { GO, GET, DROP, USE, ON, LOOK, SHOW }
 
 }

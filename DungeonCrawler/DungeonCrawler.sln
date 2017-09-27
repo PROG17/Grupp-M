@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonCrawler", "DungeonCrawler.csproj", "{3560E207-F1BC-49C9-9DBD-8E4051988F47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common.csproj", "{05DC1538-DCD8-48C2-9688-C171C8A72F3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3560E207-F1BC-49C9-9DBD-8E4051988F47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3560E207-F1BC-49C9-9DBD-8E4051988F47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3560E207-F1BC-49C9-9DBD-8E4051988F47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05DC1538-DCD8-48C2-9688-C171C8A72F3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05DC1538-DCD8-48C2-9688-C171C8A72F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05DC1538-DCD8-48C2-9688-C171C8A72F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05DC1538-DCD8-48C2-9688-C171C8A72F3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
