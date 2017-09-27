@@ -212,8 +212,10 @@ namespace DungeonCrawler
                     if (roomItems[i].Name.ToUpper() == "REMAINS")
                     {
                         roomItems[i].IsUsed = true;
-                        var hand = new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Inventory, true);
-                        inventory.Add(hand);
+                        //var hand = new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Inventory, true);
+                        // If there's space in players inventory, add it there. Else add it to room inventory
+                        if (inventory.Count() <= bagSize && inventory.Count() >= 0) inventory.Add(new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Inventory, true));
+                        else roomItems.Add(new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Room, true));
                         Console.Clear();
                         GFXText.PrintTextWithHighlights("Among the remains you find and pick up an [hand].", 2, 2, true);
                         Console.Write("\n\n");
@@ -225,8 +227,9 @@ namespace DungeonCrawler
                     if (roomItems[i].Name.ToUpper() == "PANTRY")
                     {
                         roomItems[i].IsUsed = true;
-                        var bread = new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Inventory, true);
-                        inventory.Add(bread);
+                        //var bread = new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Inventory, true);
+                        if (inventory.Count() <= bagSize && inventory.Count() >= 0) inventory.Add(new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Inventory, true));
+                        else roomItems.Add(new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Room, true));
                         Console.Clear();
                         GFXText.PrintTextWithHighlights("You open the pantry and find a loaf of [bread] which you pick up.", 2, 2, true);
                         Console.Write("\n\n");
