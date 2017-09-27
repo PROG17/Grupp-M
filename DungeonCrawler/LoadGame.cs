@@ -268,7 +268,7 @@ namespace DungeonCrawler
 
 
             // BATHROOM
-            Room bathroom = new Room("Bathroom", "description1", "description2 (optional)");
+            Room bathroom = new Room("Bathroom", "The room where the magic happens. But in this specific restroom it seems to be black magic. Something terrible has happened in here. In the middle of the room there's a white [throne]. There are no other exits from here, the only way you can go is back.", "The walls are covered in [blood], it reeks of evil.");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.WALL, INames.EMPTY);
@@ -279,6 +279,12 @@ namespace DungeonCrawler
             bathroom.exitDoors[(int)Dir.EAST] = easDoor;
             bathroom.exitDoors[(int)Dir.SOUTH] = souDoor;
             bathroom.exitDoors[(int)Dir.WEST] = WesDoor;
+
+            var blood = new Item("Blood", "You find an area of the bloody wall where it seems someone has carved in a message: Password 4321", INames.EMPTY, ItemPos.Room, false);
+            var throne = new Item("Throne", "It's just a toilet. A filthy toilet. Filled to the brim with real stinky stuff.", INames.EMPTY, ItemPos.Room, false);
+
+            bathroom.roomItems.Add(blood);
+            bathroom.roomItems.Add(throne);
 
             rooms.Add(RNames.Bathroom, bathroom);
         }        

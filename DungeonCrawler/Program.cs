@@ -13,11 +13,14 @@ namespace DungeonCrawler
     // Global class to use certain, very limited, variables across the program
     public class Globals
     {
+        // Controlling positioning of texts
         public const int RoomNameXPos = -1, RoomNameYPos = 2;
         public const int RoomDescriptionXPos = 1, RoomDescriptionYPos = 5;
         public const int RoomDescription2XPos = 2, RoomDescription2YPos = 10;
+
+        // Controlling delayed display of texts
         public const int TextDelay = 0, TextTrail = -5;  // Set to 0 for testing purposes, otherwise Delay 20, Trail -5?
-        public const int SleepTime = 3000;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
+        public const int SleepTime = 0;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
     }
 
     // "Real" class starts here
@@ -26,14 +29,21 @@ namespace DungeonCrawler
         static void Main(string[] args)
         {
             string tmpstring = "";    //used to fix user input
-                                      // the following are used in the input check
-
+            
+            
+            // the following are used in the input check
             var cmdList = new List<string>() { "GO", "GET", "DROP", "USE", "ON", "LOOK", "SHOW" };
 
             var dirList = new List<string>() { "FORWARD", "BACK", "LEFT", "RIGHT", "NORTH", "EAST", "SOUTH", "WEST" };
+
+            /* OLD ITEMLIST, PROBABLY OBSOLETE BUT KEEP FOR NOW IN CASE OF BREAKING GAME
             var itemList = new List<string>() { "CLUE1", "CLUE2", "CLUE3", "KEY", "AX", "MAILBOX",
                 "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR","CHAIN","IVY","REMAINS", "HAND", "WINDOW",
-                "PANTRY", "BREAD" };
+                "PANTRY", "BREAD" };*/
+
+            // Remaking itemList to clean up unused(?) vars
+            var itemList = new List<string>() { "KEY", "TORCH", "CHANDELIER", "THRONE", "PAINTING", "DOOR", "CHAIN","IVY","REMAINS", "HAND",
+                "WINDOW", "PANTRY", "BREAD", "BLOOD" };
 
             // I can search in this dictionary when parsing the input
             Dictionary<Action, List<string>> myCmds = new Dictionary<Action, List<string>>()
@@ -60,7 +70,7 @@ namespace DungeonCrawler
 
             handler.InitPlayer(playName);
 
-            Console.WriteLine("\nWelcome, {0}! A world of adventure awaits you!\n\n", playName);
+            Console.WriteLine("\nnWelcome, {0}! A world of adventure awaits you!\n\n", playName);
             System.Threading.Thread.Sleep(Globals.SleepTime);
             Console.Clear();
             GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, Globals.TextTrail, Globals.TextDelay, LoadGame.rooms[RNames.Entrance].Name, false, false);

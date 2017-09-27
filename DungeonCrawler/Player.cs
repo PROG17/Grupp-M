@@ -195,7 +195,7 @@ namespace DungeonCrawler
             {
                 if (roomItems[i].Name.ToUpper() == item.ToString() && !roomItems[i].IsUsed)
                 {
-                    // BLOCK 1 - CHAIN
+                    // BLOCK CHAIN
                     if (roomItems[i].Name.ToUpper() == "CHAIN")
                     {
                         roomItems[i].IsUsed = true;
@@ -206,7 +206,7 @@ namespace DungeonCrawler
                         Console.Write("\n\n");
                         return;
                     }
-                    // END OF BLOCK 1
+                    // END OF BLOCK CHAIN
 
                     // BLOCK REMAINS
                     if (roomItems[i].Name.ToUpper() == "REMAINS")
@@ -233,6 +233,18 @@ namespace DungeonCrawler
                         return;
                     }
                     // END OF BLOCK PANTRY
+
+                    // BLOCK THRONE
+                    if (roomItems[i].Name.ToUpper() == "THRONE")
+                    {
+                        Console.Clear();
+                        GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "For some reason you decide to drink the vile contents of the toilet...", true, false);
+                        System.Threading.Thread.Sleep(Globals.SleepTime);
+                        GFXText.PrintTxt(-1, 10, Globals.TextTrail, Globals.TextDelay, "You die...", false, false);
+                        Console.ReadKey();
+                        Environment.Exit(0);
+                    }
+                    // END OF BLOCK THRONE
                     // Add more blocks of code here for more item uses
                 }
                 else if (roomItems[i].Name.ToUpper() == item.ToString() && roomItems[i].IsUsed)

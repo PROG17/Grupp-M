@@ -25,7 +25,7 @@ namespace DungeonCrawler
             var inventory = new List<Item>();
 
            // player = new Player(name, Dir.SOUTH, RNames.Entrance, inventory);
-            player = new Player(name, RNames.Entrance, inventory);
+            player = new Player(name, RNames.Bedroom, inventory);
         }
 
 
@@ -42,9 +42,9 @@ namespace DungeonCrawler
                 case nameof(Action.GO): // Tested Ok                    // I need to retrieve the matching Enum value for arg[1]
                     Dir newDir;
                     if (arg[1].ToUpper() == "LEFT") newDir = (Dir)Enum.Parse(typeof(Dir), "WEST");                    
-                    else if (arg[1].ToUpper() == "RIGHT") newDir = (Dir)Enum.Parse(typeof(INames), "EAST");
-                    else if (arg[1].ToUpper() == "FORWARD") newDir = (Dir)Enum.Parse(typeof(INames), "NORTH");
-                    else if (arg[1].ToUpper() == "BACK") newDir = (Dir)Enum.Parse(typeof(INames), "SOUTH");
+                    else if (arg[1].ToUpper() == "RIGHT") newDir = (Dir)Enum.Parse(typeof(Dir), "EAST");
+                    else if (arg[1].ToUpper() == "FORWARD") newDir = (Dir)Enum.Parse(typeof(Dir), "NORTH");
+                    else if (arg[1].ToUpper() == "BACK") newDir = (Dir)Enum.Parse(typeof(Dir), "SOUTH");
                     else newDir = (Dir)Enum.Parse(typeof(Dir), arg[1].ToUpper());
                     Console.WriteLine(player.Go(newDir));
 
