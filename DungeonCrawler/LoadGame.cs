@@ -164,7 +164,7 @@ namespace DungeonCrawler
 
             // Create the objects for the Dining Room. BETTER: I take one object from the dictionary 'items'
             var fireplace = new Item("Fireplace", "Above the fireplace there is a dusty stone panel and some unused [matches]. While looking closer inside the fireplace you find that there is a pile of ashes with a [bronzepiece] in it.", INames.EMPTY, ItemPos.Room, false);
-            var bronzepiece = new Item("Bronzepiece", "A bronze piece.", INames.EMPTY, ItemPos.Room, true);
+            var bronzepiece = new Item("Bronzepiece", "A bronze piece. Looks like this piece was once combined with another piece.", INames.EMPTY, ItemPos.Room, true);
             var matches = new Item("Matches", "Used to lit things on fire.", INames.EMPTY, ItemPos.Room, true);
 
             // Add the items to the Items List in the Room
@@ -251,7 +251,7 @@ namespace DungeonCrawler
 
 
             // BEDROOM
-            Room bedroom = new Room("Bedroom", "description1", "description2 (optional)");
+            Room bedroom = new Room("Bedroom", "You enter the master bedroom. In the center of the room is a large bed and below it is a [locker]");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.WALL, INames.EMPTY);
@@ -263,6 +263,10 @@ namespace DungeonCrawler
             bedroom.exitDoors[(int)Dir.SOUTH] = souDoor;
             bedroom.exitDoors[(int)Dir.WEST] = WesDoor;
 
+            var locker = new Item("Locker", "A sturdy locker with a four digit number lock.", INames.EMPTY, ItemPos.Room, false);
+            
+            bedroom.roomItems.Add(locker);
+            
             rooms.Add(RNames.Bedroom, bedroom);
 
 

@@ -29,7 +29,7 @@ namespace DungeonCrawler
     public enum INames
     {
         KEY,FIREPLACE, BRONZEPIECE , MATCHES, TORCH, CHANDELIER, THRONE, PAINTING, EMPTY, DOOR, CHAIN, IVY, REMAINS,
-        HAND, WINDOW, PANTRY, BREAD, BLOOD, FLAMINGTORCH, BRAZIER
+        HAND, WINDOW, PANTRY, BREAD, BLOOD, FLAMINGTORCH, BRAZIER, LOCKER, SILVERPIECE
     }
 
     public enum RNames { Entrance, DiningRoom, LivingRoom, Kitchen, Cellar, Bedroom, Bathroom }
