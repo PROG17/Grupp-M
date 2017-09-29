@@ -76,7 +76,7 @@ namespace DungeonCrawler
 
             handler.InitPlayer(playName);
 
-            Console.WriteLine("\nnWelcome, {0}! A world of adventure awaits you!\n\n", playName);
+            Console.WriteLine("\nWelcome, {0}! A world of adventure awaits you!\n\n", playName);
             
             System.Threading.Thread.Sleep(Globals.SleepTime);
             Console.Clear();
@@ -168,7 +168,7 @@ namespace DungeonCrawler
                         {
                             // Error user has typed an invalid command
                             // repeat the while loop
-                            Console.WriteLine("case 2 Unrecognized command. What do you wanna do?");
+                            Console.WriteLine("Unrecognized command. What do you wanna do?");
                         }
                         else
                         {
@@ -182,7 +182,7 @@ namespace DungeonCrawler
 
                     case 3:
                         // The user has typed a command with 3 words. Invalid!
-                        Console.WriteLine("case 3 Unrecognized command. What do you wanna do?");
+                        Console.WriteLine("Unrecognized command. What do you wanna do?");
                         break;
 
                     case 4:
@@ -201,7 +201,7 @@ namespace DungeonCrawler
                         {
                             // Error user has typed an invalid command
                             // repeat the while loop
-                            Console.WriteLine("case 4 Unrecognized command. What do you wanna do?");
+                            Console.WriteLine("Unrecognized command. What do you wanna do?");
                         }
                         else
                         {

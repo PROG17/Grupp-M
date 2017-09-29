@@ -368,7 +368,8 @@ namespace DungeonCrawler
                         //Change cellar room description unveil painting
                         string cellardescription = "The cellar is now lit and you find that its covered with large kegs that are covered in moss. On top of some kegs a large [painting] appears.";
                         LoadGame.rooms[CurRoom].Description = cellardescription;
-                        return "You use the flaming torch and flames start to park across the room.";
+                        GFXText.PrintTextWithHighlights("You use the flaming torch and flames start to spark across the room.", 2, 2, true);
+                        return "";
 
                     }
                 }
@@ -377,7 +378,7 @@ namespace DungeonCrawler
 
             }
 
-            return $" return a message to the Game Handler";
+            return $"You don't have the required items.";
         }
 
         // Look in the current Room
