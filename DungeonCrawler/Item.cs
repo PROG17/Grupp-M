@@ -5,9 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
+
 namespace DungeonCrawler
 {
-
+    // Description
+    //
+    // Item class describes each object which can be part of a room and that can be collected or not by the Player.
+    // 
 
     public class Item : GameObjects
     {
