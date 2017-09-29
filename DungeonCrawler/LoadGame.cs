@@ -163,14 +163,14 @@ namespace DungeonCrawler
             dining.exitDoors[(int)Dir.WEST] = WesDoor;
 
             // Create the objects for the Dining Room. BETTER: I take one object from the dictionary 'items'
-            var fireplace = new Item("Fireplace", "Above the fireplace there is a dusty stone panel and some unused [matches]. While looking closer inside the fireplace you find that there is a pile of ashes with a bronze [piece] in it.", INames.EMPTY, ItemPos.Room, false);
-            var piece1 = new Item("Piece", "A bronze piece.", INames.EMPTY, ItemPos.Room, true);
+            var fireplace = new Item("Fireplace", "Above the fireplace there is a dusty stone panel and some unused [matches]. While looking closer inside the fireplace you find that there is a pile of ashes with a [bronzepiece] in it.", INames.EMPTY, ItemPos.Room, false);
+            var bronzepiece = new Item("Bronzepiece", "A bronze piece. Looks like this piece was once combined with another piece.", INames.EMPTY, ItemPos.Room, true);
             var matches = new Item("Matches", "Used to lit things on fire.", INames.EMPTY, ItemPos.Room, true);
 
             // Add the items to the Items List in the Room
 
             dining.roomItems.Add(fireplace);
-            dining.roomItems.Add(piece1);
+            dining.roomItems.Add(bronzepiece);
             dining.roomItems.Add(matches);
 
             // Finally Add the Entry in the Collection of rooms
@@ -179,7 +179,7 @@ namespace DungeonCrawler
 
 
             // LIVING ROOM
-            Room living = new Room("Living room", "You have entered the living room. The floor of the room is covered in glass and the windows of the rooms seems to have been smashed in. This must have happened a long time ago since [ivy] have started to grow inside the room.", "description2 (optional)");
+            Room living = new Room("Living room", "You have entered the living room. The floor of the room is covered in glass and the windows of the rooms seems to have been smashed in. This must have happened a long time ago since [ivy] have started to grow inside the room.", "");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.Open, INames.EMPTY,RNames.Bedroom);
@@ -227,7 +227,7 @@ namespace DungeonCrawler
 
 
             // CELLAR
-            Room cellar = new Room("Cellar", "The cellar is completely dark. There is a distinct smell of mold, charcoal and burnt wood. While fumbling in the dark you feel something that resemble a [brazier]", "The cellar is now lit and you find that its covered with large kegs that are covered in moss. In the corner of the cellar there seems to be a [painting]");
+            Room cellar = new Room("Cellar", "The cellar is completely dark. There is a distinct smell of mold, charcoal and burnt wood. While fumbling in the dark you feel something that resemble a [brazier]","");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.WALL, INames.EMPTY);
@@ -251,7 +251,7 @@ namespace DungeonCrawler
 
 
             // BEDROOM
-            Room bedroom = new Room("Bedroom", "description1", "description2 (optional)");
+            Room bedroom = new Room("Bedroom", "You enter the master bedroom. In the center of the room is a large bed and below it is a [locker]");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.WALL, INames.EMPTY);
@@ -263,6 +263,10 @@ namespace DungeonCrawler
             bedroom.exitDoors[(int)Dir.SOUTH] = souDoor;
             bedroom.exitDoors[(int)Dir.WEST] = WesDoor;
 
+            var locker = new Item("Locker", "A sturdy locker with a four digit number lock.", INames.EMPTY, ItemPos.Room, false);
+            
+            bedroom.roomItems.Add(locker);
+            
             rooms.Add(RNames.Bedroom, bedroom);
 
 

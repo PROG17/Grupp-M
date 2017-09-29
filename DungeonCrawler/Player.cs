@@ -146,7 +146,8 @@ namespace DungeonCrawler
                     return $"Cannot pickup {item}.";
             }
             // The User tries to GET an object which is NOT in the room
-            return $"The {item} is not in this room. Please try again";
+            if (item.ToString() == "DOOR") return "The door is too heavy to pickup!";
+            return $"The {item} is not in this room.";
 
         }
 
@@ -214,7 +215,7 @@ namespace DungeonCrawler
                         roomItems[i].IsUsed = true;
                         //var hand = new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Inventory, true);
                         // If there's space in players inventory, add it there. Else add it to room inventory
-                        if (inventory.Count() <= bagSize && inventory.Count() >= 0) inventory.Add(new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Inventory, true));
+                        if (inventory.Count() < bagSize) inventory.Add(new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Inventory, true));
                         else roomItems.Add(new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Room, true));
                         Console.Clear();
                         GFXText.PrintTextWithHighlights("Among the remains you find and pick up an [hand].", 2, 2, true);
@@ -228,7 +229,7 @@ namespace DungeonCrawler
                     {
                         roomItems[i].IsUsed = true;
                         //var bread = new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Inventory, true);
-                        if (inventory.Count() <= bagSize && inventory.Count() >= 0) inventory.Add(new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Inventory, true));
+                        if (inventory.Count() < bagSize) inventory.Add(new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Inventory, true));
                         else roomItems.Add(new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Room, true));
                         Console.Clear();
                         GFXText.PrintTextWithHighlights("You open the pantry and find a loaf of [bread] which you pick up.", 2, 2, true);
@@ -278,10 +279,10 @@ namespace DungeonCrawler
                     if (item.ToString().ToUpper() == "BREAD")
                     {
                         Console.Clear();
-                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Inside you find a [piece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
-                        var piece2 = new Item("Piece2", "A golden piece of something bigger. What can it be?", INames.EMPTY, ItemPos.Inventory, true);
+                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Inside you find a [goldpiece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
+                        var goldpiece = new Item("Goldpiece", "A golden piece of something bigger. What can it be?", INames.EMPTY, ItemPos.Inventory, true);
                         inventory.Remove(inventory[i]);     // REMOVE OLD ITEM
-                        inventory.Add(piece2);              // ADD NEW ITEM
+                        inventory.Add(goldpiece);              // ADD NEW ITEM
                         return;
                     }
                     // END OF BLOCK BREAD
@@ -295,7 +296,6 @@ namespace DungeonCrawler
         public string Use(INames item1, INames item2)
         {
             // Check if item1/2 is door also
-            bool gotMatches=false, gotTorch=false;
 
             // DOOR OPENER
             // This code should be able to use any key named 'key' to unlock any door
@@ -321,33 +321,61 @@ namespace DungeonCrawler
                 return "There is no closed door.";
             }
 
-            else if (item1 == INames.MATCHES && item2 == INames.TORCH)
-            {
-                for (int inv = 0; inv < inventory.Count(); inv++)
-                {
-                    if (inventory[inv].Name.ToUpper() == INames.MATCHES.ToString())
-                    {
-                        inventory.Remove(inventory[inv]);
-                        gotMatches = true;
-                    }
-                    if (inventory[inv].Name.ToUpper() == INames.TORCH.ToString())
-                    {
-                        inventory.Remove(inventory[inv]);
-                        gotTorch = true;
-                    }
-                }
-                if (gotMatches && gotTorch)
-                {
-                    var litTorch = new Item("LitTorch", "A lit torch. This should light up even the darkest of places.", INames.EMPTY, ItemPos.Room, true);
-                    inventory.Add(litTorch); 
-                    Console.Clear();
-                    GFXText.PrintTextWithHighlights("", 2, 2, true);
-                    Console.Write("\n\n");
-                    return "You use the matches on the torch and now have a [LitTorch]";
-
-                }
-            }
             // END OF DOOR OPENER
+
+
+            // USE matches on torch and gain a flaming torch
+
+            if (item1 == INames.MATCHES && item2 == INames.TORCH)
+            {
+
+                foreach (var i in inventory)
+                {
+                    if (i.Name.ToUpper() == INames.MATCHES.ToString())
+                    {
+                        foreach (var j in inventory)
+                        {
+                            if (j.Name.ToUpper() == INames.TORCH.ToString())
+                            {
+                                inventory.Remove(i);
+                                inventory.Remove(j);
+
+                                var flamingtorch = new Item("Flamingtorch", "A flaming torch. This should light up even the darkest of places.", INames.EMPTY, ItemPos.Room, true);
+                                inventory.Add(flamingtorch);
+                                Console.Clear();
+                                GFXText.PrintTextWithHighlights("You use the matches on the torch and now have a [flamingtorch]", 2, 2, true);
+                                Console.Write("\n\n");
+                                return "";
+                            }
+                        }
+                    }
+                }
+
+                return "You don't have the required items.";
+            } 
+            // END of Use matches on torch
+
+            // Use flamingtorch on brazier to make cellar visible.
+            if (item1 == INames.FLAMINGTORCH && item2 == INames.BRAZIER && CurRoom == RNames.Cellar)
+            {
+                // Check if Player have a flaming torch
+
+                foreach (var k in inventory)
+                {
+                    if (k.Name.ToUpper() == INames.FLAMINGTORCH.ToString())
+                    {
+                        //inventory.Remove(k);
+                        //Change cellar room description unveil painting
+                        string cellardescription = "The cellar is now lit and you find that its covered with large kegs that are covered in moss. On top of some kegs a large [painting] appears.";
+                        LoadGame.rooms[CurRoom].Description = cellardescription;
+                        return "You use the flaming torch and flames start to park across the room.";
+
+                    }
+                }
+
+                return "You don't have the required item.";
+
+            }
 
             return $" return a message to the Game Handler";
         }
@@ -381,6 +409,137 @@ namespace DungeonCrawler
         // Look() with arguments returns description of specific items
         public string Look(string arg1)
         {
+            string painting = @" You examine the painting and a note on the back reads ""August de Morgan""
+           ______________________________________________________________________________________________                                  
+           |                                                     .,`                                    |  
+           |                                     .,:,...`      ``..,```.```                             |
+           |                                    ,:.,:::,,,``  ``,:; ; ; ;::;,..`                        | 
+           |                                  `.; ';';::''';.``,.:,:;;;:;;,':,`                         |
+           |                                 `.; ++'+++'++'+;;;;;;+' + '''''' + ':,`                    |   
+           |                               ``''++#++##++++++++'+++''++'++''++;:.                        |
+           |                               `; '#+##+++####+#+++#++++++#++++++++'':.                     |
+           |                              `,'+++++###########+#+++++++++#++++'';;;:.                    |
+           |                              `:''++################++'++;''+'++++++'';;;`                  |
+           |                             .; +#+#############@#+#+++';,,,,:::'+++++++';:                 |
+           |                             ; +####################+++',..,.,,..,;++##+'';.                |
+           |                            :####+###########@##++#+';,...```...`..'+#+#':`                 |
+           |                          ..'+##################@++;,.````````......:#+++',                 |
+           |                         `; '+####@#####@####@###++':.````````````.....++#+;.               |
+           |                       ``; ++#####################+:.``````````````...`,+##'''.             |
+           |                        ; +#############@##@@##@#+'.``.`.``````````.....;###+':             |
+           |                       `##+#######@@###@#@@######:.```....`...`````....`++#++;              |
+           |                      `.+++#####@##@@####@@@#####:```````````````.`......##++'`             |
+           |                      .,++#######@##@#@##@##@##+;`.````````.`.``````````.:#++':`            |
+           |                      ; +#####@@@@@####@###@###+',``...```````````.`.``````+##+'            |
+           |                     .:##+###@####@#@@########';.`````.`....`````````````.:+++'             |
+           |                    .'++#####@##@###@@@@#####+;,...```.````.`.`````..`````.'#+'             |
+           |                   ` '######@#@@@@#@@@#######+,....`...`.``...`.`.``.``.```:++'             |
+           |                   ``:+#@@####@@@#@#@@+######'.......`.```....`.`.`.`.`````.+#'             |
+           |                   `; ++###@@@#@@@#@##@######+:.....`.....``...`..```.`.````.;;.            |
+           |                 ``; +########@##@#@#@@@#####+;...................``...``````,;             |
+           |                 `,+####@####@@@@@##@@##@###'...........................`..``+:             |
+           |                 :######@@@##@#@@@@#@#@#@###;,......................``..`.``.'':            |
+           |                `;##@#@######@@#@@@#@@@#@##++:..........................`.`..'+.            |
+           |                `;#####+@@@@###@@@@@@@@##@#+;:..............................,'+;            |
+           |                ;####@##@@@@@@@@@@@@@@@@###+;,..............................,';`            |
+           |               `+##@####@@@@@@@@@@@@@@@@#@##;.,.........................```.,:`             |
+           |               `+#@###@@@@@@@@@@@@@@@@@@@@##;,,.,,.,.,.......................:`             |
+           |               `'#####@@@@@@@@@@@#@@@@@@@@##',.....,..,........,.............:`             |
+           |               `+#####@@#@#@@@@@#+@@@@@@#@@#',.,...,.,.,.,,;';;,,............:`             |
+           |              `,###@@@@@@@#@@@@@@@#@@#@#@@@@#',....,.,.,:'+#####++;,,.......,:``            |
+           |              `+######@@@@#@@##@@@##@@@#@@##+#+;,,,:::;;'''++#######+:,:,,:,';              |
+           |              .#######@@@#+##+#@@@##@@@@@#+:,:'''+;:;''#######+##@##+';:,,;+''              |
+           |              `+#@##@@@@@@+#+##@@##@@@@@##',,,:;;:'++++####':::#@@#@##';,:'##+.             |
+           |              `+###@@@@@@@;+'@@@@@@@@@@@#+:.,,,,:;;;+##+##+:::'+@@#@#++'+#####'             |
+           |               ;#####@@@@#;+;#@#@#@@@@###+:,,,,,,:'++####'@@###@@@###;'+#@+###'`            |
+           |               .+####@@@#@;+:+'#@@@##@@##;:,.,,,,,,,:;:,,''##+#@@+##+####+##@''`            |
+           |               `;#####@@#@'';''##@###@@##;:,,,,,,,,,,:,.,;:;''+++;+++:'######,:.            |
+           |                ,#@##@@@@@#;',:'#@###@##+';,,,,,.,....,.,:'+++##+,';:,,'###'.'#;`           |
+           |                 ,+##@@@@##:#;:;+#####@##'';,:,:,,,,...,,,;+@###;;,,...,+##::,+++`          |
+           |                `.###@@@@@@+:#+;+@@@@@###'+':,,,,,,.,.,,::''#++',,.....,'#+,:::.,`          |
+           |                `.#####@@@@@;;+;:'+@@#@###+'':,:,,,,,,,,,,'+++';:,......:#+:::`` `          |
+           |                 `;####@@@@@#,:;::'#@##@####';:,,,,,.,.,,:;;;,.,,.,.....,++:,,``            |
+           |                   ,+##@@@@@#;,,,,;+#######+':;::,,,.,.,,,::,,...,,,.....++'.```            |
+           |                    `+####@###:..,:+##@#####''';:,,,.,.,.,......:;;::;...;+.````            |
+           |                    ``,######@@;,:'#####@@@@##+;,,,,,,,,,,,,.,,::,..:';..,+,.```            |
+           |                    ```,##@##@@@##@#####@@@#+''';:,,,,,,,,,,,:;':.........',.```            |
+           |                      ``.'#+###@#@#######@@#++''',:,,,,,,,,,; '' +#;,.,.....',.``           |
+           |                    ``   ```:+##@######@#@#@#+';::,,,,,,,,,::';:+#####';,,'..``             |
+           |                       `````.,:+#########@##+':;;:,,,,,,,,,;;:..,+#####+'+'```              |
+           |                      `````.....:'###########+'; ;,,,,,,,,,::,.....,'######.```             |
+           |                      ````........:+#####@##+''';:::,,:,,:;,.....,,'####+'.``` `            |
+           |                    ``````..........,'++##@#++':::::,:,,::,..,,....; +##+++.```             |
+           |                    `` .; +:............,'####+;;:;:::,,,,,.,:;:....;' +##++````            |
+           |                      .++;:.............,,; ++'+';::::,,.,,,:'':,...,,+##+;````             |
+           |                     `'##:.................,:'';';::,:,,,,'+##+++##','##+,```               |
+           |                     .###+,...................:'';::,,:::;+;:::;++#####++.````              |
+           |                   ``,####+:.`..................,:::;;::;';,,,....,,'#+'+..```              |
+           |                   ``+######,..................,..,:;;;:';,,.,::,,::;+:;;,.````             |
+           |                 ` `.########:................,..,,..,:;';,:..,;++###+;':.,``               |
+           |                   `'@#####@##'.`.................,,,...,:; ;:; ''#####+;;`...``            |
+           |                  `.####@@@###@+.`....................,,,,..,;++#+###+':.`..`               |
+           |                   '#@##@@@@@@###....,..............,,,,,,,,,,,..,:+++'```,``               |
+           |                  `+#@##@@@@@@#@@#,........,,.,...,.,,,,,,,,,,,..,,;+';...,.`               |
+           |                  :##@##@@@@@@#@#@#:............,...,,:::,,,:,...,,;+',`.:.``               |
+           |                `.#######@@@@@####@#'...........,,....,,,,,,;,,,,::;++..:,```               |
+           |                .##@#@###@#@@@#@##@@##;.................,,,,'';;;''++,.,.````               |
+           |               `##@@#@#####@@@#@###@@##+,..,..............,:+++'++++'...`````               |
+           |              `'######@@####@@@@#####@###'...,............,;#++++++'...`````                |
+           |             `+@########@@@@@#@@@@@##@@@@@#;,...............,;'++':..```````                |
+           |            .########@@#@@@@###@######@@@@#@+:.......................` `````                |
+           |          `,###@####@@@@@@@####@#@#@@@##@@@###;....................,'`` ````                |
+           |          :############@@@@@#############@@###@#:..................;#; ``  `                |
+           |         ;#####@#@######@@@@#@###########@@@@@####:................+##.    `                |
+           |       `+##################@#############@#@@@@@@##,...,,.........,###+                     |
+           |      .############@#######@@@######@@#####@@@@@@###..............,#@#+:                    |
+           |     :#+############@#+#####@############@###@@@####'.`...........:###++`                   |
+           |    :+#+#############@#+####@############@###@@@@@@##,............'####+;                   |
+           | ` '###+####+########@@####@@@########@#@@###@###@@@##............+####++:                  |
+           | ,##########+#+++######@+#############@@######@##@@@##'..........;########+,                |
+           |.++#++#################@#########################@@#@##:........,##########+',`             |
+           |########################@#++###################@####@#@#,.......;#@##+#######+;.            |
+           |###+#+++########+#+######@#++########################@@###+',```.'###+#####+#+++:           |
+           |#+###+##+##++###+######+##@#++#+#################@###@#@@@###'..`.+#########++'+''`         |
+           |###+############+############++##+######################@@@@##,...,##+#+#+++++++'''`        |
+           |###+########+###+###########@#++#########@################@@###``..'#++#++##+++++++'        |
+           |###+#+###++######++###########++++#########@#####+######+##@###'``.,##++#++++++++++''.      |
+           |###+++######+####+#####+#######++++#+####################+##@###:```'#++++++++++++++'+,     |
+           |################2358############'+++++#########+#########+++#####.``,#+++++++++++++'+'+.    |
+           |+####+###########+###+###+######+'++######+##############++++####'```'+++++++++''++'+++',   |
+           |+##########+#####+#+############@+''+++#+#+#+####++++++##++++++###:``.#++++++++++++'+++'';  |
+           |+####+###########+++########+#####+'+++#+++#+###++++++++#++++'+++#+.``:++++++++'+++'+++'+'  |
+           |+#####++######+###+###++###########++++#+++#####++++++++#++++'''+++'``.'++++++++++++'++'''  |
+           |##############+####+##########++###@+++#+++###+##+++++++++++++++'+##,``:''+'+++'+++''+++''  |
+           |##+##++##########+###+##+#######+#+##++++++++++#++++++++++++'+++''+++``.''++''+'++++''+'''  |
+           |###+####+################+############+++++++++#+++++++++++++'++++''+'``++'++++++++++'++''  |
+           |##########+##########+###+#####++##+###+'+++++++++++++++++++++'+++'+'+:`+++++++++++++'++''  |
+           |++#########+++##+######+#+#########+#++#+'++++'++++++++++''+++''++''''+,+++++++'+'+++''+''  |
+           |++#+#+##########+##+###########+#####++##''''+'''+++++''''++++'+''++'++'+'+++++'+''+''''''""|";
+
+            int password = 2358;
+
+            if (arg1.ToUpper() == INames.PAINTING.ToString() && CurRoom == RNames.Cellar)
+            {
+                Console.WriteLine(painting);
+                return "";
+            }
+
+            if (arg1.ToUpper() == INames.LOCKER.ToString() && CurRoom == RNames.Bedroom)
+            {
+                Console.Write("Enter a four digit password: ");
+                int number = int.Parse(Console.ReadLine());
+
+                if (number == password)
+                {
+                    var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, true);
+                    inventory.Add(silverpiece);
+                    return "The locker opens and you retrieve a silverpiece.";
+                }
+                else
+                {
+                    return "The password is incorrect";
+                }
+            }
             // Is the item the player is looking for in the room inventory? Return its description
             // This includes items that player is not able to pickup
             var roomItems = LoadGame.rooms[CurRoom].roomItems;
