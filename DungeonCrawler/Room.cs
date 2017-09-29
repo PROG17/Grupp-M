@@ -19,7 +19,8 @@ namespace DungeonCrawler
     // - Visited:   Is true if the player has visited the room at east once, false otherwise.
     // - Description2: Additional description only visible if the Player use the command LOOK
     //
-    // - Constructors: We can create instances of Room 
+    // - Constructors: We have 2 types. One which calls the base-class one and the 2nd which allows us to add an additional description
+    //                 to the room. 
 
                     
 
@@ -40,14 +41,14 @@ namespace DungeonCrawler
         public Room(string name, string description) : base(name, description)
         {            
             // Description2 = "You find nothing new in here.";
-            Visited = false;
+            //  Visited = false;
         }
 
         public Room(string name, string description, string description2) : base(name, description)
         {
             
             Description2 = description2;
-            Visited = false;
+            // Visited = false;
         }
 
 

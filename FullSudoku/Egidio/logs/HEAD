@@ -1,4 +1,0 @@
-0000000000000000000000000000000000000000 928f60c4abab9f86cfdced6d6e660296682a425f Egidio Ricchiuti <31826061+egisan@users.noreply.github.com> 1505681643 +0200	commit (initial): Add .gitignore and .gitattributes.
-928f60c4abab9f86cfdced6d6e660296682a425f 007b61bf4cb3f7fa722d07a95f48fa3c61bda783 Egidio Ricchiuti <31826061+egisan@users.noreply.github.com> 1505681646 +0200	commit: Add project files.
-007b61bf4cb3f7fa722d07a95f48fa3c61bda783 553f0afa40582be71ba0031ab562df7c0bbb9c23 Egidio Ricchiuti <egisan3@yahoo.com> 1505717280 +0200	commit: Comment included in HitPar Class which is not currently used
-553f0afa40582be71ba0031ab562df7c0bbb9c23 de87f8be36a8562bb1e2199a9911dbc4362ff0f1 Egidio Ricchiuti <egisan3@yahoo.com> 1506680093 +0200	commit: Commit FullSudoku

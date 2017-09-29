@@ -14,6 +14,14 @@ namespace DungeonCrawler
     //
     // Item class describes each object which can be part of a room and that can be collected or not by the Player.
     // 
+    // Item properties:
+    //
+    // - CombWith: It says whether the object can be combined with other objects via the USE command. By default is set to EMPTY.
+    // - ItemPos : It indicates the position of the object which can be either a Room or the inventory.
+    // - Pickup  : A flag which is TRUE if the object can be collected by the player and moved to the Inventory or not.
+    // - IsUsed  : A flag which is TRUE if an action has been applied to it at least once.
+    //
+    // - Constructors: Different types, according to the properties we want to change.
 
     public class Item : GameObjects
     {
@@ -25,6 +33,7 @@ namespace DungeonCrawler
         // Note the Item NAME might be an Enum (int) as defined in the Door Class
         // and not string 
 
+        // Constructors
         public Item()
         {
 
@@ -32,17 +41,14 @@ namespace DungeonCrawler
 
         public Item(string name, string description, bool pickUp) : base(name, description)
         {
-            this.Pickup = pickUp;
-            // the following are already in the base class. The Base class constructor will be called ;-)
-            //this.name = name;
-            //this.description = description;
+            this.Pickup = pickUp;           
         }
+
 
         public Item(string name, string description, INames combWith,bool pickUp) : base(name, description)
         {
             this.CombWith = combWith;
             this.Pickup = pickUp;
-
         }
 
         public Item(string name, string description, ItemPos location,bool pickUp) : base(name, description)
