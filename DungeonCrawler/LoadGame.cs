@@ -25,10 +25,14 @@ namespace DungeonCrawler
 
         public static void GameDescription()
         {
-            GFXText.PrintTxt(-1, 3, 0, Globals.TextDelay, "\"I once was lost but now I’m found, was blind but now I see. Three there are and together they form the key\"",true,true);
+            GFXText.PrintTxt(-1, 3, 0, Globals.TextDelay, "\"You are lost in a forest at night and there is a thunderstorm approaching.\"",true,true);
+            System.Threading.Thread.Sleep(Globals.SleepTime);
+            Console.Clear();
+            GFXText.PrintTxt(-1, 3, 0, Globals.TextDelay, "\"Finally you find a wooden sign that reads...\"", true, true); 
             System.Threading.Thread.Sleep(Globals.SleepTime);
             GFXText.PrintTxt(-1, 6, 0, Globals.TextDelay, "Welcome to De Morgans Mansion", true, true);
             System.Threading.Thread.Sleep(Globals.SleepTime);
+            Console.Clear();
         }
 
         //public static void Load()
@@ -122,9 +126,8 @@ namespace DungeonCrawler
 
             // Entrance room
 
-            Room entrance = new Room("Entrance", "You're standing in a large open hallway. In front of you there " +
-            "is an old stairway leading up to the second floor of the mansion. To the left there is a sturdy door behind a " +
-            "bookshelf. There is a large [chandelier] covered in cobweb hanging from the ceiling.");
+            Room entrance = new Room("Entrance", "You have entered what seems to be an old abandoned mansion. There is a [note] next to you on the cold marble floor. To the left there is a wooden door behind a " +
+            "bookshelf. Above you is a large [chandelier] covered in cobweb hanging from the ceiling.");
 
             var norDoor = new Door(DStatus.WALL, INames.EMPTY);
             var easDoor = new Door(DStatus.WALL, INames.EMPTY);
@@ -136,9 +139,11 @@ namespace DungeonCrawler
             entrance.exitDoors[(int)Dir.SOUTH] = souDoor;
             entrance.exitDoors[(int)Dir.WEST] = WesDoor;
 
+            var note = new Item("Note", "I once was lost but now I’m found, was blind but now I see. Three there are and together they form the key.", INames.EMPTY, ItemPos.Room, true);
             var chandelier = new Item("Chandelier", "The chandelier looks unpolished and the candles seems to have burned out a long time ago. There is a [chain] hanging down from it which seems to be in reach.", INames.EMPTY, ItemPos.Room, false);
             var chain = new Item("Chain", "It seems like something shiny is attached to the [chain]. Maybe you can use the chain to grab it?", INames.EMPTY, ItemPos.Room, false);
 
+            entrance.roomItems.Add(note);
             entrance.roomItems.Add(chandelier);
             entrance.roomItems.Add(chain);
 
@@ -179,7 +184,7 @@ namespace DungeonCrawler
 
 
             // LIVING ROOM
-            Room living = new Room("Living room", "You have entered the living room. The floor of the room is covered in glass and the windows of the rooms seems to have been smashed in. This must have happened a long time ago since [ivy] have started to grow inside the room.", "");
+            Room living = new Room("Living room", "You have entered the living room. To the left is a narrow hallway and to the right is a large double sided door. The floor of the room is covered in glass and the windows of the rooms seems to have been smashed in. This must have happened a long time ago since [ivy] have started to grow inside the room.", "");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.Open, INames.EMPTY,RNames.Bedroom);
@@ -202,7 +207,7 @@ namespace DungeonCrawler
 
 
             // KITCHEN
-            Room kitchen = new Room("Kitchen", "After witnessing the feast in the living room, you expect to find a dirty kitchen filled with pots and pans, as is needed to cook a large amount of food, but instead it's surprisingly empty.  Along one of the walls there's a [pantry] and to your left there's a dirty [window]. Not counting the door that lead you here, there's only one exit from this room, and that's to your right.", "How horrible! On closer inspection you see some [remains] of a corpse on top of the counter!");
+            Room kitchen = new Room("Kitchen", "After witnessing the feast in the dining room, you expect to find a dirty kitchen filled with pots and pans, as is needed to cook a large amount of food, but instead it's surprisingly empty.  Along one of the walls there's a [pantry] and to your left there's a dirty [window]. Not counting the door that lead you here, there's only one exit from this room, and that's to your right.", "How horrible! On closer inspection you see some [remains] of a corpse on top of the counter!");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.Open, INames.EMPTY, RNames.Cellar);
@@ -263,7 +268,7 @@ namespace DungeonCrawler
             bedroom.exitDoors[(int)Dir.SOUTH] = souDoor;
             bedroom.exitDoors[(int)Dir.WEST] = WesDoor;
 
-            var locker = new Item("Locker", "A sturdy locker with a four digit number lock.", INames.EMPTY, ItemPos.Room, false);
+            var locker = new Item("Locker", "A sturdy locker with a ten digit number lock.", INames.EMPTY, ItemPos.Room, false);
             var bed = new Item("Bed", "The sheets of the bed are covered in blood. You look under the bed and find a hidden [locker].", INames.EMPTY, ItemPos.Room, false);
 
             bedroom.roomItems.Add(bed);
@@ -286,7 +291,7 @@ namespace DungeonCrawler
             bathroom.exitDoors[(int)Dir.SOUTH] = souDoor;
             bathroom.exitDoors[(int)Dir.WEST] = WesDoor;
 
-            var blood = new Item("Blood", "You find an area of the bloody wall where it seems someone has carved in a message: Password 4321", INames.EMPTY, ItemPos.Room, false);
+            var blood = new Item("Blood", "You find an area of the bloody wall where it seems someone has carved in a message: First we were 13 and at the end we were 21", INames.EMPTY, ItemPos.Room, false);
             var throne = new Item("Throne", "It's just a toilet. A filthy toilet. Filled to the brim with real stinky stuff.", INames.EMPTY, ItemPos.Room, false);
 
             bathroom.roomItems.Add(blood);

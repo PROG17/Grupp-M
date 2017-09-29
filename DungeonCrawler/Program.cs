@@ -42,8 +42,8 @@ namespace DungeonCrawler
                 "PANTRY", "BREAD" };*/
 
             // Remaking itemList to clean up unused(?) vars
-            var itemList = new List<string>() { "KEY", "FIREPLACE","BRONZEPIECE","MATCHES", "TORCH","FLAMINGTORCH","BRAZIER", "CHANDELIER", "THRONE", "PAINTING", "DOOR", "CHAIN","IVY","REMAINS", "HAND",
-                "WINDOW", "PANTRY", "BREAD", "BLOOD","LOCKER","BED","SILVERPIECE" };
+            var itemList = new List<string>() { "KEY","NOTE", "FIREPLACE","BRONZEPIECE","MATCHES", "TORCH","FLAMINGTORCH","BRAZIER", "CHANDELIER", "THRONE", "PAINTING", "DOOR", "CHAIN","IVY","REMAINS", "HAND",
+                "WINDOW", "PANTRY", "BREAD", "BLOOD","LOCKER","BED","SILVERPIECE", "GOLDPIECE", "MEDALLION" };
 
             // I can search in this dictionary when parsing the input
             Dictionary<Action, List<string>> myCmds = new Dictionary<Action, List<string>>()
@@ -67,7 +67,7 @@ namespace DungeonCrawler
             // The handler will create the player and operate all the actions
             var handler = new GameHandler();
 
-            
+
 
             // Welcome message and first room description
             Console.Write("\nWhat is your name, traveller? ");
@@ -75,8 +75,8 @@ namespace DungeonCrawler
             string input = "";
 
             handler.InitPlayer(playName);
-
-            Console.WriteLine("\nWelcome, {0}! A world of adventure awaits you!\n\n", playName);
+     
+            Console.WriteLine("\nWelcome, {0}! An adventure awaits you!\n\n", playName);
             
             System.Threading.Thread.Sleep(Globals.SleepTime);
             Console.Clear();
