@@ -19,8 +19,8 @@ namespace DungeonCrawler
         public const int RoomDescription2XPos = 2, RoomDescription2YPos = 10;
 
         // Controlling delayed display of texts
-        public const int TextDelay = 0, TextTrail = -5;  // Set to 0 for testing purposes, otherwise Delay 20, Trail -5?
-        public const int SleepTime = 0;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
+        public const int TextDelay = 20, TextTrail = -5;  // Set to 0 for testing purposes, otherwise Delay 20, Trail -5?
+        public const int SleepTime = 2000;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
     }
 
     // "Real" class starts here
@@ -56,12 +56,18 @@ namespace DungeonCrawler
                                     //{ Action.INSPECT, itemList },
                                     { Action.SHOW, itemList } };
 
+            System.Media.SoundPlayer soundplayer = new System.Media.SoundPlayer("Soundtrack/soundtrack.wav");
+
+            // Play epic soundtrack
+            soundplayer.PlayLooping();
+
             // Load the Game and create Rooms, items, etc.
             LoadGame.Init();
 
             // The handler will create the player and operate all the actions
             var handler = new GameHandler();
 
+            
 
             // Welcome message and first room description
             Console.Write("\nWhat is your name, traveller? ");
@@ -70,7 +76,8 @@ namespace DungeonCrawler
 
             handler.InitPlayer(playName);
 
-            Console.WriteLine("\nnWelcome, {0}! A world of adventure awaits you!\n\n", playName);
+            Console.WriteLine("\nWelcome, {0}! A world of adventure awaits you!\n\n", playName);
+            
             System.Threading.Thread.Sleep(Globals.SleepTime);
             Console.Clear();
             GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, Globals.TextTrail, Globals.TextDelay, LoadGame.rooms[RNames.Entrance].Name, false, false);
@@ -78,7 +85,10 @@ namespace DungeonCrawler
             GFXText.PrintTextWithHighlights(LoadGame.rooms[RNames.Entrance].Description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, true);
             Console.Write("\n\n");
             LoadGame.rooms[RNames.Entrance].Visited = true;
+
             // end of description
+
+            
 
             while (true)
             {
@@ -158,7 +168,7 @@ namespace DungeonCrawler
                         {
                             // Error user has typed an invalid command
                             // repeat the while loop
-                            Console.WriteLine("case 2 Unrecognized command. What do you wanna do?");
+                            Console.WriteLine("Unrecognized command. What do you wanna do?");
                         }
                         else
                         {
@@ -172,7 +182,7 @@ namespace DungeonCrawler
 
                     case 3:
                         // The user has typed a command with 3 words. Invalid!
-                        Console.WriteLine("case 3 Unrecognized command. What do you wanna do?");
+                        Console.WriteLine("Unrecognized command. What do you wanna do?");
                         break;
 
                     case 4:
@@ -191,7 +201,7 @@ namespace DungeonCrawler
                         {
                             // Error user has typed an invalid command
                             // repeat the while loop
-                            Console.WriteLine("case 4 Unrecognized command. What do you wanna do?");
+                            Console.WriteLine("Unrecognized command. What do you wanna do?");
                         }
                         else
                         {
