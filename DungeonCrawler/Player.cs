@@ -67,7 +67,7 @@ namespace DungeonCrawler
             }
             else if (doorStatus == DStatus.Closed)
             {
-                msg = "You find a door which is Closed. What would you like to do?";
+                msg = "You find a door which is Locked. What would you like to do?";
             }
             // If the players tries to move through an open door, the following will take place
             else
@@ -343,7 +343,7 @@ namespace DungeonCrawler
                                 var flamingtorch = new Item("Flamingtorch", "A flaming torch. This should light up even the darkest of places.", INames.EMPTY, ItemPos.Room, true);
                                 inventory.Add(flamingtorch);
                                 Console.Clear();
-                                GFXText.PrintTextWithHighlights("You use the matches on the torch and now have a [flamingtorch]", 2, 2, true);
+                                GFXText.PrintTextWithHighlights("You use the matches on the torch and now have a [flamingtorch].", 2, 2, true);
                                 Console.Write("\n\n");
                                 return "";
                             }
@@ -368,6 +368,7 @@ namespace DungeonCrawler
                         //Change cellar room description unveil painting
                         string cellardescription = "The cellar is now lit and you find that its covered with large kegs that are covered in moss. On top of some kegs a large [painting] appears.";
                         LoadGame.rooms[CurRoom].Description = cellardescription;
+                        Console.Clear();
                         GFXText.PrintTextWithHighlights("You use the flaming torch and flames start to spark across the room.", 2, 2, true);
                         return "";
 
@@ -527,18 +528,22 @@ namespace DungeonCrawler
 
             if (arg1.ToUpper() == INames.LOCKER.ToString() && CurRoom == RNames.Bedroom)
             {
-                Console.Write("Enter a four digit password: ");
+                GFXText.PrintTextWithHighlights("The locker looks very sturdy. Its locked with a four digit password.", 2, 2, true);
+                Console.Write("\nEnter a four digit number: ");
                 int number = int.Parse(Console.ReadLine());
 
                 if (number == password)
                 {
                     var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, true);
+                    Console.Clear();
                     inventory.Add(silverpiece);
-                    return "The locker opens and you retrieve a silverpiece.";
+                    GFXText.PrintTextWithHighlights("The locker opens and you retrieve a [silverpiece].", 2, 2, true);
+                    return "";
                 }
                 else
                 {
-                    return "The password is incorrect";
+                    GFXText.PrintTextWithHighlights("Nothing happends. The password must be incorrect.", 2, 2, true);
+                    return "";
                 }
             }
             // Is the item the player is looking for in the room inventory? Return its description

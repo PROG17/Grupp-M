@@ -43,7 +43,7 @@ namespace DungeonCrawler
 
             // Remaking itemList to clean up unused(?) vars
             var itemList = new List<string>() { "KEY", "FIREPLACE","BRONZEPIECE","MATCHES", "TORCH","FLAMINGTORCH","BRAZIER", "CHANDELIER", "THRONE", "PAINTING", "DOOR", "CHAIN","IVY","REMAINS", "HAND",
-                "WINDOW", "PANTRY", "BREAD", "BLOOD","LOCKER","SILVERPIECE" };
+                "WINDOW", "PANTRY", "BREAD", "BLOOD","LOCKER","BED","SILVERPIECE" };
 
             // I can search in this dictionary when parsing the input
             Dictionary<Action, List<string>> myCmds = new Dictionary<Action, List<string>>()

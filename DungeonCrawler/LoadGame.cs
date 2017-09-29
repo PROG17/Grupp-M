@@ -137,7 +137,7 @@ namespace DungeonCrawler
             entrance.exitDoors[(int)Dir.WEST] = WesDoor;
 
             var chandelier = new Item("Chandelier", "The chandelier looks unpolished and the candles seems to have burned out a long time ago. There is a [chain] hanging down from it which seems to be in reach.", INames.EMPTY, ItemPos.Room, false);
-            var chain = new Item("Chain", "It seems the [chain] is within reach...", INames.EMPTY, ItemPos.Room, false);
+            var chain = new Item("Chain", "It seems like something shiny is attached to the [chain]. Maybe you can use the chain to grab it?", INames.EMPTY, ItemPos.Room, false);
 
             entrance.roomItems.Add(chandelier);
             entrance.roomItems.Add(chain);
@@ -239,7 +239,7 @@ namespace DungeonCrawler
             cellar.exitDoors[(int)Dir.SOUTH] = souDoor;
             cellar.exitDoors[(int)Dir.WEST] = WesDoor;
 
-            var brazier = new Item("Brazier", "Smells of charcoal. Can be lit.", INames.EMPTY, ItemPos.Room, false);
+            var brazier = new Item("Brazier", "Smells of charcoal. Can it be lit with a torch perhaps?", INames.EMPTY, ItemPos.Room, false);
             var painting = new Item("Painting", "A painting of August De Morgan", INames.EMPTY, ItemPos.Room, false);
 
             // Add the items to the Items List in the Room
@@ -251,7 +251,7 @@ namespace DungeonCrawler
 
 
             // BEDROOM
-            Room bedroom = new Room("Bedroom", "You enter the master bedroom. In the center of the room is a large bed and below it is a [locker]");
+            Room bedroom = new Room("Bedroom", "You enter the master bedroom. In the center of the room is a large [bed] but something is definately not right in here...There is a distinct smell of rotting flesh. Could the smell come from the room to the left?");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.WALL, INames.EMPTY);
@@ -264,7 +264,9 @@ namespace DungeonCrawler
             bedroom.exitDoors[(int)Dir.WEST] = WesDoor;
 
             var locker = new Item("Locker", "A sturdy locker with a four digit number lock.", INames.EMPTY, ItemPos.Room, false);
-            
+            var bed = new Item("Bed", "The sheets of the bed are covered in blood. You look under the bed and find a hidden [locker].", INames.EMPTY, ItemPos.Room, false);
+
+            bedroom.roomItems.Add(bed);
             bedroom.roomItems.Add(locker);
             
             rooms.Add(RNames.Bedroom, bedroom);
