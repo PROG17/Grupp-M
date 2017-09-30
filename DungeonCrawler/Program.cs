@@ -19,8 +19,8 @@ namespace DungeonCrawler
         public const int RoomDescription2XPos = 2, RoomDescription2YPos = 10;
 
         // Controlling delayed display of texts
-        public const int TextDelay = 20, TextTrail = -5;  // Set to 0 for testing purposes, otherwise Delay 20, Trail -5?
-        public const int SleepTime = 2000;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
+        public const int TextDelay = 0, TextTrail = -5;  // Set to 0 for testing purposes, otherwise Delay 20, Trail -5?
+        public const int SleepTime = 0;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
     }
 
     // "Real" class starts here

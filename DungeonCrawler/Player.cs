@@ -12,7 +12,7 @@ namespace DungeonCrawler
         public string Name { get; set; }
 
         // What is 'currentPos' used for?
-       // public Dir CurrentPos { get; set; } = Dir.NORTH;          // Default Position. Refers to Enum Dir(ections) in the Enum file
+        // public Dir CurrentPos { get; set; } = Dir.NORTH;          // Default Position. Refers to Enum Dir(ections) in the Enum file
         public RNames CurRoom { get; set; } = RNames.Kitchen;    // Default Room. --- Maybe unnecessary
 
         private int bagSize = 5;               // Max objects that can be carried
@@ -20,7 +20,7 @@ namespace DungeonCrawler
         //public List<Item> Inventory = new List<Item>(1)
         //        {new Item("EMPTY", "", INames.EMPTY, ItemPos.NONE) };   // Only Player can access its Inventory
 
-         public List<Item> inventory;
+        public List<Item> inventory;
 
 
 
@@ -37,9 +37,9 @@ namespace DungeonCrawler
         {
             this.inventory = inventory;
 
-           
+
             Name = name;
-           // CurrentPos = curPos;
+            // CurrentPos = curPos;
             CurRoom = curRoom;
         }
 
@@ -126,7 +126,7 @@ namespace DungeonCrawler
 
                                 }
                             }
-                            
+
                         }
 
                         // var tmp = new Item(roomItems[i].Name, roomItems[i].Description, roomItems[i].CombWith, roomItems[i].BelongsTo);
@@ -135,7 +135,7 @@ namespace DungeonCrawler
                         roomItems.Remove(roomItems[i]);   // Now I can finally remove the Object from Room List
 
                         return $"You have just collected [{tmp1.Name}] and now you have {inventory.Count()} objects of {bagSize} in your bag";
-               
+
                     }
                     else
                     {
@@ -280,7 +280,7 @@ namespace DungeonCrawler
                     if (item.ToString().ToUpper() == "HAND")
                     {
                         Console.Clear();
-                        GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "For some reason you decide to consume the half-rotten hand...",true,false);
+                        GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "For some reason you decide to consume the half-rotten hand...", true, false);
                         System.Threading.Thread.Sleep(Globals.SleepTime);
                         GFXText.PrintTxt(-1, 10, Globals.TextTrail, Globals.TextDelay, "You die...", false, false);
                         Console.ReadKey();
@@ -292,7 +292,7 @@ namespace DungeonCrawler
                     if (item.ToString().ToUpper() == "BREAD")
                     {
                         Console.Clear();
-                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Argh, but what is this? Inside you find a [goldpiece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
+                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Argh, but what is this? Inside you find a [goldpiece]!", Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, true);
                         var goldpiece = new Item("Goldpiece", "A golden piece of something bigger. What can it be?", INames.EMPTY, ItemPos.Inventory, true);
                         inventory.Remove(inventory[i]);     // REMOVE OLD ITEM
                         inventory.Add(goldpiece);              // ADD NEW ITEM
@@ -317,11 +317,11 @@ namespace DungeonCrawler
             {
                 for (int i = 0; i < LoadGame.rooms[CurRoom].exitDoors.Count(); i++)
                 {
-                    if(LoadGame.rooms[CurRoom].exitDoors[i].CanBeOpenWith == INames.KEY && LoadGame.rooms[CurRoom].exitDoors[i].Status != DStatus.Open)
+                    if (LoadGame.rooms[CurRoom].exitDoors[i].CanBeOpenWith == INames.KEY && LoadGame.rooms[CurRoom].exitDoors[i].Status != DStatus.Open)
                     {
                         for (int inv = 0; inv < inventory.Count(); inv++)
                         {
-                            if(inventory[inv].Name.ToUpper()==INames.KEY.ToString())
+                            if (inventory[inv].Name.ToUpper() == INames.KEY.ToString())
                             {
                                 LoadGame.rooms[CurRoom].exitDoors[i].Status = DStatus.Open;
                                 inventory.Remove(inventory[inv]);
@@ -365,7 +365,7 @@ namespace DungeonCrawler
                 }
 
                 return "You don't have the required items.";
-            } 
+            }
             // END of Use matches on torch
 
             // Use flamingtorch on brazier to make cellar visible.
@@ -397,7 +397,7 @@ namespace DungeonCrawler
 
             if ((item1 == INames.BRONZEPIECE || item1 == INames.SILVERPIECE || item1 == INames.GOLDPIECE) && (item2 == INames.BRONZEPIECE || item2 == INames.SILVERPIECE || item2 == INames.GOLDPIECE))
             {
-                if (inventory.Contains(new Item("Bronzepiece", "",false)) && inventory.Contains(new Item("Silverpiece","",false)) && inventory.Contains(new Item("Goldpiece", "", false)))
+                if (inventory.Contains(new Item("Bronzepiece", "", false)) && inventory.Contains(new Item("Silverpiece", "", false)) && inventory.Contains(new Item("Goldpiece", "", false)))
                 {
                     Item item = inventory.First(x => x.Name == "Bronzepiece");
                     inventory.Remove(item);
@@ -431,8 +431,8 @@ namespace DungeonCrawler
 
                 else
                 {
-                   return "You are missing a piece.";
-                } 
+                    return "You are missing a piece.";
+                }
             }
 
             return $"You don't have the required items.";
@@ -449,13 +449,13 @@ namespace DungeonCrawler
             GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].Description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, false);
             GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].Description2, Globals.RoomDescription2XPos, Globals.RoomDescription2YPos, false);
             Console.Write("\n\n");
-            int lineCheck=0;    // Linecheck is needed to break lines between found items, since PrintTextWithHighlights() is used
+            int lineCheck = 0;    // Linecheck is needed to break lines between found items, since PrintTextWithHighlights() is used
             for (int i = 0; i < LoadGame.rooms[CurRoom].roomItems.Count; i++)
             {
                 if (LoadGame.rooms[CurRoom].roomItems[i].Pickup)
                 {
                     // Message to print when an item is found ===== REVISE TEXT?
-                    GFXText.PrintTextWithHighlights($"In this room there's also a [{LoadGame.rooms[CurRoom].roomItems[i].Name}].", 2, 12+lineCheck, false);
+                    GFXText.PrintTextWithHighlights($"In this room there's also a [{LoadGame.rooms[CurRoom].roomItems[i].Name}].", 2, 12 + lineCheck, false);
                     lineCheck++;
                 }
             }
@@ -575,7 +575,7 @@ namespace DungeonCrawler
            |++#+#+##########+##+###########+#####++##''''+'''+++++''''++++'+''++'++'+'+++++'+''+''''''""|";
 
             int password = 1323584221;
-            
+
             if (arg1.ToUpper() == INames.PAINTING.ToString() && CurRoom == RNames.Cellar)
             {
                 Console.WriteLine(painting);
@@ -584,30 +584,43 @@ namespace DungeonCrawler
 
             if (arg1.ToUpper() == INames.LOCKER.ToString() && CurRoom == RNames.Bedroom)
             {
-                GFXText.PrintTextWithHighlights("The locker looks very sturdy. Its locked with a ten digit number lock.", 2, 2, true);
-                Console.Write("\n Enter the number:");
-                
-                bool result = int.TryParse(Console.ReadLine(),out int number);
-
-                if (result)
+                var check = inventory.FirstOrDefault(c => c.Name == "Silverpiece");
+                if (check != null)
                 {
-                    if (number == password)
+                    Console.Clear();
+                    GFXText.PrintTextWithHighlights("The locker is already open and you retrieved a [silverpiece]", 2, 2, true);
+                    return "";
+                }
+                else
+                {                
+                    GFXText.PrintTextWithHighlights("The locker looks very sturdy. Its locked with a ten digit number lock.", 2, 2, true);
+                    Console.Write("\n Enter the number:");
+
+                    bool result = int.TryParse(Console.ReadLine(), out int number);
+
+                    if (result)
                     {
-                        var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, true);
-                        Console.Clear();
-                        inventory.Add(silverpiece);
-                        GFXText.PrintTextWithHighlights("The locker opens and you retrieve a [silverpiece].", 2, 2, true);
-                        return "";
+                        if (number == password)
+                        {
+
+                            var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, true);
+                            Console.Clear();
+
+                            inventory.Add(silverpiece);
+                            GFXText.PrintTextWithHighlights("The locker opens and you retrieve a [silverpiece].", 2, 2, true);
+                            return "";
+
+                        }
+                        else
+                        {
+                            GFXText.PrintTextWithHighlights("Nothing happends. The password must be incorrect.", 2, 2, true);
+                            return "";
+                        }
                     }
                     else
                     {
-                        GFXText.PrintTextWithHighlights("Nothing happends. The password must be incorrect.", 2, 2, true);
-                        return "";
+                        return "That is not a number...";
                     }
-                }
-                else
-                {
-                    return "That is not a number...";
                 }
 
             }
