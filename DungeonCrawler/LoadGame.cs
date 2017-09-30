@@ -256,7 +256,7 @@ namespace DungeonCrawler
 
 
             // BEDROOM
-            Room bedroom = new Room("Bedroom", "You enter the master bedroom. In the center of the room is a large [bed] but something is definately not right in here...There is a distinct smell of rotting flesh. Could the smell come from the room to the left?");
+            Room bedroom = new Room("Bedroom", "You enter the master bedroom. In the center of the room is a large [bed] but something is definately not right in here...There is a distinct smell of rotten flesh. Could the smell come from the room to the left?");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.WALL, INames.EMPTY);

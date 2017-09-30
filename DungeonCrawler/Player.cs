@@ -292,7 +292,7 @@ namespace DungeonCrawler
                     if (item.ToString().ToUpper() == "BREAD")
                     {
                         Console.Clear();
-                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Inside you find a [goldpiece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
+                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Argh, but what is this? Inside you find a [goldpiece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
                         var goldpiece = new Item("Goldpiece", "A golden piece of something bigger. What can it be?", INames.EMPTY, ItemPos.Inventory, true);
                         inventory.Remove(inventory[i]);     // REMOVE OLD ITEM
                         inventory.Add(goldpiece);              // ADD NEW ITEM
@@ -381,6 +381,7 @@ namespace DungeonCrawler
                         //Change cellar room description unveil painting
                         string cellardescription = "The cellar is now lit and you find that its covered with large kegs that are covered in moss. On top of some kegs a large [painting] appears.";
                         LoadGame.rooms[CurRoom].Description = cellardescription;
+                        LoadGame.rooms[CurRoom].Visited = false;
                         Console.Clear();
                         GFXText.PrintTextWithHighlights("You use the flaming torch and flames start to spark across the room.", 2, 2, true);
                         return "";
@@ -396,54 +397,42 @@ namespace DungeonCrawler
 
             if ((item1 == INames.BRONZEPIECE || item1 == INames.SILVERPIECE || item1 == INames.GOLDPIECE) && (item2 == INames.BRONZEPIECE || item2 == INames.SILVERPIECE || item2 == INames.GOLDPIECE))
             {
-                foreach (var i in inventory)
+                if (inventory.Contains(new Item("Bronzepiece", "",false)) && inventory.Contains(new Item("Silverpiece","",false)) && inventory.Contains(new Item("Goldpiece", "", false)))
                 {
-                    if (i.Name.ToUpper() == INames.BRONZEPIECE.ToString())
-                    {
-                   
-                        foreach (var j in inventory)
-                        {
-                            if (j.Name.ToUpper() == INames.SILVERPIECE.ToString())
-                            {
-                                foreach (var k in inventory)
-                                {
+                    Item item = inventory.First(x => x.Name == "Bronzepiece");
+                    inventory.Remove(item);
 
-                                    if (k.Name.ToUpper() == INames.GOLDPIECE.ToString())
-                                    {
-                                        inventory.Remove(i);
-                                        inventory.Remove(j);
-                                        inventory.Remove(k);
+                    item = inventory.First(x => x.Name == "Silverpiece");
+                    inventory.Remove(item);
 
-                                        var medallion = new Item("Medallion", "A magnificent medallion. Looks ancient and infused with magic.", INames.EMPTY, ItemPos.Room, true);
-                                        inventory.Add(medallion);
-                                        Console.Clear();
-                                        GFXText.PrintTextWithHighlights("You combine the pieces into a magnificent medallion.", 2, 2, true);
-                                        Console.Write("\n\n");
+                    item = inventory.First(x => x.Name == "Goldpiece");
+                    inventory.Remove(item);
 
-                                        // Player has completed the game
+                    item = null;
 
-                                        Console.Clear();
-                                        GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "The medallion starts to glow and suddenly you start to levitate.", true, false);
-                                        System.Threading.Thread.Sleep(Globals.SleepTime);
-                                        GFXText.PrintTxt(-1, 10, Globals.TextTrail, Globals.TextDelay, "Congratulations you have solved the mystery and will now be set free.", false, false);
-                                        Console.ReadKey();
-                                        Environment.Exit(0);
+                    var medallion = new Item("Medallion", "A magnificent medallion. Looks ancient and infused with magic.", INames.EMPTY, ItemPos.Room, true);
+                    inventory.Add(medallion);
+                    Console.Clear();
+                    GFXText.PrintTextWithHighlights("You combine the pieces into a magnificent medallion.", 2, 2, true);
+                    Console.Write("\n\n");
 
+                    // Player has completed the game
 
-                                        return "";
-                                    }
-                                    
-                                    return "You are missing a piece.";
-                                }
-                            }
+                    Console.Clear();
+                    GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "The medallion starts to glow and suddenly you start to levitate.", true, false);
+                    System.Threading.Thread.Sleep(Globals.SleepTime);
+                    GFXText.PrintTxt(-1, 10, Globals.TextTrail, Globals.TextDelay, "Congratulations you have solved the mystery and will now be set free.", false, false);
+                    Console.ReadKey();
+                    Environment.Exit(0);
 
-                            return "You are missing a piece.";
-                        }
-                        
-                    }
+                    return "";
 
-                    return "You are missing a piece.";
                 }
+
+                else
+                {
+                   return "You are missing a piece.";
+                } 
             }
 
             return $"You don't have the required items.";
@@ -598,7 +587,6 @@ namespace DungeonCrawler
                 GFXText.PrintTextWithHighlights("The locker looks very sturdy. Its locked with a ten digit number lock.", 2, 2, true);
                 Console.Write("\n Enter the number:");
                 
-
                 bool result = int.TryParse(Console.ReadLine(),out int number);
 
                 if (result)
