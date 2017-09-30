@@ -613,31 +613,41 @@ namespace DungeonCrawler
 
             if (arg1.ToUpper() == INames.LOCKER.ToString() && CurRoom == RNames.Bedroom)
             {
-                GFXText.PrintTextWithHighlights("The locker looks very sturdy. Its locked with a ten digit number lock.", 2, 2, false);
-                Console.Write("\n Enter the number:");
-
-                bool result = int.TryParse(Console.ReadLine(), out int number);
-                Console.Clear();
-
-                if (result)
+                Item checkSilver = inventory.FirstOrDefault(c => c.Name == "Silverpiece");
+                if (checkSilver != null)
                 {
-                    if (number == password)
-                    {
-                        var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, false);
-                        //Console.Clear();
-                        inventory.Add(silverpiece);
-                        GFXText.PrintTextWithHighlights("The locker opens and you retrieve a [silverpiece].", 2, 2, true);
-                        return "";
-                    }
-                    else
-                    {
-                        GFXText.PrintTextWithHighlights("Nothing happends. The password must be incorrect.", 2, 2, true);
-                        return "";
-                    }
+                    Console.Clear();
+                    GFXText.PrintTextWithHighlights("The locker is aready open and you have a Silverpiece in you rucksac", 2, 2, false);
+                    return "";
                 }
                 else
                 {
-                    return "That is not a number...";
+                    GFXText.PrintTextWithHighlights("The locker looks very sturdy. Its locked with a ten digit number lock.", 2, 2, false);
+                    Console.Write("\n Enter the number:");
+
+                    bool result = int.TryParse(Console.ReadLine(), out int number);
+                    Console.Clear();
+
+                    if (result)
+                    {
+                        if (number == password)
+                        {
+                            var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, false);
+                            //Console.Clear();
+                            inventory.Add(silverpiece);
+                            GFXText.PrintTextWithHighlights("The locker opens and you retrieve a [silverpiece].", 2, 2, true);
+                            return "";
+                        }
+                        else
+                        {
+                            GFXText.PrintTextWithHighlights("Nothing happends. The password must be incorrect.", 2, 2, true);
+                            return "";
+                        }
+                    }
+                    else
+                    {
+                        return "That is not a number...";
+                    }
                 }
 
             }
