@@ -158,12 +158,12 @@ namespace DungeonCrawler
                         inventory.Add(tmp1);              // Can ADD the item from room to Player Inventory
                         roomItems.Remove(roomItems[i]);   // Now I can finally remove the Object from Room List
 
-                        return $"You have just collected [{tmp1.Name}] and now you have {inventory.Count()} objects of {bagSize} in your bag";
+                        return $"You have just collected [{tmp1.Name}] and now you have {inventory.Count()} objects of {bagSize} in your bag.";
 
                     }
                     else
                     {
-                        return $"Sorry! Your bag is Full and you have {bagSize} objects";
+                        return $"Sorry! Your bag is Full and you have {bagSize} objects.";
                     }
                 }
                 else if (roomItems[i].Name.ToUpper() == item.ToString() && !roomItems[i].Pickup)        // item exists but cannot be picked up
@@ -201,11 +201,11 @@ namespace DungeonCrawler
                 roomItems.Add(tmp1);
                 inventory.Remove(itemInBag);
 
-                return $"You have just dropped [{tmp1.Name}] and now you have {inventory.Count()} objects in your backpack";
+                return $"You have just dropped [{tmp1.Name}] and now you have {inventory.Count()} objects in your backpack.";
             }
             else
             {
-                return $"I am sorry but you don't have {item.ToString()} in your backpack";
+                return $"I am sorry but you don't have {item.ToString()} in your backpack.";
             }
         }
 
