@@ -23,7 +23,7 @@ namespace DungeonCrawler
     //
     // - Constructors: Different types, according to the properties we want to change.
 
-    public class Item : GameObjects
+    public class Item : GameObjects, IEquatable<Item>
     {
         public INames CombWith { get; set; } = INames.EMPTY;    // We need to think better this field
         public ItemPos BelongsTo { get; set; } = ItemPos.NONE;  // State if the Item object belongs to room or inventory
@@ -75,6 +75,17 @@ namespace DungeonCrawler
             Description = source.Description;
             Pickup = source.Pickup;
             
+        }
+
+        public bool Equals(Item other)
+        {
+            if (other == null) return false;
+            return (this.Name.Equals(other.Name));
+
+        }
+        public override int GetHashCode()
+        {
+            return this.Name.GetHashCode();
         }
     }
 }

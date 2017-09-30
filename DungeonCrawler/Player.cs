@@ -67,7 +67,7 @@ namespace DungeonCrawler
             }
             else if (doorStatus == DStatus.Closed)
             {
-                msg = "You find a door which is Closed. What would you like to do?";
+                msg = "You find a door which is Locked. What would you like to do?";
             }
             // If the players tries to move through an open door, the following will take place
             else
@@ -203,7 +203,7 @@ namespace DungeonCrawler
                         var key = new Item("Key", "A rusty bronze key.", INames.EMPTY, ItemPos.Room, true);
                         roomItems.Add(key);
                         Console.Clear();
-                        GFXText.PrintTextWithHighlights("A [key] falls out.", 2, 2, true);
+                        GFXText.PrintTextWithHighlights("A [key] falls down.", 2, 2, true);
                         Console.Write("\n\n");
                         return;
                     }
@@ -215,8 +215,8 @@ namespace DungeonCrawler
                         roomItems[i].IsUsed = true;
                         //var hand = new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Inventory, true);
                         // If there's space in players inventory, add it there. Else add it to room inventory
-                        if (inventory.Count() < bagSize) inventory.Add(new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Inventory, true));
-                        else roomItems.Add(new Item("Hand", "It smells really foul. Carved into the hand is a number: 42.", INames.EMPTY, ItemPos.Room, true));
+                        if (inventory.Count() < bagSize) inventory.Add(new Item("Hand", "It smells really foul. Carved into the hand is a message: 42 is next to 21", INames.EMPTY, ItemPos.Inventory, true));
+                        else roomItems.Add(new Item("Hand", "It smells really foul. Carved into the hand is a message: 42 is next to 21.", INames.EMPTY, ItemPos.Room, true));
                         Console.Clear();
                         GFXText.PrintTextWithHighlights("Among the remains you find and pick up an [hand].", 2, 2, true);
                         Console.Write("\n\n");
@@ -249,6 +249,19 @@ namespace DungeonCrawler
                         Environment.Exit(0);
                     }
                     // END OF BLOCK THRONE
+
+                    // BLOCK IVY
+                    if (roomItems[i].Name.ToUpper() == "IVY")
+                    {
+                        Console.Clear();
+                        GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "You touch the poison ivy and suddenly become paralyzed...", true, false);
+                        System.Threading.Thread.Sleep(Globals.SleepTime);
+                        GFXText.PrintTxt(-1, 10, Globals.TextTrail, Globals.TextDelay, "You die...", false, false);
+                        Console.ReadKey();
+                        Environment.Exit(0);
+                    }
+                    // END OF BLOCK IVY
+
                     // Add more blocks of code here for more item uses
                 }
                 else if (roomItems[i].Name.ToUpper() == item.ToString() && roomItems[i].IsUsed)
@@ -279,7 +292,7 @@ namespace DungeonCrawler
                     if (item.ToString().ToUpper() == "BREAD")
                     {
                         Console.Clear();
-                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Inside you find a [goldpiece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
+                        GFXText.PrintTextWithHighlights("The bread tastes delicious. Argh, but what is this? Inside you find a [goldpiece]!",Globals.RoomDescriptionXPos,Globals.RoomDescriptionYPos,true);
                         var goldpiece = new Item("Goldpiece", "A golden piece of something bigger. What can it be?", INames.EMPTY, ItemPos.Inventory, true);
                         inventory.Remove(inventory[i]);     // REMOVE OLD ITEM
                         inventory.Add(goldpiece);              // ADD NEW ITEM
@@ -343,7 +356,7 @@ namespace DungeonCrawler
                                 var flamingtorch = new Item("Flamingtorch", "A flaming torch. This should light up even the darkest of places.", INames.EMPTY, ItemPos.Room, true);
                                 inventory.Add(flamingtorch);
                                 Console.Clear();
-                                GFXText.PrintTextWithHighlights("You use the matches on the torch and now have a [flamingtorch]", 2, 2, true);
+                                GFXText.PrintTextWithHighlights("You use the matches on the torch and now have a [flamingtorch].", 2, 2, true);
                                 Console.Write("\n\n");
                                 return "";
                             }
@@ -368,6 +381,8 @@ namespace DungeonCrawler
                         //Change cellar room description unveil painting
                         string cellardescription = "The cellar is now lit and you find that its covered with large kegs that are covered in moss. On top of some kegs a large [painting] appears.";
                         LoadGame.rooms[CurRoom].Description = cellardescription;
+                        LoadGame.rooms[CurRoom].Visited = false;
+                        Console.Clear();
                         GFXText.PrintTextWithHighlights("You use the flaming torch and flames start to spark across the room.", 2, 2, true);
                         return "";
 
@@ -376,6 +391,48 @@ namespace DungeonCrawler
 
                 return "You don't have the required item.";
 
+            }
+
+            // Player tries to combine the pieces. If the player got all pieces a medallion is created and the game is completed.
+
+            if ((item1 == INames.BRONZEPIECE || item1 == INames.SILVERPIECE || item1 == INames.GOLDPIECE) && (item2 == INames.BRONZEPIECE || item2 == INames.SILVERPIECE || item2 == INames.GOLDPIECE))
+            {
+                if (inventory.Contains(new Item("Bronzepiece", "",false)) && inventory.Contains(new Item("Silverpiece","",false)) && inventory.Contains(new Item("Goldpiece", "", false)))
+                {
+                    Item item = inventory.First(x => x.Name == "Bronzepiece");
+                    inventory.Remove(item);
+
+                    item = inventory.First(x => x.Name == "Silverpiece");
+                    inventory.Remove(item);
+
+                    item = inventory.First(x => x.Name == "Goldpiece");
+                    inventory.Remove(item);
+
+                    item = null;
+
+                    var medallion = new Item("Medallion", "A magnificent medallion. Looks ancient and infused with magic.", INames.EMPTY, ItemPos.Room, true);
+                    inventory.Add(medallion);
+                    Console.Clear();
+                    GFXText.PrintTextWithHighlights("You combine the pieces into a magnificent medallion.", 2, 2, true);
+                    Console.Write("\n\n");
+
+                    // Player has completed the game
+
+                    Console.Clear();
+                    GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "The medallion starts to glow and suddenly you start to levitate.", true, false);
+                    System.Threading.Thread.Sleep(Globals.SleepTime);
+                    GFXText.PrintTxt(-1, 10, Globals.TextTrail, Globals.TextDelay, "Congratulations you have solved the mystery and will now be set free.", false, false);
+                    Console.ReadKey();
+                    Environment.Exit(0);
+
+                    return "";
+
+                }
+
+                else
+                {
+                   return "You are missing a piece.";
+                } 
             }
 
             return $"You don't have the required items.";
@@ -410,11 +467,11 @@ namespace DungeonCrawler
         // Look() with arguments returns description of specific items
         public string Look(string arg1)
         {
-            string painting = @" You examine the painting and a note on the back reads ""August de Morgan""
+            string painting = @" You examine the painting and it appears to be a portait of August de Morgan
            ______________________________________________________________________________________________                                  
            |                                                     .,`                                    |  
-           |                                     .,:,...`      ``..,```.```                             |
-           |                                    ,:.,:::,,,``  ``,:; ; ; ;::;,..`                        | 
+           |      2358 is in between.            .,:,...`      ``..,```.```                             |
+           |      You have to get out..         ,:.,:::,,,``  ``,:; ; ; ;::;,..`                        | 
            |                                  `.; ';';::''';.``,.:,:;;;:;;,':,`                         |
            |                                 `.; ++'+++'++'+;;;;;;+' + '''''' + ':,`                    |   
            |                               ``''++#++##++++++++'+++''++'++''++;:.                        |
@@ -505,7 +562,7 @@ namespace DungeonCrawler
            |###+########+###+###########@#++#########@################@@###``..'#++#++##+++++++'        |
            |###+#+###++######++###########++++#########@#####+######+##@###'``.,##++#++++++++++''.      |
            |###+++######+####+#####+#######++++#+####################+##@###:```'#++++++++++++++'+,     |
-           |################2358############'+++++#########+#########+++#####.``,#+++++++++++++'+'+.    |
+           |################################'+++++#########+#########+++#####.``,#+++++++++++++'+'+.    |
            |+####+###########+###+###+######+'++######+##############++++####'```'+++++++++''++'+++',   |
            |+##########+#####+#+############@+''+++#+#+#+####++++++##++++++###:``.#++++++++++++'+++'';  |
            |+####+###########+++########+#####+'+++#+++#+###++++++++#++++'+++#+.``:++++++++'+++'+++'+'  |
@@ -517,8 +574,8 @@ namespace DungeonCrawler
            |++#########+++##+######+#+#########+#++#+'++++'++++++++++''+++''++''''+,+++++++'+'+++''+''  |
            |++#+#+##########+##+###########+#####++##''''+'''+++++''''++++'+''++'++'+'+++++'+''+''''''""|";
 
-            int password = 2358;
-
+            int password = 1323584221;
+            
             if (arg1.ToUpper() == INames.PAINTING.ToString() && CurRoom == RNames.Cellar)
             {
                 Console.WriteLine(painting);
@@ -527,19 +584,32 @@ namespace DungeonCrawler
 
             if (arg1.ToUpper() == INames.LOCKER.ToString() && CurRoom == RNames.Bedroom)
             {
-                Console.Write("Enter a four digit password: ");
-                int number = int.Parse(Console.ReadLine());
+                GFXText.PrintTextWithHighlights("The locker looks very sturdy. Its locked with a ten digit number lock.", 2, 2, true);
+                Console.Write("\n Enter the number:");
+                
+                bool result = int.TryParse(Console.ReadLine(),out int number);
 
-                if (number == password)
+                if (result)
                 {
-                    var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, true);
-                    inventory.Add(silverpiece);
-                    return "The locker opens and you retrieve a silverpiece.";
+                    if (number == password)
+                    {
+                        var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, true);
+                        Console.Clear();
+                        inventory.Add(silverpiece);
+                        GFXText.PrintTextWithHighlights("The locker opens and you retrieve a [silverpiece].", 2, 2, true);
+                        return "";
+                    }
+                    else
+                    {
+                        GFXText.PrintTextWithHighlights("Nothing happends. The password must be incorrect.", 2, 2, true);
+                        return "";
+                    }
                 }
                 else
                 {
-                    return "The password is incorrect";
+                    return "That is not a number...";
                 }
+
             }
             // Is the item the player is looking for in the room inventory? Return its description
             // This includes items that player is not able to pickup
