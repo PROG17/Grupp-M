@@ -186,7 +186,7 @@ namespace DungeonCrawler
 
 
             // LIVING ROOM
-            Room living = new Room("Living room", "You have entered the living room. To the left is a narrow hallway and to the right is a large double sided door. The floor of the room is covered in glass and the windows of the rooms seems to have been smashed in. This must have happened a long time ago since [ivy] have started to grow inside the room.", "");
+            Room living = new Room("Living room", "You have entered the living room. To the left is a narrow hallway and to the right is a large double sided door. The floor of the room is covered in glass and the windows of the rooms seems to have been smashed in. This must have happened a long time ago since [ivy] have started to grow inside the room.");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.Open, INames.EMPTY,RNames.Bedroom);

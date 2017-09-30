@@ -82,9 +82,18 @@ namespace DungeonCrawler
                 {
                     // Player has completed the game
                     Console.Clear();
-                    //GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "The medallion starts to glow and suddenly you start to levitate.", true, false);
-                    //System.Threading.Thread.Sleep(Globals.SleepTime);
-                    GFXText.PrintTxt(-1, 10, Globals.TextTrail, Globals.TextDelay, "Congratulations you have solved the mystery and will now be set free.", false, false);
+                    //string msg1 = "The medallion starts to glow and suddenly you start to levitate.";
+                    //string msg2 = "Congratulations you have solved the mystery and will now be set free.";
+                    string[] msg = {
+                        "You decide to walk through the newly opened doorway, entering the blinding light.",
+                        "You're finally able to leave this cursed mansion.",
+                        "Congratulations, you solved the mystery!"
+                    };
+                    for (int i = 0; i < msg.Count(); i++)
+                    {
+                        GFXText.PrintTxt(-1, 5 + i*2, Globals.TextTrail, Globals.TextDelay, msg[i], true, false);
+                        System.Threading.Thread.Sleep(Globals.SleepTime);
+                    }
                     Console.ReadKey();
                     Environment.Exit(0);
                 }
@@ -149,12 +158,12 @@ namespace DungeonCrawler
                         inventory.Add(tmp1);              // Can ADD the item from room to Player Inventory
                         roomItems.Remove(roomItems[i]);   // Now I can finally remove the Object from Room List
 
-                        return $"You have just collected [{tmp1.Name}] and now you have {inventory.Count()} objects of {bagSize} in your bag";
+                        return $"You have just collected [{tmp1.Name}] and now you have {inventory.Count()} objects of {bagSize} in your bag.";
 
                     }
                     else
                     {
-                        return $"Sorry! Your bag is Full and you have {bagSize} objects";
+                        return $"Sorry! Your bag is Full and you have {bagSize} objects.";
                     }
                 }
                 else if (roomItems[i].Name.ToUpper() == item.ToString() && !roomItems[i].Pickup)        // item exists but cannot be picked up
@@ -192,11 +201,11 @@ namespace DungeonCrawler
                 roomItems.Add(tmp1);
                 inventory.Remove(itemInBag);
 
-                return $"You have just dropped [{tmp1.Name}] and now you have {inventory.Count()} objects in your backpack";
+                return $"You have just dropped [{tmp1.Name}] and now you have {inventory.Count()} objects in your backpack.";
             }
             else
             {
-                return $"I am sorry but you don't have {item.ToString()} in your backpack";
+                return $"I am sorry but you don't have {item.ToString()} in your backpack.";
             }
         }
 
@@ -454,7 +463,7 @@ namespace DungeonCrawler
                             LoadGame.rooms[RNames.Entrance].Description = "You have entered what seems to be an old abandoned mansion. There is a [note] next to you on the cold marble floor. To the left there is a wooden door behind a bookshelf. Above you is a large [chandelier] covered in cobweb hanging from the ceiling. Behind you there's also a [panel], and now also an opening next to it.";
                             inventory.Remove(i);
                             Console.Clear();
-                            GFXText.PrintTextWithHighlights("The medallion fits perfectly into the panel. After a brief moment the wall next to it creaks open and a bright lights shines through...", 2, 2, true);
+                            GFXText.PrintTextWithHighlights("You insert the medallion into panel, it fits perfectly match. After a brief moment the wall next to it creaks open and a bright lights shines through...", 2, 2, true);
                             Console.Write("\n\n");
                             return "";
                         }

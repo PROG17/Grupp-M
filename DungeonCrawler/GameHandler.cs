@@ -67,8 +67,12 @@ namespace DungeonCrawler
                     INames dropItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
 
                     // The Drop methods will do all the checks and return the output messages
-                    Console.WriteLine(player.Drop(dropItem));
-                    
+                    //Console.WriteLine(player.Drop(dropItem));
+                    Console.Clear();
+                    GFXText.PrintTextWithHighlights(player.Drop(dropItem), 1, 1, false);
+                    Console.WriteLine("\n");
+
+
                     break;
 
                 case nameof(Action.USE):
