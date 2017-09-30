@@ -91,7 +91,7 @@ namespace DungeonCrawler
                     };
                     for (int i = 0; i < msg.Count(); i++)
                     {
-                        GFXText.PrintTxt(-1, 5 + i*2, Globals.TextTrail, Globals.TextDelay, msg[i], true, false);
+                        GFXText.PrintTxt(-1, 5 + i * 2, Globals.TextTrail, Globals.TextDelay, msg[i], true, false);
                         System.Threading.Thread.Sleep(Globals.SleepTime);
                     }
                     Console.ReadKey();
@@ -130,7 +130,7 @@ namespace DungeonCrawler
                 if (roomItems[i].Name.ToUpper() == item.ToString() && roomItems[i].Pickup)  // item is enum! need conversion to string
                 {
                     // Do I have space in the bag?
-                    if (inventory.Count() <= bagSize && inventory.Count() >= 0)
+                    if (inventory.Count() < bagSize && inventory.Count() >= 0)
                     {
                         // Update the item location in Room object. I do not touch the object in the room!
 
@@ -140,6 +140,7 @@ namespace DungeonCrawler
                         // Both following ways are OK. tested.
                         // Commented out tmp
 
+                        // If both Torch and Ivy are in the room...
                         if (roomItems[i].Name.ToUpper() == "TORCH")
                         {
                             for (int j = 0; j < roomItems.Count; j++)
@@ -253,10 +254,26 @@ namespace DungeonCrawler
                     {
                         roomItems[i].IsUsed = true;
                         //var bread = new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Inventory, true);
-                        if (inventory.Count() < bagSize) inventory.Add(new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Inventory, true));
-                        else roomItems.Add(new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Room, true));
-                        Console.Clear();
-                        GFXText.PrintTextWithHighlights("You open the pantry and find a loaf of [bread] which you pick up.", 2, 2, true);
+
+                        // I collect the bread if I have space in the inventory, otherwise I leave it in the room.
+
+                        if (inventory.Count() < bagSize)
+                        {
+                            // roomItems[i].IsUsed = true;
+                            inventory.Add(new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Inventory, true));
+                            Console.Clear();
+                            GFXText.PrintTextWithHighlights("You open the pantry and find a loaf of [bread] which you pick up.", 2, 2, true);
+                        }
+                        else
+                        {
+                            if (roomItems.FirstOrDefault(c => c.Name.ToUpper() == "BREAD") == null)  // the bread has not yet been placed in the room
+                            {
+                                roomItems.Add(new Item("Bread", "A fresh loaf of bread. Looks and smells really good.", INames.EMPTY, ItemPos.Room, true));
+                            }
+                            Console.Clear();
+                            GFXText.PrintTextWithHighlights("You open the pantry and find a loaf of [bread] which you might pick up.", 2, 2, true);
+
+                        }
                         Console.Write("\n\n");
                         return;
                     }
@@ -297,6 +314,7 @@ namespace DungeonCrawler
             }
 
             // Logic for using items in inventory
+
             for (int i = 0; i < inventory.Count; i++)
             {
                 if (inventory[i].Name.ToUpper() == item.ToString().ToUpper())
@@ -329,16 +347,19 @@ namespace DungeonCrawler
 
                     if (item == INames.BRONZEPIECE || item == INames.SILVERPIECE || item == INames.GOLDPIECE)
                     {
-                        if (inventory.Contains(new Item("Bronzepiece", "", false)) && inventory.Contains(new Item("Silverpiece", "", false)) && inventory.Contains(new Item("Goldpiece", "", false)))
+                        // if (inventory.Contains(new Item("Bronzepiece", "", false)) && inventory.Contains(new Item("Silverpiece", "", false)) && inventory.Contains(new Item("Goldpiece", "", false)))
+                        if ((inventory.FirstOrDefault(c => c.Name.ToUpper() == "BRONZEPIECE")) != null &&
+                            (inventory.FirstOrDefault(c => c.Name.ToUpper() == "SILVERPIECE")) != null &&
+                            (inventory.FirstOrDefault(c => c.Name.ToUpper() == "GOLDPIECE")) != null)
                         {
-                            Item tmpItem = inventory.First(x => x.Name == "Bronzepiece");
-                            inventory.Remove(tmpItem);
+                            Item tmpItem = inventory.FirstOrDefault(x => x.Name == "Bronzepiece");
+                            if (tmpItem != null) inventory.Remove(tmpItem);
 
-                            tmpItem = inventory.First(x => x.Name == "Silverpiece");
-                            inventory.Remove(tmpItem);
+                            tmpItem = inventory.FirstOrDefault(x => x.Name == "Silverpiece");
+                            if (tmpItem != null) inventory.Remove(tmpItem);
 
-                            tmpItem = inventory.First(x => x.Name == "Goldpiece");
-                            inventory.Remove(tmpItem);
+                            tmpItem = inventory.FirstOrDefault(x => x.Name == "Goldpiece");
+                            if (tmpItem != null) inventory.Remove(tmpItem);
 
                             tmpItem = null;
 
@@ -358,9 +379,18 @@ namespace DungeonCrawler
                     }
                 }
             }
+            var breadInRoom = LoadGame.rooms[CurRoom].roomItems.FirstOrDefault(c => c.Name.ToUpper() == "BREAD");
+            if (breadInRoom != null) // I have exposed the bread, but I could not USE it because I had no space in the inventory
+            {
+                Console.Clear();
+                GFXText.PrintTextWithHighlights("Try to pickup [Bread] before using it.\n\n", 2, 2, true);
+            }
+            else
+            {
+                Console.WriteLine("Cannot use {0}", item);
+            }
             // End of logic for using items in inventory
 
-            Console.WriteLine("Cannot use {0}", item);
         }
 
         public string Use(INames item1, INames item2)
@@ -626,7 +656,7 @@ namespace DungeonCrawler
                 if (checkSilver != null)
                 {
                     Console.Clear();
-                    GFXText.PrintTextWithHighlights("The locker is aready open and you have a Silverpiece in you rucksac", 2, 2, false);
+                    GFXText.PrintTextWithHighlights("The locker is already open and you have a Silverpiece in you rucksac", 2, 2, false);
                     return "";
                 }
                 else
@@ -643,9 +673,21 @@ namespace DungeonCrawler
                         {
                             var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, false);
                             //Console.Clear();
-                            inventory.Add(silverpiece);
-                            GFXText.PrintTextWithHighlights("The locker opens and you retrieve a [silverpiece].", 2, 2, true);
-                            return "";
+
+                            if (inventory.Count() <= bagSize && inventory.Count() >= 0)
+                            {
+                                silverpiece.BelongsTo = ItemPos.Inventory;
+                                inventory.Add(silverpiece);
+
+                                GFXText.PrintTextWithHighlights("The locker opens and you retrieve a [silverpiece].", 2, 2, true);
+                                return "";
+                            }
+                            else
+                            {
+                                GFXText.PrintTextWithHighlights("Unfortunately, you cannot collect the [silverpiece] as your rucksak is FULL!! Please drop some items.", 2, 2, true);
+                                return "";
+                            }
+
                         }
                         else
                         {
