@@ -451,6 +451,7 @@ namespace DungeonCrawler
                         if (i.Name.ToUpper() == INames.MEDALLION.ToString())
                         {
                             LoadGame.rooms[RNames.Entrance].exitDoors[(int)Dir.SOUTH].Status = DStatus.Open;
+                            LoadGame.rooms[RNames.Entrance].Description = "You have entered what seems to be an old abandoned mansion. There is a [note] next to you on the cold marble floor. To the left there is a wooden door behind a bookshelf. Above you is a large [chandelier] covered in cobweb hanging from the ceiling. Behind you there's also a [panel], and now also an opening next to it.";
                             inventory.Remove(i);
                             Console.Clear();
                             GFXText.PrintTextWithHighlights("The medallion fits perfectly into the panel. After a brief moment the wall next to it creaks open and a bright lights shines through...", 2, 2, true);
