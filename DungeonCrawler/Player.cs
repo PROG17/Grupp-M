@@ -76,6 +76,21 @@ namespace DungeonCrawler
                 // NOTE - A bit confusing CurRoom as index and then assigned ;-))
 
                 CurRoom = LoadGame.rooms[CurRoom].exitDoors[(int)dir].LeadsToRoom;                      // Reads from list of rooms to find out where to go
+
+                //ENDROOM
+                if (LoadGame.rooms[CurRoom].EndPoint)
+                {
+                    // Player has completed the game
+                    Console.Clear();
+                    //GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "The medallion starts to glow and suddenly you start to levitate.", true, false);
+                    //System.Threading.Thread.Sleep(Globals.SleepTime);
+                    GFXText.PrintTxt(-1, 10, Globals.TextTrail, Globals.TextDelay, "Congratulations you have solved the mystery and will now be set free.", false, false);
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+                //END OF ENDROOM
+
+
                 if (LoadGame.rooms[CurRoom].Visited)                                                    // If the new room already visited (player backtracking), text will be printed instantly
                 {
                     GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, 0, 0, LoadGame.rooms[CurRoom].Name, false, false);
@@ -262,6 +277,7 @@ namespace DungeonCrawler
                     }
                     // END OF BLOCK IVY
 
+
                     // Add more blocks of code here for more item uses
                 }
                 else if (roomItems[i].Name.ToUpper() == item.ToString() && roomItems[i].IsUsed)
@@ -299,6 +315,38 @@ namespace DungeonCrawler
                         return;
                     }
                     // END OF BLOCK BREAD
+
+                    // Player tries to combine the pieces. If the player got all pieces a medallion is created and the game is completed.
+
+                    if (item == INames.BRONZEPIECE || item == INames.SILVERPIECE || item == INames.GOLDPIECE)
+                    {
+                        if (inventory.Contains(new Item("Bronzepiece", "", false)) && inventory.Contains(new Item("Silverpiece", "", false)) && inventory.Contains(new Item("Goldpiece", "", false)))
+                        {
+                            Item tmpItem = inventory.First(x => x.Name == "Bronzepiece");
+                            inventory.Remove(tmpItem);
+
+                            tmpItem = inventory.First(x => x.Name == "Silverpiece");
+                            inventory.Remove(tmpItem);
+
+                            tmpItem = inventory.First(x => x.Name == "Goldpiece");
+                            inventory.Remove(tmpItem);
+
+                            tmpItem = null;
+
+                            var medallion = new Item("Medallion", "A magnificent medallion. Looks ancient and infused with magic.", INames.EMPTY, ItemPos.Room, true);
+                            inventory.Add(medallion);
+                            Console.Clear();
+                            GFXText.PrintTextWithHighlights("You combine the pieces into a magnificent medallion.", 2, 2, true);
+                            Console.Write("\n\n");
+                            return;
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            GFXText.PrintTextWithHighlights("You are missing a piece.", 2, 2, true);
+                            return;
+                        }
+                    }
                 }
             }
             // End of logic for using items in inventory
@@ -393,47 +441,28 @@ namespace DungeonCrawler
 
             }
 
-            // Player tries to combine the pieces. If the player got all pieces a medallion is created and the game is completed.
-
-            if ((item1 == INames.BRONZEPIECE || item1 == INames.SILVERPIECE || item1 == INames.GOLDPIECE) && (item2 == INames.BRONZEPIECE || item2 == INames.SILVERPIECE || item2 == INames.GOLDPIECE))
+            // MEDALLION ON PANEL
+            if (CurRoom == RNames.Entrance)
             {
-                if (inventory.Contains(new Item("Bronzepiece", "", false)) && inventory.Contains(new Item("Silverpiece", "", false)) && inventory.Contains(new Item("Goldpiece", "", false)))
+                if (item1 == INames.MEDALLION && item2 == INames.PANEL)
                 {
-                    Item item = inventory.First(x => x.Name == "Bronzepiece");
-                    inventory.Remove(item);
-
-                    item = inventory.First(x => x.Name == "Silverpiece");
-                    inventory.Remove(item);
-
-                    item = inventory.First(x => x.Name == "Goldpiece");
-                    inventory.Remove(item);
-
-                    item = null;
-
-                    var medallion = new Item("Medallion", "A magnificent medallion. Looks ancient and infused with magic.", INames.EMPTY, ItemPos.Room, true);
-                    inventory.Add(medallion);
-                    Console.Clear();
-                    GFXText.PrintTextWithHighlights("You combine the pieces into a magnificent medallion.", 2, 2, true);
-                    Console.Write("\n\n");
-
-                    // Player has completed the game
-
-                    Console.Clear();
-                    GFXText.PrintTxt(-1, 5, Globals.TextTrail, Globals.TextDelay, "The medallion starts to glow and suddenly you start to levitate.", true, false);
-                    System.Threading.Thread.Sleep(Globals.SleepTime);
-                    GFXText.PrintTxt(-1, 10, Globals.TextTrail, Globals.TextDelay, "Congratulations you have solved the mystery and will now be set free.", false, false);
-                    Console.ReadKey();
-                    Environment.Exit(0);
-
-                    return "";
-
+                    foreach (var i in inventory)
+                    {
+                        if (i.Name.ToUpper() == INames.MEDALLION.ToString())
+                        {
+                            LoadGame.rooms[RNames.Entrance].exitDoors[(int)Dir.SOUTH].Status = DStatus.Open;
+                            LoadGame.rooms[RNames.Entrance].Description = "You have entered what seems to be an old abandoned mansion. There is a [note] next to you on the cold marble floor. To the left there is a wooden door behind a bookshelf. Above you is a large [chandelier] covered in cobweb hanging from the ceiling. Behind you there's also a [panel], and now also an opening next to it.";
+                            inventory.Remove(i);
+                            Console.Clear();
+                            GFXText.PrintTextWithHighlights("The medallion fits perfectly into the panel. After a brief moment the wall next to it creaks open and a bright lights shines through...", 2, 2, true);
+                            Console.Write("\n\n");
+                            return "";
+                        }
+                    }
                 }
-
-                else
-                {
-                    return "You are missing a piece.";
-                }
+                return "You don't have the required items.";
             }
+            // END BLOCK MEDALLION ON PANEL
 
             return $"You don't have the required items.";
         }
@@ -584,43 +613,31 @@ namespace DungeonCrawler
 
             if (arg1.ToUpper() == INames.LOCKER.ToString() && CurRoom == RNames.Bedroom)
             {
-                var check = inventory.FirstOrDefault(c => c.Name == "Silverpiece");
-                if (check != null)
+                GFXText.PrintTextWithHighlights("The locker looks very sturdy. Its locked with a ten digit number lock.", 2, 2, false);
+                Console.Write("\n Enter the number:");
+
+                bool result = int.TryParse(Console.ReadLine(), out int number);
+                Console.Clear();
+
+                if (result)
                 {
-                    Console.Clear();
-                    GFXText.PrintTextWithHighlights("The locker is already open and you retrieved a [silverpiece]", 2, 2, true);
-                    return "";
-                }
-                else
-                {                
-                    GFXText.PrintTextWithHighlights("The locker looks very sturdy. Its locked with a ten digit number lock.", 2, 2, true);
-                    Console.Write("\n Enter the number:");
-
-                    bool result = int.TryParse(Console.ReadLine(), out int number);
-
-                    if (result)
+                    if (number == password)
                     {
-                        if (number == password)
-                        {
-
-                            var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, true);
-                            Console.Clear();
-
-                            inventory.Add(silverpiece);
-                            GFXText.PrintTextWithHighlights("The locker opens and you retrieve a [silverpiece].", 2, 2, true);
-                            return "";
-
-                        }
-                        else
-                        {
-                            GFXText.PrintTextWithHighlights("Nothing happends. The password must be incorrect.", 2, 2, true);
-                            return "";
-                        }
+                        var silverpiece = new Item("Silverpiece", "A beatutiful shiny silverpiece. This looks combinable.", INames.EMPTY, ItemPos.Room, false);
+                        //Console.Clear();
+                        inventory.Add(silverpiece);
+                        GFXText.PrintTextWithHighlights("The locker opens and you retrieve a [silverpiece].", 2, 2, true);
+                        return "";
                     }
                     else
                     {
-                        return "That is not a number...";
+                        GFXText.PrintTextWithHighlights("Nothing happends. The password must be incorrect.", 2, 2, true);
+                        return "";
                     }
+                }
+                else
+                {
+                    return "That is not a number...";
                 }
 
             }
@@ -670,7 +687,7 @@ namespace DungeonCrawler
                 string str = "";
                 foreach (Item m in inventory)
                 {
-                    str += m.Name + ',';
+                    str += m.Name + ", ";
 
                 }
 

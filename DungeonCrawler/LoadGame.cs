@@ -25,12 +25,12 @@ namespace DungeonCrawler
 
         public static void GameDescription()
         {
-            GFXText.PrintTxt(-1, 3, 0, Globals.TextDelay, "\"You are lost in a forest at night and there is a thunderstorm approaching.\"",true,true);
+            GFXText.PrintTxt(-1, 3, 0, 20, "\"You are lost in a forest at night and there is a thunderstorm approaching.\"",true,true);
             System.Threading.Thread.Sleep(Globals.SleepTime);
             Console.Clear();
-            GFXText.PrintTxt(-1, 3, 0, Globals.TextDelay, "\"Finally you find a wooden sign that reads...\"", true, true); 
+            GFXText.PrintTxt(-1, 3, 0, 20, "\"Finally you find a wooden sign that reads...\"", true, true); 
             System.Threading.Thread.Sleep(Globals.SleepTime);
-            GFXText.PrintTxt(-1, 6, 0, Globals.TextDelay, "Welcome to De Morgans Mansion", true, true);
+            GFXText.PrintTxt(-1, 6, 0, 20, "Welcome to De Morgans Mansion", true, true);
             System.Threading.Thread.Sleep(Globals.SleepTime);
             Console.Clear();
         }
@@ -127,25 +127,27 @@ namespace DungeonCrawler
             // Entrance room
 
             Room entrance = new Room("Entrance", "You have entered what seems to be an old abandoned mansion. There is a [note] next to you on the cold marble floor. To the left there is a wooden door behind a " +
-            "bookshelf. Above you is a large [chandelier] covered in cobweb hanging from the ceiling.");
+            "bookshelf. Above you is a large [chandelier] covered in cobweb hanging from the ceiling. Behind you there's also a [panel].");
 
             var norDoor = new Door(DStatus.WALL, INames.EMPTY);
             var easDoor = new Door(DStatus.WALL, INames.EMPTY);
-            var souDoor = new Door(DStatus.WALL, INames.EMPTY);
+            var souDoor = new Door(DStatus.WALL, INames.EMPTY,RNames.Endroom);
             var WesDoor = new Door(DStatus.Closed, INames.KEY, RNames.DiningRoom);
 
             entrance.exitDoors[(int)Dir.NORTH] = norDoor;
             entrance.exitDoors[(int)Dir.EAST] = easDoor;
             entrance.exitDoors[(int)Dir.SOUTH] = souDoor;
-            entrance.exitDoors[(int)Dir.WEST] = WesDoor;
+            entrance.exitDoors[(int)Dir.WEST] = WesDoor;            
 
             var note = new Item("Note", "I once was lost but now I’m found, was blind but now I see. Three there are and together they form the key.", INames.EMPTY, ItemPos.Room, true);
             var chandelier = new Item("Chandelier", "The chandelier looks unpolished and the candles seems to have burned out a long time ago. There is a [chain] hanging down from it which seems to be in reach.", INames.EMPTY, ItemPos.Room, false);
             var chain = new Item("Chain", "It seems like something shiny is attached to the [chain]. Maybe you can use the chain to grab it?", INames.EMPTY, ItemPos.Room, false);
+            var panel = new Item("Panel", "Some part seems to be missing.", INames.MEDALLION, ItemPos.Room, false);
 
             entrance.roomItems.Add(note);
             entrance.roomItems.Add(chandelier);
             entrance.roomItems.Add(chain);
+            entrance.roomItems.Add(panel);
 
             rooms.Add(RNames.Entrance, entrance);
 
@@ -232,7 +234,7 @@ namespace DungeonCrawler
 
 
             // CELLAR
-            Room cellar = new Room("Cellar", "The cellar is completely dark. There is a distinct smell of mold, charcoal and burnt wood. While fumbling in the dark you feel something that resemble a [brazier]","");
+            Room cellar = new Room("Cellar", "The cellar is completely dark. There is a distinct smell of mold, charcoal and burnt wood. While fumbling in the dark you feel something that resemble a [brazier].");
 
             norDoor = new Door(DStatus.WALL, INames.EMPTY);
             easDoor = new Door(DStatus.WALL, INames.EMPTY);
@@ -298,6 +300,22 @@ namespace DungeonCrawler
             bathroom.roomItems.Add(throne);
 
             rooms.Add(RNames.Bathroom, bathroom);
+
+            // ENDROOM
+            Room endroom = new Room("Endroom", "Endroom");
+            endroom.EndPoint = true;
+
+            norDoor = new Door(DStatus.WALL, INames.EMPTY);
+            easDoor = new Door(DStatus.WALL, INames.EMPTY);
+            souDoor = new Door(DStatus.WALL, INames.EMPTY);
+            WesDoor = new Door(DStatus.WALL, INames.EMPTY);
+
+            endroom.exitDoors[(int)Dir.NORTH] = norDoor;
+            endroom.exitDoors[(int)Dir.EAST] = easDoor;
+            endroom.exitDoors[(int)Dir.SOUTH] = souDoor;
+            endroom.exitDoors[(int)Dir.WEST] = WesDoor;
+
+            rooms.Add(RNames.Endroom, endroom);
         }        
     }
 }
