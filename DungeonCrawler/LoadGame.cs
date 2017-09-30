@@ -18,7 +18,7 @@ namespace DungeonCrawler
             Console.SetWindowSize(windowWidth, windowHeight);
             LoadItems();
             LoadRooms();
-            //GameDescription();
+            GameDescription();
         }
 
 
