@@ -19,7 +19,7 @@ namespace DungeonCrawler
         public const int RoomDescription2XPos = 2, RoomDescription2YPos = 10;
 
         // Controlling delayed display of texts
-        public const int TextDelay = 20, TextTrail = -5;  // Set to 0 for testing purposes, otherwise Delay 20, Trail -5?
+        public const int TextDelay = 5, TextTrail = -2;  // Set to 0 for testing purposes, otherwise Delay 5, Trail -2?
         public const int SleepTime = 2000;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
     }
 
@@ -43,7 +43,7 @@ namespace DungeonCrawler
 
             // Remaking itemList to clean up unused(?) vars
             var itemList = new List<string>() { "KEY","NOTE", "FIREPLACE","BRONZEPIECE","MATCHES", "TORCH","FLAMINGTORCH","BRAZIER", "CHANDELIER", "THRONE", "PAINTING", "DOOR", "CHAIN","IVY","REMAINS", "HAND",
-                "WINDOW", "PANTRY", "BREAD", "BLOOD","LOCKER","BED","SILVERPIECE", "GOLDPIECE", "MEDALLION" };
+                "WINDOW", "PANTRY", "BREAD", "BLOOD","LOCKER","BED","SILVERPIECE", "GOLDPIECE", "MEDALLION","PANEL" };
 
             // I can search in this dictionary when parsing the input
             Dictionary<Action, List<string>> myCmds = new Dictionary<Action, List<string>>()

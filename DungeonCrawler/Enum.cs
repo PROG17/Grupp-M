@@ -29,10 +29,10 @@ namespace DungeonCrawler
     public enum INames
     {
         KEY,NOTE, FIREPLACE, BRONZEPIECE , MATCHES, TORCH, CHANDELIER, THRONE, PAINTING, EMPTY, DOOR, CHAIN, IVY, REMAINS,
-        HAND, WINDOW, PANTRY, BREAD, BLOOD, FLAMINGTORCH, BRAZIER, LOCKER, BED, SILVERPIECE, GOLDPIECE, MEDALLION
+        HAND, WINDOW, PANTRY, BREAD, BLOOD, FLAMINGTORCH, BRAZIER, LOCKER, BED, SILVERPIECE, GOLDPIECE, MEDALLION, PANEL
     }
 
-    public enum RNames { Entrance, DiningRoom, LivingRoom, Kitchen, Cellar, Bedroom, Bathroom }
+    public enum RNames { Entrance, DiningRoom, LivingRoom, Kitchen, Cellar, Bedroom, Bathroom, Endroom }
 
     // These is the list of all possible commands
 
