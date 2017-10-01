@@ -5,6 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+    // Description 
+    // 
+    // Door class contains:
+    //
+    // - Status         : (Enum) Open, closed or wall
+    // - CanBeOpenWith  : (Enjum) Equal to INames.Key if can be open with a key
+    // - LeadsToRoom    : (Enum) Set to the name of the room leading from this door
+    // - Description    : Optional description of the door
+    // 
+    // - Constructors   : 2 are available.
+
+
+
+
 namespace DungeonCrawler
 {
     // Moved the Enum data in Enum file

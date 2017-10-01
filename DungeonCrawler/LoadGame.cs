@@ -4,24 +4,28 @@ using System.Collections.Generic;
 
 namespace DungeonCrawler
 {
+    // Description
+    // 
+    // The class LoadGame initialize the game, create the map and position the objects in different rooms.
+    // 
+
 
     static class LoadGame
     {
         public const int windowWidth = 120;
         public const int windowHeight = 30;     
 
-        public static Dictionary<INames, Item> items = new Dictionary<INames, Item>();
+      //   public static Dictionary<INames, Item> items = new Dictionary<INames, Item>();
         public static Dictionary<RNames, Room> rooms = new Dictionary<RNames, Room>();
+
 
         public static void Init()
         {
-            Console.SetWindowSize(windowWidth, windowHeight);
-            LoadItems();
+            Console.SetWindowSize(windowWidth, windowHeight);          
             LoadRooms();
             GameDescription();
         }
-
-
+        
 
         public static void GameDescription()
         {
@@ -36,48 +40,7 @@ namespace DungeonCrawler
         }
 
         
-        private static void LoadItems()
-        {
-            // Load all items
-
-
-            // Problem HERE: if I assign an object (from items dictionary) to a Room, I cannot assign the same object to another
-            // room, because the object reference is the SAME!
-            // can the following Dictionary be used for other purposes??
-            // Probably obsolete Dictionary.
-
-            // Perhaps THIS dictionary should be Refactored to <KEY = item name><VALUE = string[]>
-            // The String array contains 0, 1 or more Descriptions for the item
-            // Then during the instantiation of the objects (during room creation) I can just
-            // use the item name (enum) to retrieve the description.
-            // This offers flexibility in extending the dictionary/items. We change the description
-            // only in one place.
-            // Ex.
-            // items.Add(INames.CLUE1, {"A piece of paper", "Description of clue 1"});
-
-            // This block can be commented out
-
-            //items.Add(INames.CLUE1, new Item("A piece of paper", "Description of clue 1"));
-            //items.Add(INames.CLUE2, new Item("A crumbled paper", "Description of clue 2"));
-            //items.Add(INames.CLUE3, new Item("A torn off hand with carved writings", "Description of clue 3"));
-
-            //items.Add(INames.AX, new Item("An Ax", "A very sharp Ax that you can use to smash a door"));
-            //items.Add(INames.BOTTLE, new Item("A Bottle.", "A closed Bottle"));
-            //items.Add(INames.BOX, new Item("A Box.", "A closed Box"));
-
-            //items.Add(INames.CHANDELIER, new Item("A Chandelier", "Lightning the room"));
-            //items.Add(INames.CORK, new Item("A Cork.", "Where is the open Bottle?"));
-            //items.Add(INames.KEY, new Item("A Door Key.", "Use it to open a door"));
-
-            //items.Add(INames.MAILBOX, new Item("A MailBox", "Perhaps some messages for you?"));
-            //items.Add(INames.NOTE, new Item("A Note", "You can Inspect to read the content"));
-            //items.Add(INames.THRONE, new Item("A Throne", "raising on one side of the room"));
-
-            //items.Add(INames.PAINTING, new Item("A Painting", "with some strange landscape"));
-            //items.Add(INames.TORCH, new Item("A Torch", "that you can use in dark places"));
-            // ---------------------------------------------------------------------------------
-        }
-
+       
         private static void LoadRooms()
         {
             // Check BELOW how to define a ROOM

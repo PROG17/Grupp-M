@@ -13,6 +13,7 @@ namespace DungeonCrawler
     // Description
     //
     // Item class describes each object which can be part of a room and that can be collected or not by the Player.
+    // Inherits the Name and Description properties from base class 'GameObjects'
     // 
     // Item properties:
     //
@@ -23,7 +24,7 @@ namespace DungeonCrawler
     //
     // - Constructors: Different types, according to the properties we want to change.
 
-    public class Item : GameObjects, IEquatable<Item>
+    public class Item : GameObjects
     {
         public INames CombWith { get; set; } = INames.EMPTY;    // We need to think better this field
         public ItemPos BelongsTo { get; set; } = ItemPos.NONE;  // State if the Item object belongs to room or inventory
@@ -77,15 +78,5 @@ namespace DungeonCrawler
             
         }
 
-        public bool Equals(Item other)
-        {
-            if (other == null) return false;
-            return (this.Name.Equals(other.Name));
-
-        }
-        public override int GetHashCode()
-        {
-            return this.Name.GetHashCode();
-        }
     }
 }

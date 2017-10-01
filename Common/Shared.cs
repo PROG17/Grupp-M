@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 // ONLY TESTING (Egidio).. Do not use it for now. (ie. do not do using Common ;-)
 // Some bugs to fix
 
+// Common Namespace is currently NOT used!
+// 
 namespace Common
 {
 

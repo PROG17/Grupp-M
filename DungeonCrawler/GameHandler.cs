@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
-    // This class is responsible of ALL the interactions between Program and all the other objects: room, items
-    // It will initialize the game and handle all the input/outpup
+    // Description
+    // 
+    // This class is used by Main class and it is responsible to create a player and invoke the right routine according to the player´s actions.
+    // It includes only the following methods
+    // 
+    // - InitPlayer   : Create a new player with a name and position him/her to Entrance room
+    // - InvokeAction : Parse the input and select the correspondent method in class Player of the action the player makes
+
     class GameHandler
     {
         // Create a player
@@ -18,18 +24,12 @@ namespace DungeonCrawler
         // Set the name of the player
         public void InitPlayer(string name)
         {
-            // I need to initialize the inventory HERE otherwise it won´t be
-            // visible here and VS will complain in Player Class
-            // of undefined Inventory !
-
             var inventory = new List<Item>();
 
            // player = new Player(name, Dir.SOUTH, RNames.Entrance, inventory);
             player = new Player(name, RNames.Entrance, inventory);
         }
-
-
-
+        
 
         // arg[0] = Command
         // arg[1] = Direction or Item/Door
@@ -39,7 +39,9 @@ namespace DungeonCrawler
         {
             switch (arg[0].ToUpper())
             {
-                case nameof(Action.GO): // Tested Ok                    // I need to retrieve the matching Enum value for arg[1]
+                case nameof(Action.GO): // Tested Ok                    
+                    // I need to retrieve the matching Enum value for arg[1]
+
                     Dir newDir;
                     if (arg[1].ToUpper() == "LEFT") newDir = (Dir)Enum.Parse(typeof(Dir), "WEST");                    
                     else if (arg[1].ToUpper() == "RIGHT") newDir = (Dir)Enum.Parse(typeof(Dir), "EAST");
@@ -47,7 +49,6 @@ namespace DungeonCrawler
                     else if (arg[1].ToUpper() == "BACK") newDir = (Dir)Enum.Parse(typeof(Dir), "SOUTH");
                     else newDir = (Dir)Enum.Parse(typeof(Dir), arg[1].ToUpper());
                     Console.WriteLine(player.Go(newDir));
-
                     break;
 
                 case nameof(Action.GET): // TESTED Ok
@@ -56,9 +57,7 @@ namespace DungeonCrawler
                     INames getItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
                     Console.Clear();
                     GFXText.PrintTextWithHighlights(player.Get(getItem), 1, 1, false);
-                    Console.Write("\n\n");
-                    //Console.WriteLine(player.Get(getItem));
-                
+                    Console.Write("\n\n");                                    
                     break;
 
                 case nameof(Action.DROP): // Tested Ok
@@ -66,16 +65,14 @@ namespace DungeonCrawler
                     // I need to retrieve the matching Enum value for arg[1]
                     INames dropItem = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
 
-                    // The Drop methods will do all the checks and return the output messages
-                    //Console.WriteLine(player.Drop(dropItem));
+                    // The Drop methods will do all the checks and return the output messages                    
                     Console.Clear();
                     GFXText.PrintTextWithHighlights(player.Drop(dropItem), 1, 1, false);
                     Console.WriteLine("\n");
-
-
                     break;
 
                 case nameof(Action.USE):
+
                     // I need to retrieve the matching Enum value for arg[1]
                     // USE with 1 more arg equals the player is trying to use an item by itself
                     if (arg.Length == 2)
@@ -92,9 +89,9 @@ namespace DungeonCrawler
                     }
                     break;
 
-                case nameof(Action.ON):
+               // case nameof(Action.ON):
                     // I do not need this because it is part of the command USE...ON...
-                    break;
+               //     break;
 
                 case nameof(Action.LOOK):
                     Console.Clear();
@@ -105,8 +102,7 @@ namespace DungeonCrawler
                         Console.Write("\n\n");
                     }
                     break;
-
-
+                    
                 // Removed Inspect()
                 /*case nameof(Action.INSPECT):
 
@@ -116,17 +112,12 @@ namespace DungeonCrawler
                     break;*/
 
                 case nameof(Action.SHOW): // Tested Ok
-
                     Console.WriteLine(player.Show());
                     break;
                 default:
 
                     break;
-
-
             }
-
-
         }
     }
 }

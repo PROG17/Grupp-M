@@ -5,6 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
+// Description
+//
+// Used to add some effects while displaying text on screen.
+//
+// 
+
 namespace DungeonCrawler
 {
     static class GFXText

@@ -24,23 +24,25 @@ namespace DungeonCrawler
     }
 
     // "Real" class starts here
+    // Description
+    // 
+    // Main is responsible to define the main data structures used during the game and to delegate to GameHandler when the input is error free.
+    //
+    // cmdList, dirList, itemLst and dictionary myCmds are used during input parsing
+    //
+
     class DungeonCrawler
     {
+        
         static void Main(string[] args)
         {
-            string tmpstring = "";    //used to fix user input
-            
+            string tmpstring = "";    //used to fix user input            
             
             // the following are used in the input check
             var cmdList = new List<string>() { "GO", "GET", "DROP", "USE", "ON", "LOOK", "SHOW" };
 
             var dirList = new List<string>() { "FORWARD", "BACK", "LEFT", "RIGHT", "NORTH", "EAST", "SOUTH", "WEST" };
-
-            /* OLD ITEMLIST, PROBABLY OBSOLETE BUT KEEP FOR NOW IN CASE OF BREAKING GAME
-            var itemList = new List<string>() { "CLUE1", "CLUE2", "CLUE3", "KEY", "AX", "MAILBOX",
-                "BOTTLE", "CORK", "BOX", "TORCH", "NOTE", "CHANDELIER", "THRONE", "PAINTING", "DOOR","CHAIN","IVY","REMAINS", "HAND", "WINDOW",
-                "PANTRY", "BREAD" };*/
-
+            
             // Remaking itemList to clean up unused(?) vars
             var itemList = new List<string>() { "KEY","NOTE", "FIREPLACE","BRONZEPIECE","MATCHES", "TORCH","FLAMINGTORCH","BRAZIER", "CHANDELIER", "THRONE", "PAINTING", "DOOR", "CHAIN","IVY","REMAINS", "HAND",
                 "WINDOW", "PANTRY", "BREAD", "BLOOD","LOCKER","BED","SILVERPIECE", "GOLDPIECE", "MEDALLION","PANEL" };

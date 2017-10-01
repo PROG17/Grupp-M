@@ -6,38 +6,54 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DungeonCrawler
+
+    // Description
+    // 
+    // Player class is the "core' class of the game. it keeps track of the position in the game of the player, updates the status of the 
+    // doors, the number of items in the room and inventory according to the player actions. 
+    // Main purpose is to add logic when player interacts with some specific objects (i.e. using some items player can die or can win the game or
+    // can open a safe, etc.
+    //
+    // Properties and field:
+    // 
+    // - bagSize  : the max number of items a player can carry with him.
+    // - Name     : Player name
+    // - CurRoom  : the room where Player is located at a specific moment.
+    // - inventory: A list of items (objects) the player carries with him (the rucksack)
+    // - msg      : the message returned to GameHandler when an action has been executed.
+    // 
+    // - Constructors: One constructor is used to create the player and initialize the Inventory.
+    //                
+    // - Methods     : Implementation of all the actions: go, get, drop, use item1, use item1 on item2, look, look item1, show
+    //
+
+
+
 {
     class Player
     {
+        private int bagSize = 5;               // Max objects that can be carried
         public string Name { get; set; }
+        public RNames CurRoom { get; set; } = RNames.Entrance;        // Default Room. --- Maybe unnecessary
 
         // What is 'currentPos' used for?
         // public Dir CurrentPos { get; set; } = Dir.NORTH;          // Default Position. Refers to Enum Dir(ections) in the Enum file
-        public RNames CurRoom { get; set; } = RNames.Kitchen;    // Default Room. --- Maybe unnecessary
-
-        private int bagSize = 5;               // Max objects that can be carried
-
-        //public List<Item> Inventory = new List<Item>(1)
-        //        {new Item("EMPTY", "", INames.EMPTY, ItemPos.NONE) };   // Only Player can access its Inventory
-
-        public List<Item> inventory;
-
-
-
+        
+        private List<Item> inventory;  // Only Player can access its Inventory
         private string msg;
 
+
         // Constructor
-        public Player(string name)
-        {
-            var inventory = new List<Item>(bagSize);
-            Name = name;
-        }
+        //public Player(string name)
+        //{
+        //    var inventory = new List<Item>(bagSize);
+        //    Name = name;
+        //}
+
 
         public Player(string name, RNames curRoom, List<Item> inventory)
         {
-            this.inventory = inventory;
-
-
+            this.inventory = inventory;            
             Name = name;
             // CurrentPos = curPos;
             CurRoom = curRoom;
@@ -47,10 +63,7 @@ namespace DungeonCrawler
 
         // Take in the Direction and returns a Message to GameHandler
         // to help the player making next move
-        // ***********************************************************************
-        // NOTE !!ALL THE OUTPUT MESSAGES SHOULD BE PUT in an Array or Dictionary
-        // so the Method GO and all the others need to return ONLY 
-        // **********************************************************************
+        //
         public string Go(Dir dir)
         {
 
