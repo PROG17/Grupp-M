@@ -95,7 +95,7 @@ namespace DungeonCrawler
             while (true)
             {
                 input = "";
-                Console.WriteLine("\nEnter a command or type [H] for list of commands");
+                Console.Write("\nEnter a command or type [H] for list of commands\n>");
                 while (input == "")
                     input = Console.ReadLine();
 
