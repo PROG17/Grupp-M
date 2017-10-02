@@ -100,11 +100,11 @@ namespace DungeonCrawler
                     string[] msg = {
                         "You decide to walk through the newly opened doorway, entering the blinding light.",
                         "You're finally able to leave this cursed mansion.",
-                        "Congratulations, you solved the mystery!"
+                        "Congratulations " + Name + ", you solved the mystery!"
                     };
                     for (int i = 0; i < msg.Count(); i++)
                     {
-                        GFXText.PrintTxt(-1, 5 + i * 2, Globals.TextTrail, Globals.TextDelay, msg[i], true, false);
+                        GFXText.PrintTxt(-1, 5 + i * 2, Globals.TextTrail, Globals.TextDelay, msg[i], false, false);
                         System.Threading.Thread.Sleep(Globals.SleepTime);
                     }
                     Console.ReadKey();
@@ -115,13 +115,13 @@ namespace DungeonCrawler
 
                 if (LoadGame.rooms[CurRoom].Visited)                                                    // If the new room already visited (player backtracking), text will be printed instantly
                 {
-                    GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, 0, 0, LoadGame.rooms[CurRoom].Name, false, false);
+                    GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, 0, 0, LoadGame.rooms[CurRoom].Name, true, false);
                     //GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, false);
                     GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].Description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, false);
                 }
                 else
                 {
-                    GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, Globals.TextTrail, Globals.TextDelay, LoadGame.rooms[CurRoom].Name, false, false);
+                    GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, Globals.TextTrail, Globals.TextDelay*5, LoadGame.rooms[CurRoom].Name, false, false);
                     //GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, true);          // If the new room is not visited, text will be printed slowly
                     GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].Description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, true);
                     LoadGame.rooms[CurRoom].Visited = true;
@@ -415,6 +415,7 @@ namespace DungeonCrawler
             // Either make sure the player only can carry 1 key at a time, or change this/add more code to allow multiple simultaneously key usage
             if (item1 == INames.KEY && item2 == INames.DOOR)
             {
+                Console.Clear();
                 for (int i = 0; i < LoadGame.rooms[CurRoom].exitDoors.Count(); i++)
                 {
                     if (LoadGame.rooms[CurRoom].exitDoors[i].CanBeOpenWith == INames.KEY && LoadGame.rooms[CurRoom].exitDoors[i].Status != DStatus.Open)
@@ -506,7 +507,7 @@ namespace DungeonCrawler
                             LoadGame.rooms[RNames.Entrance].Description = "You have entered what seems to be an old abandoned mansion. There is a [note] next to you on the cold marble floor. To the left there is a wooden door behind a bookshelf. Above you is a large [chandelier] covered in cobweb hanging from the ceiling. Behind you there's also a [panel], and now also an opening next to it.";
                             inventory.Remove(i);
                             Console.Clear();
-                            GFXText.PrintTextWithHighlights("You insert the medallion into panel, it fits perfectly match. After a brief moment the wall next to it creaks open and a bright lights shines through...", 2, 2, true);
+                            GFXText.PrintTextWithHighlights("You insert the medallion into the panel, it seems like a perfect match. After a brief moment the wall next to it creaks open and a bright lights shines through...", 2, 2, true);
                             Console.Write("\n\n");
                             return "";
                         }
@@ -525,7 +526,7 @@ namespace DungeonCrawler
         public string Look()
         {
             Console.Clear();
-            GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, 0, 0, LoadGame.rooms[CurRoom].Name, false, false);
+            GFXText.PrintTxt(Globals.RoomNameXPos, Globals.RoomNameYPos, 0, 0, LoadGame.rooms[CurRoom].Name, true, false);
             //GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].name, Globals.RoomNameXPos, Globals.RoomNameYPos, false);
             GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].Description, Globals.RoomDescriptionXPos, Globals.RoomDescriptionYPos, false);
             GFXText.PrintTextWithHighlights(LoadGame.rooms[CurRoom].Description2, Globals.RoomDescription2XPos, Globals.RoomDescription2YPos, false);

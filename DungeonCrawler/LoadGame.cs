@@ -29,13 +29,14 @@ namespace DungeonCrawler
 
         public static void GameDescription()
         {
-            GFXText.PrintTxt(-1, 3, 0, 20, "\"You are lost in a forest at night and there is a thunderstorm approaching.\"",true,true);
+            GFXText.PrintTxt(-1, 3, 0, 20, "\"You are lost in a forest at night and there is a thunderstorm approaching.\"",false,true);
             System.Threading.Thread.Sleep(Globals.SleepTime);
             Console.Clear();
-            GFXText.PrintTxt(-1, 3, 0, 20, "\"Finally you find a wooden sign that reads...\"", true, true); 
+            GFXText.PrintTxt(-1, 3, 0, 20, "\"Finally you find a wooden sign that reads...\"", false, true); 
             System.Threading.Thread.Sleep(Globals.SleepTime);
-            GFXText.PrintTxt(-1, 6, 0, 20, "Welcome to De Morgans Mansion", true, true);
+            GFXText.PrintTxt(-1, 6, 0, 20, "Welcome to De Morgans Mansion", false, true);
             System.Threading.Thread.Sleep(Globals.SleepTime);
+            Console.CursorVisible = true;
             Console.Clear();
         }
 

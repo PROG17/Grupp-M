@@ -19,8 +19,8 @@ namespace DungeonCrawler
         public const int RoomDescription2XPos = 2, RoomDescription2YPos = 10;
 
         // Controlling delayed display of texts
-        public const int TextDelay = 0, TextTrail = -2;  // Set to 0 for testing purposes, otherwise Delay 5, Trail -2?
-        public const int SleepTime = 0;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
+        public const int TextDelay = 5, TextTrail = -2;  // Set to 0 for testing purposes, otherwise Delay 5, Trail -2?
+        public const int SleepTime = 2000;                 // Set to 0 for testing purposes, otherwise 2000? 3000?
     }
 
     // "Real" class starts here
@@ -95,7 +95,7 @@ namespace DungeonCrawler
             while (true)
             {
                 input = "";
-                Console.WriteLine("\nEnter a command or type [H] for list of commands");
+                Console.Write("\nEnter a command or type [H] for list of commands\n>");
                 while (input == "")
                     input = Console.ReadLine();
 

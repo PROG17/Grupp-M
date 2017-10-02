@@ -78,6 +78,7 @@ namespace DungeonCrawler
                     if (arg.Length == 2)
                     {
                         INames useItem1 = (INames)Enum.Parse(typeof(INames), arg[1].ToUpper());
+                        Console.Clear();
                         player.Use(useItem1);
                     }
                     // USE with more args equals the player is trying to use an item with another item
