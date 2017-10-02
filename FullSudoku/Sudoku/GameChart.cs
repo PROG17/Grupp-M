@@ -23,12 +23,17 @@ namespace FullSudoku
         private List<int> cellNumbers = new List<int>();
 
 
+        //
+        // save the char in the List chartList
+        //
         public void SaveChartInList(GameChart gchart)
         {
             // save the 
             chartList.Add(gchart.chart);
         }
 
+        // Free the Backup List from on Chart
+        //
         public void RemoveChartFromList(GameChart gchart)
         {
             chartList.Remove(gchart.chart);
@@ -73,6 +78,19 @@ namespace FullSudoku
                 chart[row, col] = dataIn[i] - '0';  // Offset from ASCI code '0'
             }
 
+        }
+
+
+        public string ConvertToString()
+        {
+            string msg ="";
+            foreach (var item in chart)
+            {
+                msg += item.ToString();
+                
+
+            }
+            return msg;
         }
 
         // To get access to a specific position in the chart, i need a Public method!!

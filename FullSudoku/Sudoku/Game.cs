@@ -74,6 +74,7 @@ namespace FullSudoku
             {
                 Console.WriteLine("--- Solved Sudoku ---\n");
                 Show(initChart);
+                Show2(initChart);
             }
             else
             {
@@ -94,6 +95,13 @@ namespace FullSudoku
 
             initChart = new GameChart(gameSize, dataIn);
                     
+        }
+
+        private void Show2(GameChart c)
+        {
+            Console.WriteLine("Output: "+ initChart.ConvertToString());
+
+
         }
 
 
@@ -284,6 +292,8 @@ namespace FullSudoku
                     continueSolve = false;
                 }
             } // sudoku solved with the specific sequence of multichoices!
+
+
             return true;
         }
     }
