@@ -507,7 +507,7 @@ namespace DungeonCrawler
                             LoadGame.rooms[RNames.Entrance].Description = "You have entered what seems to be an old abandoned mansion. There is a [note] next to you on the cold marble floor. To the left there is a wooden door behind a bookshelf. Above you is a large [chandelier] covered in cobweb hanging from the ceiling. Behind you there's also a [panel], and now also an opening next to it.";
                             inventory.Remove(i);
                             Console.Clear();
-                            GFXText.PrintTextWithHighlights("You insert the medallion into panel, it fits perfectly match. After a brief moment the wall next to it creaks open and a bright lights shines through...", 2, 2, true);
+                            GFXText.PrintTextWithHighlights("You insert the medallion into the panel, it seems like a perfect match. After a brief moment the wall next to it creaks open and a bright lights shines through...", 2, 2, true);
                             Console.Write("\n\n");
                             return "";
                         }
